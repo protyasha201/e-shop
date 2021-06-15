@@ -19,6 +19,7 @@ import "./Header.css";
 import { Button } from "@material-ui/core";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
+import logo from "../../images/others/e-shop-logo.png";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -89,15 +90,25 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [categoryEl, setCategoryEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isCategoryOpen = Boolean(categoryEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const history = useHistory();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleCategoryMenuOpen = (event) => {
+    setCategoryEl(event.currentTarget);
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -114,8 +125,14 @@ export default function Header() {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+  const handleCategoryMenuClose = (event) => {
+    if (event.target.getAttribute("name") === "bikes") {
+      history.push("/orders");
+    } else if (event.target.getAttribute("name") === "profile") {
+      history.push("/profile");
+    }
+    setCategoryEl(null);
+    handleMobileMenuClose();
   };
 
   const goToAdminPage = () => {
@@ -154,52 +171,52 @@ export default function Header() {
     </Menu>
   );
 
-  // const categoriesId = "primary-search-categories-menu";
-  // const renderCategoriesMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{ vertical: "top", horizontal: "right" }}
-  //     id={categoriesId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: "top", horizontal: "right" }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem name="all" onClick={handleMenuClose}>
-  //       All
-  //     </MenuItem>
-  //     <MenuItem name="t-shirts" onClick={handleMenuClose}>
-  //       T-shirts
-  //     </MenuItem>
-  //     <MenuItem name="jeans" onClick={handleMenuClose}>
-  //       Jeans
-  //     </MenuItem>
-  //     <MenuItem name="electronics" onClick={handleMenuClose}>
-  //       Electronics
-  //     </MenuItem>
-  //     <MenuItem name="fruits" onClick={handleMenuClose}>
-  //       Fruits
-  //     </MenuItem>
-  //     <MenuItem name="groceries" onClick={handleMenuClose}>
-  //       Groceries
-  //     </MenuItem>
-  //     <MenuItem name="bikes" onClick={handleMenuClose}>
-  //       Bikes
-  //     </MenuItem>
-  //     <MenuItem name="cars" onClick={handleMenuClose}>
-  //       Cars
-  //     </MenuItem>
-  //     <MenuItem name="mobiles" onClick={handleMenuClose}>
-  //       Mobiles
-  //     </MenuItem>
-  //     <MenuItem name="laptops" onClick={handleMenuClose}>
-  //       Laptops
-  //     </MenuItem>
-  //     <MenuItem name="watch" onClick={handleMenuClose}>
-  //       Watch
-  //     </MenuItem>
-  //   </Menu>
-  // );
+  const categoriesId = "primary-search-categories-menu";
+  const renderCategoriesMenu = (
+    <Menu
+      anchorEl={categoryEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={categoriesId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isCategoryOpen}
+      onClose={handleCategoryMenuClose}
+    >
+      <MenuItem name="all" onClick={handleCategoryMenuClose}>
+        All
+      </MenuItem>
+      <MenuItem name="t-shirts" onClick={handleCategoryMenuClose}>
+        T-shirts
+      </MenuItem>
+      <MenuItem name="jeans" onClick={handleCategoryMenuClose}>
+        Jeans
+      </MenuItem>
+      <MenuItem name="electronics" onClick={handleCategoryMenuClose}>
+        Electronics
+      </MenuItem>
+      <MenuItem name="fruits" onClick={handleCategoryMenuClose}>
+        Fruits
+      </MenuItem>
+      <MenuItem name="groceries" onClick={handleCategoryMenuClose}>
+        Groceries
+      </MenuItem>
+      <MenuItem name="bikes" onClick={handleCategoryMenuClose}>
+        Bikes
+      </MenuItem>
+      <MenuItem name="cars" onClick={handleCategoryMenuClose}>
+        Cars
+      </MenuItem>
+      <MenuItem name="mobiles" onClick={handleCategoryMenuClose}>
+        Mobiles
+      </MenuItem>
+      <MenuItem name="laptops" onClick={handleCategoryMenuClose}>
+        Laptops
+      </MenuItem>
+      <MenuItem name="watch" onClick={handleCategoryMenuClose}>
+        Watch
+      </MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -220,7 +237,7 @@ export default function Header() {
         </IconButton>
         <p>Home</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleCategoryMenuOpen}>
         <IconButton
           aria-label="products categories"
           aria-controls="primary-search-categories-menu"
@@ -274,7 +291,7 @@ export default function Header() {
       <AppBar style={{ backgroundColor: "rgb(33, 33, 49)" }} position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            E-SHOP
+            <img alt="logo" className="h-10" src={logo} />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -310,6 +327,16 @@ export default function Header() {
                 <HomeIcon />
               </Badge>
             </IconButton>
+            <MenuItem onClick={handleCategoryMenuOpen}>
+              <IconButton
+                aria-label="products categories"
+                aria-controls="primary-search-categories-menu"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AcUnitIcon />
+              </IconButton>
+            </MenuItem>
             <IconButton
               title="Watch Your Cart"
               className="links"
@@ -360,7 +387,7 @@ export default function Header() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {/* {renderCategoriesMenu} */}
+      {renderCategoriesMenu}
     </div>
   );
 }
