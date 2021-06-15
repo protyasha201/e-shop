@@ -2,11 +2,20 @@ import React from "react";
 import "./Login.css";
 import formBg from "../../images/others/formbg2.jpg";
 import logo from "../../images/others/e-shop-logo.png";
+import { useState } from "react";
 
 const Login = () => {
-  const user = false;
+  const [user, setUser] = useState(true);
+  const handleLoginForm = () => {
+    setUser(!user);
+  };
+
   return (
     <section className="h-screen w-full flex flex-col justify-center items-center sm:flex-row p-5">
+      <h1 className="sm:hidden text-xl condensed font-bold text-blue-400 relative bottom-10">
+        Create an Account and Enjoy{" "}
+        <span className="text-red-400 montserrat">E-SHOP</span>
+      </h1>
       <div className="hidden sm:inline-block sm:w-1/2 lg:w-3/4">
         <img alt="form side" src={formBg} />
       </div>
@@ -45,8 +54,19 @@ const Login = () => {
           <input
             type="submit"
             className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
-            value={user ? "Login" : "Sign Up"}
+            value={user ? "Login" : "Create an Account"}
           />
+          <p className="text-center text-gray-500 mt-2">
+            {user
+              ? `Don't have an account?${" "}`
+              : `Already have an account?${" "}`}
+            <span
+              onClick={handleLoginForm}
+              className="text-blue-400 cursor-pointer"
+            >
+              {user ? "Create an account" : "Login"}
+            </span>
+          </p>
         </form>
       </div>
     </section>
