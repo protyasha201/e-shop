@@ -6,7 +6,6 @@ import Profile from "./Components/Profile/Profile";
 import Cart from "./Components/Cart/Cart";
 import Products from "./Components/Products/Products";
 import Login from "./Components/Login/Login";
-import ManageProducts from "./Components/Admin/ManageProducts/ManageProducts";
 import Admin from "./Components/Admin/Admin/Admin";
 
 function App() {

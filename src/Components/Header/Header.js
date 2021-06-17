@@ -9,7 +9,6 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import HomeIcon from "@material-ui/icons/Home";
@@ -136,7 +135,7 @@ export default function Header() {
   };
 
   const goToAdminPage = () => {
-    history.push("/admin/statistics");
+    history.push("/admin");
   };
 
   const goToHomePage = () => {
@@ -279,7 +278,13 @@ export default function Header() {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <div className="h-10 w-10">
+            <img
+              className="cursor-pointer w-full h-full border-4 rounded-full"
+              src={logo}
+              alt="logo"
+            />
+          </div>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -369,7 +374,13 @@ export default function Header() {
               color="inherit"
               className="links"
             >
-              <AccountCircle />
+              <div className="h-10 w-10">
+                <img
+                  className="cursor-pointer w-full h-full border-4 rounded-full"
+                  src={logo}
+                  alt="logo"
+                />
+              </div>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

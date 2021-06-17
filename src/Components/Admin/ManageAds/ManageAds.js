@@ -3,7 +3,7 @@ import React from "react";
 const ManageAds = () => {
   return (
     <div>
-      <h1 className="text-center">ManageAds</h1>
+      <h1>ManageAds</h1>
     </div>
   );
 };

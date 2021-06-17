@@ -28,6 +28,7 @@ const Login = () => {
                 Your Name
               </span>
               <input
+                type="text"
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="name..."
               />
@@ -38,6 +39,7 @@ const Login = () => {
               Your E-mail
             </span>
             <input
+              type="email"
               className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
               placeholder="email..."
             />
@@ -47,6 +49,7 @@ const Login = () => {
               Password
             </span>
             <input
+              type="password"
               className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
               placeholder="password..."
             />
