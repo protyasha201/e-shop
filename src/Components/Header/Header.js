@@ -136,7 +136,7 @@ export default function Header() {
   };
 
   const goToAdminPage = () => {
-    history.push("/admin");
+    history.push("/admin/statistics");
   };
 
   const goToHomePage = () => {
