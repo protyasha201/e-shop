@@ -5,12 +5,10 @@ import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -19,6 +17,8 @@ import user from "../../../images/others/form-bg.png";
 import { useState } from "react";
 import CurrentAdminPage from "../CurrentAdminPage/CurrentAdminPage";
 import { useHistory } from "react-router-dom";
+import AdminIcons from "../AdminIcons/AdminIcons";
+import HomeIcon from "@material-ui/icons/Home";
 
 const drawerWidth = 230;
 
@@ -63,7 +63,19 @@ function Admin(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [currentPageTitle, setCurrentPageTitle] = useState("Manage Products");
   let history = useHistory();
+  const features = [
+    "Manage Products",
+    "Manage Users",
+    "Manage Ads",
+    "Manage Offers",
+    "Orders",
+    "Add Product",
+    "Add Admin",
+    "Reports",
+    "Statistics",
+  ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -71,7 +83,7 @@ function Admin(props) {
 
   const handlePageChange = (e, index) => {
     setCurrentPage(index);
-    console.log(e);
+    setCurrentPageTitle(features[index]);
   };
 
   const goToHomePage = () => {
@@ -86,49 +98,26 @@ function Admin(props) {
       </h1>
       <Divider />
       <List>
-        {[
-          "Manage Products",
-          "Manage Users",
-          "Manage Ads",
-          "Manage Offers",
-          "Orders",
-          "Add Product",
-          "Add Admin",
-        ].map((text, index) => (
+        {features.map((text, index) => (
           <ListItem
             onClick={(e) => handlePageChange(e, index)}
             button
             key={text}
           >
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <AdminIcons index={index} />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
       <Divider />
-      <List>
-        {["Reports", "Statistics"].map((text, index) => (
-          <ListItem
-            onClick={(e) => handlePageChange(e, index + 7)}
-            button
-            key={text}
-          >
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-        <Divider />
-        <ListItem onClick={goToHomePage} button>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Home"} />
-        </ListItem>
-      </List>
+      <ListItem onClick={goToHomePage} button>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary={"Home"} />
+      </ListItem>
     </div>
   );
 
@@ -156,7 +145,7 @@ function Admin(props) {
           </div>
           <div className="h-10 w-10">
             <img
-              className="cursor-pointer w-full h-full border-4 rounded-full"
+              className="w-full h-full border-4 rounded-full"
               src={user}
               alt="logo"
             />
@@ -196,6 +185,9 @@ function Admin(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <p>
+          Admin/<span className="text-blue-400">{currentPageTitle}</span>
+        </p>
         <CurrentAdminPage currentPage={currentPage} />
       </main>
     </div>
