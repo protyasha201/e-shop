@@ -7,37 +7,55 @@ import Cart from "./Components/Cart/Cart";
 import Products from "./Components/Products/Products";
 import Login from "./Components/Login/Login";
 import Admin from "./Components/Admin/Admin/Admin";
+import { createContext } from "react";
+import { useState } from "react";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+export const UserContext = createContext([]);
 
 function App() {
+  const [user, setUser] = useState({
+    isSignedIn: false,
+    userName: "",
+    email: "",
+    photoUrl: "",
+    password: "",
+    confirmPassword: "",
+    mobileNumber: null,
+    address: "",
+    notifyMessage: "",
+  });
+
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/home">
-          <Home />
-        </Route>
-        <Route path="/admin">
-          <Admin />
-        </Route>
-        <Route path="/orders">
-          <Orders />
-        </Route>
-        <Route path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/cart">
-          <Cart />
-        </Route>
-        <Route path="/products">
-          <Products />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-      </Switch>
-    </Router>
+    <UserContext.Provider value={[user, setUser]}>
+      <Router>
+        <Switch>
+          <PrivateRoute exact path="/">
+            <Home />
+          </PrivateRoute>
+          <PrivateRoute path="/home">
+            <Home />
+          </PrivateRoute>
+          <Route path="/admin">
+            <Admin />
+          </Route>
+          <Route path="/orders">
+            <Orders />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+          <Route path="/products">
+            <Products />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+        </Switch>
+      </Router>
+    </UserContext.Provider>
   );
 }
 

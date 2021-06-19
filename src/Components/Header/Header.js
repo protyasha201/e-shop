@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,6 +19,10 @@ import { Button } from "@material-ui/core";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import logo from "../../images/others/e-shop-logo.png";
+import { useState } from "react";
+import firebase from "firebase/app";
+import { UserContext } from "../../App";
+import firebaseConfig from "../Login/firebaseConfig";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -91,6 +95,11 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [categoryEl, setCategoryEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [user, setUser] = useContext(UserContext);
+
+  if (!firebase.apps.length > 0) {
+    firebase.initializeApp(firebaseConfig);
+  }
 
   const isMenuOpen = Boolean(anchorEl);
   const isCategoryOpen = Boolean(categoryEl);
@@ -146,8 +155,20 @@ export default function Header() {
     history.push("/cart");
   };
 
-  const goToLoginPage = () => {
-    history.push("/login");
+  const logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign-out successful.
+        sessionStorage.removeItem("token");
+        const updateUser = { ...user };
+        updateUser.isSignedIn = false;
+        setUser(updateUser);
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const menuId = "primary-search-account-menu";
@@ -247,13 +268,13 @@ export default function Header() {
         </IconButton>
         <p>Categories</p>
       </MenuItem>
-      <MenuItem onClick={goToLoginPage}>
-        <IconButton aria-label="Show Admin Panel" color="inherit">
+      <MenuItem onClick={logOut}>
+        <IconButton aria-label="Login page" color="inherit">
           <Badge color="secondary">
             <LockOpenIcon />
           </Badge>
         </IconButton>
-        <p>Login</p>
+        <p>Log Out</p>
       </MenuItem>
       <MenuItem onClick={goToCartPage}>
         <IconButton aria-label="Show Shopping Cart Of User" color="inherit">
@@ -314,18 +335,18 @@ export default function Header() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Button
-              onClick={goToLoginPage}
+              onClick={logOut}
               style={{ color: "white" }}
               variant="outlined"
               color="primary"
             >
-              Login
+              Log Out
             </Button>
             <IconButton
               title="Go to Homepage"
               className="links"
               onClick={goToHomePage}
-              aria-label="show 4 new mails"
+              aria-label="home"
               color="inherit"
             >
               <Badge color="secondary">
@@ -334,6 +355,7 @@ export default function Header() {
             </IconButton>
             <MenuItem onClick={handleCategoryMenuOpen}>
               <IconButton
+                title="Categories"
                 aria-label="products categories"
                 aria-controls="primary-search-categories-menu"
                 aria-haspopup="true"
@@ -357,7 +379,7 @@ export default function Header() {
               title="Admin Panel"
               className="links"
               onClick={goToAdminPage}
-              aria-label="show 17 new notifications"
+              aria-label="Admin"
               color="inherit"
             >
               <Badge color="secondary">
