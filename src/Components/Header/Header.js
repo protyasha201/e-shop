@@ -96,6 +96,7 @@ export default function Header() {
   const [categoryEl, setCategoryEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = useContext(UserContext);
+  const userNameFirstLetter = user.userName.split("")[0];
 
   if (!firebase.apps.length > 0) {
     firebase.initializeApp(firebaseConfig);
@@ -162,6 +163,7 @@ export default function Header() {
       .then(() => {
         // Sign-out successful.
         sessionStorage.removeItem("token");
+        localStorage.removeItem("user");
         const updateUser = {
           isSignedIn: false,
           userName: "",
@@ -309,14 +311,12 @@ export default function Header() {
           color="inherit"
         >
           <div className="h-10 w-10">
-            <img
-              className="cursor-pointer w-full h-full border-4 rounded-full"
-              src={logo}
-              alt="logo"
-            />
+            <h1 className="font-bold flex items-center justify-center w-full h-full border-4 rounded-full bg-black text-white text-xl">
+              {userNameFirstLetter}
+            </h1>
           </div>
         </IconButton>
-        <p>{user.email}</p>
+        <p>{user.userName}</p>
       </MenuItem>
     </Menu>
   );
@@ -326,7 +326,7 @@ export default function Header() {
       <AppBar style={{ backgroundColor: "rgb(33, 33, 49)" }} position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            <img alt="logo" className="h-10" src={logo} />
+            <img className="h-10" src={logo} alt="logo" />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -406,11 +406,9 @@ export default function Header() {
               className="links"
             >
               <div className="h-10 w-10">
-                <img
-                  className="cursor-pointer w-full h-full border-4 rounded-full"
-                  src={logo}
-                  alt="logo"
-                />
+                <h1 className="font-bold flex items-center justify-center w-full h-full border-4 rounded-full bg-black text-white text-xl">
+                  {userNameFirstLetter}
+                </h1>
               </div>
             </IconButton>
           </div>

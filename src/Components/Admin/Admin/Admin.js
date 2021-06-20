@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -13,12 +13,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import user from "../../../images/others/form-bg.png";
 import { useState } from "react";
 import CurrentAdminPage from "../CurrentAdminPage/CurrentAdminPage";
 import { useHistory } from "react-router-dom";
 import AdminIcons from "../AdminIcons/AdminIcons";
 import HomeIcon from "@material-ui/icons/Home";
+import { UserContext } from "../../../App";
+import userLogo from "../../../images/others/e-shop-logo.png";
 
 const drawerWidth = 230;
 
@@ -61,9 +62,12 @@ function Admin(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageTitle, setCurrentPageTitle] = useState("Manage Products");
+  const [user] = useContext(UserContext);
+  const userNameFirstLetter = user.userName.split("")[0];
+
   let history = useHistory();
   const features = [
     "Manage Products",
@@ -143,12 +147,13 @@ function Admin(props) {
               E-Shop
             </Typography>
           </div>
-          <div className="h-10 w-10">
-            <img
-              className="w-full h-full border-4 rounded-full"
-              src={user}
-              alt="logo"
-            />
+          <div className="flex items-center">
+            <div className="h-10 w-10">
+              <h1 className="font-bold flex items-center justify-center w-full h-full border-4 rounded-full bg-black text-xl">
+                {userNameFirstLetter}
+              </h1>
+            </div>
+            <h2 className="ml-2">{user.userName}</h2>
           </div>
         </Toolbar>
       </AppBar>

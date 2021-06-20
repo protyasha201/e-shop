@@ -10,6 +10,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { useHistory, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Login = () => {
   if (!firebase.apps.length > 0) {
@@ -20,6 +21,10 @@ const Login = () => {
   const [newUser, setNewUser] = useState(false);
   let history = useHistory();
   let location = useLocation();
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   let { from } = location.state || { from: { pathname: "/home" } };
 
