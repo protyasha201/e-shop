@@ -92,8 +92,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [categoryEl, setCategoryEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [categoryEl, setCategoryEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = useContext(UserContext);
 
@@ -162,8 +162,17 @@ export default function Header() {
       .then(() => {
         // Sign-out successful.
         sessionStorage.removeItem("token");
-        const updateUser = { ...user };
-        updateUser.isSignedIn = false;
+        const updateUser = {
+          isSignedIn: false,
+          userName: "",
+          email: "",
+          photoUrl: "",
+          password: "",
+          confirmPassword: "",
+          mobileNumber: null,
+          address: "",
+          notifyMessage: "",
+        };
         setUser(updateUser);
       })
       .catch((error) => {
@@ -307,7 +316,7 @@ export default function Header() {
             />
           </div>
         </IconButton>
-        <p>Profile</p>
+        <p>{user.email}</p>
       </MenuItem>
     </Menu>
   );

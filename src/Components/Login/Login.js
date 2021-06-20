@@ -34,22 +34,32 @@ const Login = () => {
   };
 
   const handleLogin = (e) => {
-    if (newUser && user.email && user.password && user.confirmPassword) {
+    e.preventDefault();
+    if (
+      newUser &&
+      user.userName &&
+      user.email &&
+      user.password &&
+      user.confirmPassword
+    ) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(user.email, user.password)
         .then((userCredential) => {
-          let updateUser = { ...user };
+          // Signed up
+          updateUserName(user.userName);
+          const updateUser = { ...user };
           updateUser.isSignedIn = true;
 
           setUser(updateUser);
-
+          getUserToken();
           history.replace(from);
+          // ...
         })
         .catch((error) => {
-          // const errorCode = error.code;
-          // const errorMessage = error.message;
-          console.log(error);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
         });
     }
     if (!newUser && user.email && user.password) {
@@ -57,20 +67,39 @@ const Login = () => {
         .auth()
         .signInWithEmailAndPassword(user.email, user.password)
         .then((userCredential) => {
-          let updateUser = { ...user };
+          // Signed in
+          const currentUser = userCredential.user;
+
+          const updateUser = { ...user };
+          updateUser.email = currentUser.email;
+          updateUser.userName = currentUser.displayName;
           updateUser.isSignedIn = true;
-          getUserToken();
 
           setUser(updateUser);
+          getUserToken();
           history.replace(from);
+          // ...
         })
         .catch((error) => {
-          // const errorCode = error.code;
-          // const errorMessage = error.message;
-          console.log(error);
+          const errorCode = error.code;
+          const errorMessage = error.message;
         });
     }
-    e.preventDefault();
+  };
+
+  const updateUserName = (userName) => {
+    const user = firebase.auth().currentUser;
+
+    user
+      .updateProfile({
+        displayName: userName,
+      })
+      .then(function () {
+        //update successful
+      })
+      .then(function (error) {
+        console.log(error);
+      });
   };
 
   const getUserToken = () => {
@@ -97,6 +126,21 @@ const Login = () => {
       <div className="bg-white border bg-bl p-5 shadow-2xl rounded w-4/5 flex justify-center flex-col items-center sm:w-1/2 sm:relative right-20 lg:w-80">
         <img alt="logo" src={logo} className="h-20 w-2/3 sm:w-60" />
         <form onSubmit={handleLogin} className="flex flex-col w-full">
+          {newUser && (
+            <label className="mt-4 flex flex-col">
+              <span className="font-bold text-xl montserrat text-gray-600">
+                Name
+              </span>
+              <input
+                required
+                name="userName"
+                onBlur={handleFormData}
+                type="text"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+                placeholder="Your Name..."
+              />
+            </label>
+          )}
           <label className="mt-4 flex flex-col">
             <span className="font-bold text-xl montserrat text-gray-600">
               Your E-mail

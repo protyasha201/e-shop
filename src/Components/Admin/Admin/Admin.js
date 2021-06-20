@@ -93,9 +93,9 @@ function Admin(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <h1 className="text-center text-red-400 font-bold text-lg sm:hidden">
-        E-shop
-      </h1>
+      <p className="text-center">
+        Admin/<span className="text-blue-500">{currentPageTitle}</span>
+      </p>
       <Divider />
       <List>
         {features.map((text, index) => (
@@ -185,9 +185,6 @@ function Admin(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <p>
-          Admin/<span className="text-blue-400">{currentPageTitle}</span>
-        </p>
         <CurrentAdminPage currentPage={currentPage} />
       </main>
     </div>
