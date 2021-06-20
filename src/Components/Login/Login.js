@@ -62,8 +62,13 @@ const Login = () => {
           // ...
         })
         .catch((error) => {
-          const errorCode = error.code;
+          // const errorCode = error.code;
           const errorMessage = error.message;
+
+          const updateUser = { ...user };
+          updateUser.notifyMessage = errorMessage;
+
+          setUser(updateUser);
           // ..
         });
     }
@@ -86,8 +91,13 @@ const Login = () => {
           // ...
         })
         .catch((error) => {
-          const errorCode = error.code;
+          // const errorCode = error.code;
           const errorMessage = error.message;
+
+          const updateUser = { ...user };
+          updateUser.notifyMessage = errorMessage;
+
+          setUser(updateUser);
         });
     }
   };
@@ -131,6 +141,7 @@ const Login = () => {
       <div className="bg-white border bg-bl p-5 shadow-2xl rounded w-4/5 flex justify-center flex-col items-center sm:w-1/2 sm:relative right-20 lg:w-80">
         <img alt="logo" src={logo} className="h-20 w-2/3 sm:w-60" />
         <form onSubmit={handleLogin} className="flex flex-col w-full">
+          <p className={"text-red-400"}>{user.notifyMessage}</p>
           {newUser && (
             <label className="mt-4 flex flex-col">
               <span className="font-bold text-xl montserrat text-gray-600">
