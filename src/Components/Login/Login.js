@@ -18,9 +18,19 @@ const Login = () => {
   }
 
   const [user, setUser] = useContext(UserContext);
+  const [errors, setErrors] = useState({
+    emailError: "",
+    passError: "",
+    confirmPassError: "",
+  });
+
   const [newUser, setNewUser] = useState(false);
   let history = useHistory();
   let location = useLocation();
+  let isFieldValid = true;
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPassValid, setIsPassValid] = useState(false);
+  const [isConfirmPassValid, setIsConfirmPassValid] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -29,9 +39,72 @@ const Login = () => {
   let { from } = location.state || { from: { pathname: "/home" } };
 
   const handleFormData = (e) => {
-    const updateUser = { ...user };
-    updateUser[e.target.name] = e.target.value;
-    setUser(updateUser);
+    if (e.target.name === "email") {
+      isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
+      let updateErrors = { ...errors };
+
+      if (!newUser) {
+        const updateUser = { ...user };
+        updateUser[e.target.name] = e.target.value;
+        setUser(updateUser);
+      }
+      if (newUser) {
+        if (isFieldValid) {
+          setIsEmailValid(true);
+          updateErrors.emailError = "Email is valid";
+        }
+        if (!isFieldValid && e.target.value !== "") {
+          setIsEmailValid(false);
+          updateErrors.emailError = "Email is invalid!";
+        }
+        setErrors(updateErrors);
+      }
+    }
+
+    if (e.target.name === "password") {
+      const passwordLength = e.target.value.length > 6;
+      const passwordNumberContains = /\d{1}/.test(e.target.value);
+      isFieldValid = passwordLength && passwordNumberContains;
+      let updateErrors = { ...errors };
+
+      if (!newUser) {
+        const updateUser = { ...user };
+        updateUser[e.target.name] = e.target.value;
+        setUser(updateUser);
+      }
+      if (newUser) {
+        if (isFieldValid) {
+          setIsPassValid(true);
+          updateErrors.passError = "Password is valid";
+        }
+        if (!isFieldValid && e.target.value !== "") {
+          setIsPassValid(false);
+          updateErrors.passError =
+            "Password should have more than 6 letters including numbers";
+        }
+        setErrors(updateErrors);
+      }
+    }
+
+    if (e.target.name === "confirmPassword") {
+      let updateErrors = { ...errors };
+      if (e.target.value === user.password) {
+        isFieldValid = true;
+        setIsConfirmPassValid(true);
+        updateErrors.confirmPassError = "Password Matched";
+      }
+      if (e.target.value !== user.password) {
+        setIsConfirmPassValid(false);
+        updateErrors.confirmPassError = "Password didn't match";
+      }
+      setErrors(updateErrors);
+    }
+
+    if (isFieldValid) {
+      const updateUser = { ...user };
+      updateUser[e.target.name] = e.target.value;
+      setUser(updateUser);
+    }
   };
 
   const handleLoginForm = () => {
@@ -132,7 +205,7 @@ const Login = () => {
   return (
     <section className="h-screen w-full flex flex-col justify-center items-center sm:flex-row p-5">
       <h1 className="sm:hidden text-xl condensed font-bold text-blue-400 relative bottom-10">
-        Create an Account and Enjoy{" "}
+        {newUser ? "Create an Account" : "Login"} and Enjoy{" "}
         <span className="text-red-400 montserrat">E-SHOP</span>
       </h1>
       <div className="hidden sm:inline-block sm:w-1/2 lg:w-3/4">
@@ -150,10 +223,10 @@ const Login = () => {
               <input
                 required
                 name="userName"
-                onBlur={handleFormData}
+                onChange={handleFormData}
                 type="text"
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
-                placeholder="Your Name..."
+                placeholder="John Doe"
               />
             </label>
           )}
@@ -164,11 +237,14 @@ const Login = () => {
             <input
               required
               name="email"
-              onBlur={handleFormData}
+              onChange={handleFormData}
               type="email"
               className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
-              placeholder="email..."
+              placeholder="john@gmail.com"
             />
+            <p className={isEmailValid ? "text-green-400" : "text-red-300"}>
+              {errors.emailError}
+            </p>
           </label>
           <label className="mt-4 flex flex-col">
             <span className="font-bold text-xl montserrat text-gray-600">
@@ -177,11 +253,14 @@ const Login = () => {
             <input
               required
               name="password"
-              onBlur={handleFormData}
+              onChange={handleFormData}
               type="password"
               className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
               placeholder="password..."
             />
+            <p className={isPassValid ? "text-green-400" : "text-red-300"}>
+              {errors.passError}
+            </p>
           </label>
           {newUser && (
             <label className="mt-4 flex flex-col">
@@ -191,11 +270,18 @@ const Login = () => {
               <input
                 required
                 name="confirmPassword"
-                onBlur={handleFormData}
+                onChange={handleFormData}
                 type="password"
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="confirm password..."
               />
+              <p
+                className={
+                  isConfirmPassValid ? "text-green-400" : "text-red-300"
+                }
+              >
+                {errors.confirmPassError}
+              </p>
             </label>
           )}
           <input
