@@ -211,7 +211,7 @@ const Login = () => {
       <div className="hidden sm:inline-block sm:w-1/2 lg:w-3/4">
         <img alt="form side" src={formBg} />
       </div>
-      <div className="bg-white border bg-bl p-5 shadow-2xl rounded w-4/5 flex justify-center flex-col items-center sm:w-1/2 sm:relative right-20 lg:w-80">
+      <div className="bg-white border bg-bl p-5 shadow-2xl rounded w-4/5 flex justify-center flex-col items-center sm:w-1/2 sm:relative right-40 lg:w-96">
         <img alt="logo" src={logo} className="h-20 w-2/3 sm:w-60" />
         <form onSubmit={handleLogin} className="flex flex-col w-full">
           <p className={"text-red-400"}>{user.notifyMessage}</p>
