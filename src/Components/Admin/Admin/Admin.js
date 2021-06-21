@@ -19,7 +19,6 @@ import { useHistory } from "react-router-dom";
 import AdminIcons from "../AdminIcons/AdminIcons";
 import HomeIcon from "@material-ui/icons/Home";
 import { UserContext } from "../../../App";
-import userLogo from "../../../images/others/e-shop-logo.png";
 
 const drawerWidth = 230;
 

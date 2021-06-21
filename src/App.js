@@ -10,6 +10,7 @@ import Admin from "./Components/Admin/Admin/Admin";
 import { createContext } from "react";
 import { useState } from "react";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import { useEffect } from "react";
 export const UserContext = createContext([]);
 
 function App() {
@@ -24,6 +25,10 @@ function App() {
     address: "",
     notifyMessage: "",
   });
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   return (
     <UserContext.Provider value={[user, setUser]}>
