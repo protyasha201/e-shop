@@ -128,6 +128,8 @@ const Login = () => {
           updateUserName(user.userName);
           const updateUser = { ...user };
           updateUser.isSignedIn = true;
+          updateUser.password = "";
+          updateUser.confirmPassword = "";
 
           setUser(updateUser);
           getUserToken();
@@ -137,10 +139,9 @@ const Login = () => {
         .catch((error) => {
           // const errorCode = error.code;
           const errorMessage = error.message;
-
           const updateUser = { ...user };
-          updateUser.notifyMessage = errorMessage;
 
+          updateUser.notifyMessage = errorMessage;
           setUser(updateUser);
           // ..
         });
@@ -157,6 +158,7 @@ const Login = () => {
           updateUser.email = currentUser.email;
           updateUser.userName = currentUser.displayName;
           updateUser.isSignedIn = true;
+          updateUser.password = "";
 
           setUser(updateUser);
           getUserToken();
@@ -166,10 +168,9 @@ const Login = () => {
         .catch((error) => {
           // const errorCode = error.code;
           const errorMessage = error.message;
-
           const updateUser = { ...user };
-          updateUser.notifyMessage = errorMessage;
 
+          updateUser.notifyMessage = errorMessage;
           setUser(updateUser);
         });
     }
