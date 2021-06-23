@@ -22,7 +22,9 @@ function App() {
     password: "",
     confirmPassword: "",
     mobileNumber: null,
-    address: "",
+    country: "",
+    district: "",
+    house: "",
     notifyMessage: "",
   });
 

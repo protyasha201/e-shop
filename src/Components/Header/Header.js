@@ -164,6 +164,7 @@ export default function Header() {
         // Sign-out successful.
         sessionStorage.removeItem("token");
         localStorage.removeItem("user");
+
         const updateUser = {
           isSignedIn: false,
           userName: "",

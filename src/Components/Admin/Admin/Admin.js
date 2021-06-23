@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import AdminIcons from "../AdminIcons/AdminIcons";
 import HomeIcon from "@material-ui/icons/Home";
 import { UserContext } from "../../../App";
+import { useEffect } from "react";
 
 const drawerWidth = 230;
 
@@ -79,6 +80,21 @@ function Admin(props) {
     "Reports",
     "Statistics",
   ];
+
+  useEffect(() => {
+    const updateCurrentPage = JSON.parse(localStorage.getItem("currentPage"));
+    const updateCurrentPageTitle = JSON.parse(
+      localStorage.getItem("currentPageTitle")
+    );
+
+    setCurrentPage(updateCurrentPage);
+    setCurrentPageTitle(updateCurrentPageTitle);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", JSON.stringify(currentPage));
+    localStorage.setItem("currentPageTitle", JSON.stringify(currentPageTitle));
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
