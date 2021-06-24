@@ -106,7 +106,7 @@ function Admin(props) {
   };
 
   const goToHomePage = () => {
-    history.push("/home");
+    history.push("/");
   };
 
   const drawer = (

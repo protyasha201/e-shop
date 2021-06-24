@@ -22,6 +22,7 @@ const Login = () => {
     emailError: "",
     passError: "",
     confirmPassError: "",
+    loginError: "",
   });
 
   const [newUser, setNewUser] = useState(false);
@@ -36,7 +37,7 @@ const Login = () => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
-  let { from } = location.state || { from: { pathname: "/home" } };
+  // let { from } = location.state || { from: { pathname: "/" } };
 
   const handleFormData = (e) => {
     if (e.target.name === "email") {
@@ -128,12 +129,10 @@ const Login = () => {
           updateUserName(user.userName);
           const updateUser = { ...user };
           updateUser.isSignedIn = true;
-          updateUser.password = "";
-          updateUser.confirmPassword = "";
 
           setUser(updateUser);
           getUserToken();
-          history.replace(from);
+          history.push("/");
           // ...
         })
         .catch((error) => {
@@ -141,7 +140,7 @@ const Login = () => {
           const errorMessage = error.message;
           const updateUser = { ...user };
 
-          updateUser.notifyMessage = errorMessage;
+          errors.loginError = errorMessage;
           setUser(updateUser);
           // ..
         });
@@ -158,11 +157,10 @@ const Login = () => {
           updateUser.email = currentUser.email;
           updateUser.userName = currentUser.displayName;
           updateUser.isSignedIn = true;
-          updateUser.password = "";
 
           setUser(updateUser);
           getUserToken();
-          history.replace(from);
+          history.push("/");
           // ...
         })
         .catch((error) => {
@@ -170,7 +168,7 @@ const Login = () => {
           const errorMessage = error.message;
           const updateUser = { ...user };
 
-          updateUser.notifyMessage = errorMessage;
+          errors.loginError = errorMessage;
           setUser(updateUser);
         });
     }
@@ -215,7 +213,7 @@ const Login = () => {
       <div className="bg-white border bg-bl p-5 shadow-2xl rounded w-4/5 flex justify-center flex-col items-center sm:w-1/2 sm:relative right-40 lg:w-96">
         <img alt="logo" src={logo} className="h-20 w-2/3 sm:w-60" />
         <form onSubmit={handleLogin} className="flex flex-col w-full">
-          <p className={"text-red-400"}>{user.notifyMessage}</p>
+          <p className={"text-red-400"}>{errors.loginError}</p>
           {newUser && (
             <label className="mt-4 flex flex-col">
               <span className="font-bold text-xl montserrat text-gray-600">

@@ -149,7 +149,7 @@ export default function Header() {
   };
 
   const goToHomePage = () => {
-    history.push("/home");
+    history.push("/");
   };
 
   const goToCartPage = () => {
@@ -173,9 +173,12 @@ export default function Header() {
           password: "",
           confirmPassword: "",
           mobileNumber: null,
-          address: "",
+          country: "",
+          district: "",
+          house: "",
           notifyMessage: "",
         };
+
         setUser(updateUser);
       })
       .catch((error) => {

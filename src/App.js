@@ -25,7 +25,6 @@ function App() {
     country: "",
     district: "",
     house: "",
-    notifyMessage: "",
   });
 
   useEffect(() => {
@@ -39,24 +38,21 @@ function App() {
           <PrivateRoute exact path="/">
             <Home />
           </PrivateRoute>
-          <PrivateRoute path="/home">
-            <Home />
-          </PrivateRoute>
-          <Route path="/admin">
+          <PrivateRoute path="/admin">
             <Admin />
-          </Route>
-          <Route path="/orders">
+          </PrivateRoute>
+          <PrivateRoute path="/orders">
             <Orders />
-          </Route>
-          <Route path="/profile">
+          </PrivateRoute>
+          <PrivateRoute path="/profile">
             <Profile />
-          </Route>
-          <Route path="/cart">
+          </PrivateRoute>
+          <PrivateRoute path="/cart">
             <Cart />
-          </Route>
-          <Route path="/products">
+          </PrivateRoute>
+          <PrivateRoute path="/products">
             <Products />
-          </Route>
+          </PrivateRoute>
           <Route path="/login">
             <Login />
           </Route>
