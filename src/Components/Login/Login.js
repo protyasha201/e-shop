@@ -5,12 +5,12 @@ import logo from "../../images/others/e-shop-logo.png";
 import { useContext } from "react";
 import { UserContext } from "../../App";
 import { useState } from "react";
-import firebaseConfig from "./firebaseConfig";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import "firebase/auth";
+import "firebase/firestore";
+import firebaseConfig from "./firebaseConfig";
+import firebase from "firebase/app";
 
 const Login = () => {
   if (!firebase.apps.length > 0) {
@@ -32,6 +32,7 @@ const Login = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPassValid, setIsPassValid] = useState(false);
   const [isConfirmPassValid, setIsConfirmPassValid] = useState(false);
+  const db = firebase.firestore();
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -125,6 +126,16 @@ const Login = () => {
         .auth()
         .createUserWithEmailAndPassword(user.email, user.password)
         .then((userCredential) => {
+          //add user to database
+          db.collection("users")
+            .add(user)
+            .then((data) => {
+              console.log("success");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+            
           // Signed up
           updateUserName(user.userName);
           const updateUser = { ...user };

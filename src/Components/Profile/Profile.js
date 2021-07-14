@@ -5,6 +5,7 @@ import Header from "../Header/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import axios from "axios";
 
 const Profile = () => {
   const [user, setUser] = useContext(UserContext);
@@ -40,7 +41,25 @@ const Profile = () => {
     }
   };
 
-  const uploadProfileImage = () => {};
+  const handleUpdate = (e) => {};
+
+  const uploadProfileImage = (e) => {
+    const imageData = new FormData();
+    imageData.set("key", "b07e1e0b5c689a98391f6a4377e0f41a");
+    imageData.append("image", e.target.files[0]);
+
+    axios
+      .post("https://api.imgbb.com/1/upload", imageData)
+      .then(function (response) {
+        const updateUser = { ...user };
+        updateUser.photoUrl = response.data.data.display_url;
+        setUser(updateUser);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <section>
       <Header />
@@ -48,16 +67,25 @@ const Profile = () => {
         <div className="shadow w-full flex flex-col items-center justify-center border p-5 rounded">
           <div className="flex">
             <div className="h-20 w-20 flex justify-center items-center shadow border rounded-full">
-              <FontAwesomeIcon
-                className="w-full h-full text-5xl font-bold text-blue-300"
-                icon={faUserAlt}
-              />
+              {user.photoUrl ? (
+                <img
+                  className="w-full h-full text-5xl font-bold text-blue-300 rounded-full"
+                  src={user.photoUrl}
+                  alt="protyasha"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  className="w-full h-full text-5xl font-bold text-blue-300"
+                  icon={faUserAlt}
+                />
+              )}
             </div>
             <div>
               <label className="text-blue-300 cursor-pointer" htmlFor="files">
                 <FontAwesomeIcon icon={faEdit} />
               </label>
               <input
+                name="photoUrl"
                 onChange={uploadProfileImage}
                 style={{ display: "none" }}
                 type="file"
@@ -78,6 +106,8 @@ const Profile = () => {
             </div>
             {showUserNameField && (
               <input
+                name="userName"
+                onChange={handleUpdate}
                 className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 defaultValue={user.userName}
                 type="text"
@@ -87,7 +117,7 @@ const Profile = () => {
         </div>
 
         <div className="shadow w-full border p-5">
-          <h1 className="text-2xl text-gray-400 roboto">
+          <h1 className="text-2xl text-gray-400 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-roboto">
             Your Profile Information
           </h1>
           <hr></hr>
@@ -105,6 +135,7 @@ const Profile = () => {
             </div>
             {showEmailField && (
               <input
+                onChange={handleUpdate}
                 name="email"
                 className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 defaultValue={user.email}
@@ -129,6 +160,7 @@ const Profile = () => {
             </div>
             {showMobileNumberField && (
               <input
+                onChange={handleUpdate}
                 name="mobileNumber"
                 className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 defaultValue={user.mobileNumber}
@@ -153,6 +185,7 @@ const Profile = () => {
             </div>
             {showPasswordField && (
               <input
+                onChange={handleUpdate}
                 name="password"
                 className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 defaultValue={user.password}
@@ -182,6 +215,7 @@ const Profile = () => {
               </div>
               {showCountryField && (
                 <input
+                  onChange={handleUpdate}
                   name="country"
                   className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   defaultValue={user.country}
@@ -206,6 +240,7 @@ const Profile = () => {
               </div>
               {showDistrictField && (
                 <input
+                  onChange={handleUpdate}
                   name="district"
                   className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   defaultValue={user.district}
@@ -230,6 +265,7 @@ const Profile = () => {
               </div>
               {showHouseField && (
                 <input
+                  onChange={handleUpdate}
                   name="house"
                   className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   defaultValue={user.house}
@@ -238,6 +274,9 @@ const Profile = () => {
               )}
             </div>
           </div>
+          <button className="bg-green-300 text-white montserrat p-2 font-bold rounded  mt-2 float-right">
+            Save Changes
+          </button>
         </div>
       </div>
     </section>
