@@ -150,12 +150,7 @@ const Login = () => {
       user.password &&
       user.confirmPassword
     ) {
-      if (currentUser.length > 0) {
-        setIsEmailValid(false);
-        const updateErrors = { ...errors };
-        updateErrors.emailError = "This email is already registered";
-        setErrors(updateErrors);
-      } else {
+      if (currentUser === undefined || currentUser.length === 0) {
         axios
           .post("http://localhost:5000/createUser", user)
           .then(function (response) {
@@ -169,14 +164,19 @@ const Login = () => {
         setTimeout(() => {
           getUserToken();
           history.push(from);
-        }, 5000);
+        }, 3000);
+      } else if (currentUser.length > 0) {
+        setIsEmailValid(false);
+        const updateErrors = { ...errors };
+        updateErrors.emailError = "This email is already registered";
+        setErrors(updateErrors);
       }
     }
     if (!newUser && user.email && user.password) {
       let updateErrors = { ...errors };
-      if (currentUser.length === 0) {
+      if (currentUser === undefined || currentUser.length === 0) {
         updateErrors.emailError =
-          "not a registered user, please create an account first";
+          "Not a registered user, please create an account first";
         setErrors(updateErrors);
       } else if (
         currentUser.length > 0 &&
@@ -189,7 +189,7 @@ const Login = () => {
         setTimeout(() => {
           getUserToken();
           history.push(from);
-        }, 5000);
+        }, 3000);
       } else if (
         currentUser.length > 0 &&
         currentUser.password !== user.password

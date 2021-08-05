@@ -21,7 +21,6 @@ import AcUnitIcon from "@material-ui/icons/AcUnit";
 import logo from "../../images/others/e-shop-logo.png";
 import { useState } from "react";
 import { UserContext } from "../../App";
-import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
