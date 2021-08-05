@@ -63,7 +63,7 @@ const Profile = () => {
   return (
     <section>
       <Header />
-      <div className="p-10 flex justify-center items-center flex-col">
+      <div className="p-10 flex justify-center items-center flex-col md:w-2/3 md:m-auto lg:w-1/2">
         <div className="shadow w-full flex flex-col items-center justify-center border p-5 rounded">
           <div className="flex">
             <div className="h-20 w-20 flex justify-center items-center shadow border rounded-full">

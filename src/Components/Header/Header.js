@@ -319,7 +319,7 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ backgroundColor: "rgb(33, 33, 49)" }} position="static">
+      <AppBar style={{ backgroundColor: "rgb(33,33, 49)" }} position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             <img className="h-10" src={logo} alt="logo" />

@@ -20,7 +20,7 @@ function App() {
     photoUrl: "",
     password: "",
     confirmPassword: "",
-    isAdmin: true,
+    isAdmin: false,
     mobileNumber: null,
     country: "",
     district: "",

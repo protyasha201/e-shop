@@ -20,6 +20,7 @@ import AdminIcons from "../AdminIcons/AdminIcons";
 import HomeIcon from "@material-ui/icons/Home";
 import { UserContext } from "../../../App";
 import { useEffect } from "react";
+import AccessAdmin from "../AccessAdmin/AccessAdmin";
 
 const drawerWidth = 230;
 
@@ -65,8 +66,10 @@ function Admin(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageTitle, setCurrentPageTitle] = useState("Manage Products");
+  const [isTemporaryAdmin, setIsTemporaryAdmin] = useState(false);
   const [user] = useContext(UserContext);
   let userNameFirstLetter;
+
   if (user.userName.length > 0) {
     userNameFirstLetter = user.userName.split("")[0].toUpperCase();
   }
@@ -98,6 +101,10 @@ function Admin(props) {
     localStorage.setItem("currentPage", JSON.stringify(currentPage));
     localStorage.setItem("currentPageTitle", JSON.stringify(currentPageTitle));
   });
+
+  const getStateData = (state) => {
+    setIsTemporaryAdmin(state);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -146,72 +153,76 @@ function Admin(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className="flex items-center justify-between">
-          <div className="flex items-center">
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              E-Shop
-            </Typography>
-          </div>
-          <div className="flex items-center">
-            <div className="h-10 w-10">
-              <h1 className="font-bold flex items-center justify-center w-full h-full border-4 rounded-full bg-black text-xl">
-                {userNameFirstLetter}
-              </h1>
+  if (isTemporaryAdmin) {
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar className="flex items-center justify-between">
+            <div className="flex items-center">
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                className={classes.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap>
+                E-Shop
+              </Typography>
             </div>
-            <h2 className="ml-2">{user.userName}</h2>
-          </div>
-        </Toolbar>
-      </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClick={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <CurrentAdminPage currentPage={currentPage} />
-      </main>
-    </div>
-  );
+            <div className="flex items-center">
+              <div className="h-10 w-10">
+                <h1 className="font-bold flex items-center justify-center w-full h-full border-4 rounded-full bg-black text-xl">
+                  {userNameFirstLetter}
+                </h1>
+              </div>
+              <h2 className="ml-2">{user.userName}</h2>
+            </div>
+          </Toolbar>
+        </AppBar>
+        <nav className={classes.drawer} aria-label="mailbox folders">
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === "rtl" ? "right" : "left"}
+              open={mobileOpen}
+              onClick={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <CurrentAdminPage currentPage={currentPage} />
+        </main>
+      </div>
+    );
+  } else {
+    return <AccessAdmin getStateData={getStateData} />;
+  }
 }
 
 export default Admin;
