@@ -15,7 +15,6 @@ export const UserContext = createContext([]);
 
 function App() {
   const [user, setUser] = useState({
-    isSignedIn: false,
     userName: "",
     email: "",
     photoUrl: "",

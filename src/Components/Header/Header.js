@@ -20,9 +20,8 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import logo from "../../images/others/e-shop-logo.png";
 import { useState } from "react";
-import firebase from "firebase/app";
 import { UserContext } from "../../App";
-import firebaseConfig from "../Login/firebaseConfig";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -96,10 +95,10 @@ export default function Header() {
   const [categoryEl, setCategoryEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = useContext(UserContext);
-  const userNameFirstLetter = user.userName.split("")[0];
+  let userNameFirstLetter;
 
-  if (!firebase.apps.length > 0) {
-    firebase.initializeApp(firebaseConfig);
+  if (user.userName.length > 0) {
+    userNameFirstLetter = user.userName.split("")[0].toUpperCase();
   }
 
   const isMenuOpen = Boolean(anchorEl);
@@ -157,36 +156,27 @@ export default function Header() {
   };
 
   const logOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        sessionStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("currentPageTitle");
-        localStorage.removeItem("currentPage");
-        localStorage.removeItem("fingerprint_blocker");
+    // Sign-out successful.
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("currentPageTitle");
+    localStorage.removeItem("currentPage");
+    localStorage.removeItem("fingerprint_blocker");
 
-        const updateUser = {
-          isSignedIn: false,
-          userName: "",
-          email: "",
-          photoUrl: "",
-          password: "",
-          confirmPassword: "",
-          mobileNumber: null,
-          country: "",
-          district: "",
-          house: "",
-          notifyMessage: "",
-        };
+    const updateUser = {
+      userName: "",
+      email: "",
+      photoUrl: "",
+      password: "",
+      confirmPassword: "",
+      mobileNumber: null,
+      country: "",
+      district: "",
+      house: "",
+      notifyMessage: "",
+    };
 
-        setUser(updateUser);
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+    setUser(updateUser);
   };
 
   const menuId = "primary-search-account-menu";

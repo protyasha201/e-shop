@@ -7,40 +7,68 @@ import { UserContext } from "../../App";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import "firebase/auth";
-import "firebase/firestore";
-import firebaseConfig from "./firebaseConfig";
-import firebase from "firebase/app";
+import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import getUserToken from "../Functions/getUserToken";
 
 const Login = () => {
-  if (!firebase.apps.length > 0) {
-    firebase.initializeApp(firebaseConfig);
-  }
-
   const [user, setUser] = useContext(UserContext);
   const [errors, setErrors] = useState({
+    userNameError: "",
     emailError: "",
     passError: "",
     confirmPassError: "",
     loginError: "",
   });
-
   const [newUser, setNewUser] = useState(false);
+  const [allUsers, setAllUsers] = useState([]);
+
   let history = useHistory();
   let location = useLocation();
   let isFieldValid = true;
+  const [loading, setLoading] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPassValid, setIsPassValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
   const [isConfirmPassValid, setIsConfirmPassValid] = useState(false);
-  const db = firebase.firestore();
+  let currentUser;
+
+  useEffect(() => {
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((result) => setAllUsers(result));
+  }, []);
+
+  if (allUsers.length > 0) {
+    currentUser = allUsers.filter(
+      (registeredUser) => user.email === registeredUser.email
+    );
+  }
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
-  // let { from } = location.state || { from: { pathname: "/" } };
+  let { from } = location.state || { from: { pathname: "/" } };
 
   const handleFormData = (e) => {
+    if (e.target.name === "userName") {
+      isFieldValid = e.target.value.length > 3;
+      let updateErrors = { ...errors };
+
+      if (newUser) {
+        if (isFieldValid) {
+          setIsNameValid(true);
+          updateErrors.userNameError = "Name is valid";
+        }
+        if (!isFieldValid) {
+          setIsNameValid(false);
+          updateErrors.userNameError = "Name must be more than 3 letters";
+        }
+        setErrors(updateErrors);
+      }
+    }
+
     if (e.target.name === "email") {
       isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
       let updateErrors = { ...errors };
@@ -122,102 +150,63 @@ const Login = () => {
       user.password &&
       user.confirmPassword
     ) {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(user.email, user.password)
-        .then((userCredential) => {
-          //add user to database
-          db.collection("users")
-            .add(user)
-            .then((data) => {
-              console.log("success");
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-            
-          // Signed up
-          updateUserName(user.userName);
-          const updateUser = { ...user };
-          updateUser.isSignedIn = true;
+      if (currentUser.length > 0) {
+        setIsEmailValid(false);
+        const updateErrors = { ...errors };
+        updateErrors.emailError = "This email is already registered";
+        setErrors(updateErrors);
+      } else {
+        axios
+          .post("http://localhost:5000/createUser", user)
+          .then(function (response) {
+            setLoading(true);
+            setAdminPages();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
-          setUser(updateUser);
+        setTimeout(() => {
           getUserToken();
-          history.push("/");
-          // ...
-        })
-        .catch((error) => {
-          // const errorCode = error.code;
-          const errorMessage = error.message;
-          const updateUser = { ...user };
-
-          errors.loginError = errorMessage;
-          setUser(updateUser);
-          // ..
-        });
+          history.push(from);
+        }, 5000);
+      }
     }
     if (!newUser && user.email && user.password) {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(user.email, user.password)
-        .then((userCredential) => {
-          // Signed in
-          const currentUser = userCredential.user;
-
-          const updateUser = { ...user };
-          updateUser.email = currentUser.email;
-          updateUser.userName = currentUser.displayName;
-          updateUser.isSignedIn = true;
-
-          setUser(updateUser);
+      let updateErrors = { ...errors };
+      if (currentUser.length === 0) {
+        updateErrors.emailError =
+          "not a registered user, please create an account first";
+        setErrors(updateErrors);
+      } else if (
+        currentUser.length > 0 &&
+        currentUser[0].password === user.password
+      ) {
+        localStorage.setItem("user", JSON.stringify(currentUser[0]));
+        setAdminPages();
+        setLoading(true);
+        setUser(currentUser[0]);
+        setTimeout(() => {
           getUserToken();
-          history.push("/");
-          // ...
-        })
-        .catch((error) => {
-          // const errorCode = error.code;
-          const errorMessage = error.message;
-          const updateUser = { ...user };
-
-          errors.loginError = errorMessage;
-          setUser(updateUser);
-        });
+          history.push(from);
+        }, 5000);
+      } else if (
+        currentUser.length > 0 &&
+        currentUser.password !== user.password
+      ) {
+        updateErrors.passError = "Invalid password";
+        setErrors(updateErrors);
+      }
     }
   };
 
-  const updateUserName = (userName) => {
-    const user = firebase.auth().currentUser;
-
-    user
-      .updateProfile({
-        displayName: userName,
-      })
-      .then(function () {
-        //update successful
-      })
-      .then(function (error) {
-        console.log(error);
-      });
-  };
-
-  const getUserToken = () => {
-    firebase
-      .auth()
-      .currentUser.getIdToken(/* forceRefresh */ true)
-      .then(function (idToken) {
-        sessionStorage.setItem("token", idToken);
-      })
-      .catch(function (error) {
-        // Handle error
-      });
+  const setAdminPages = () => {
+    localStorage.setItem("currentPage", JSON.stringify(0));
+    localStorage.setItem("currentPageTitle", JSON.stringify("Manage Products"));
   };
 
   return (
     <section className="h-screen w-full flex flex-col justify-center items-center sm:flex-row p-5">
-      <h1 className="sm:hidden text-xl condensed font-bold text-blue-400 relative bottom-10">
-        {newUser ? "Create an Account" : "Login"} and Enjoy{" "}
-        <span className="text-red-400 montserrat">E-SHOP</span>
-      </h1>
       <div className="hidden sm:inline-block sm:w-1/2 lg:w-3/4">
         <img alt="form side" src={formBg} />
       </div>
@@ -238,6 +227,9 @@ const Login = () => {
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="John Doe"
               />
+              <p className={isNameValid ? "text-green-400" : "text-red-300"}>
+                {errors.userNameError}
+              </p>
             </label>
           )}
           <label className="mt-4 flex flex-col">
@@ -294,22 +286,28 @@ const Login = () => {
               </p>
             </label>
           )}
-          <input
-            type="submit"
-            className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
-            value={newUser ? "Create an Account" : "Login"}
-          />
-          <p className="text-center text-gray-500 mt-2">
-            {newUser
-              ? `Already have an account?${" "}`
-              : `Don't have an account?${" "}`}
-            <span
-              onClick={handleLoginForm}
-              className="text-blue-400 cursor-pointer"
-            >
-              {newUser ? "Login" : "Create an account"}
-            </span>
-          </p>
+          {loading ? (
+            <CircularProgress className="m-auto mt-3" />
+          ) : (
+            <input
+              type="submit"
+              className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+              value={newUser ? "Create an Account" : "Login"}
+            />
+          )}
+          {!loading && (
+            <p className="text-center text-gray-500 mt-2">
+              {newUser
+                ? `Already have an account?${" "}`
+                : `Don't have an account?${" "}`}
+              <span
+                onClick={handleLoginForm}
+                className="text-blue-400 cursor-pointer"
+              >
+                {newUser ? "Login" : "Create an account"}
+              </span>
+            </p>
+          )}
         </form>
       </div>
     </section>

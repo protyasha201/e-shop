@@ -66,7 +66,10 @@ function Admin(props) {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageTitle, setCurrentPageTitle] = useState("Manage Products");
   const [user] = useContext(UserContext);
-  const userNameFirstLetter = user.userName.split("")[0];
+  let userNameFirstLetter;
+  if (user.userName.length > 0) {
+    userNameFirstLetter = user.userName.split("")[0].toUpperCase();
+  }
 
   let history = useHistory();
   const features = [

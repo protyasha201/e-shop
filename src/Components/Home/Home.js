@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+// import { useEffect } from "react";
+// import { useState } from "react";
 import { UserContext } from "../../App";
 import Header from "../Header/Header";
 
 const Home = () => {
-  const [user, setUser] = useContext(UserContext);
+  const [user] = useContext(UserContext);
 
   return (
     <div>
