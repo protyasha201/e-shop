@@ -205,6 +205,10 @@ const Login = () => {
     localStorage.setItem("currentPageTitle", JSON.stringify("Manage Products"));
   };
 
+  const handleForgotPassword = () => {
+    alert("Email was sent to your email");
+  };
+
   return (
     <section className="h-screen w-full flex flex-col justify-center items-center sm:flex-row p-5">
       <div className="hidden sm:inline-block sm:w-1/2 lg:w-3/4">
@@ -285,6 +289,14 @@ const Login = () => {
                 {errors.confirmPassError}
               </p>
             </label>
+          )}
+          {!newUser && (
+            <p
+              onClick={handleForgotPassword}
+              className="text-blue-400 cursor-pointer"
+            >
+              Forgot Password?
+            </p>
           )}
           {loading ? (
             <CircularProgress className="m-auto mt-3" />

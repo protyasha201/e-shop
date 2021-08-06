@@ -117,7 +117,7 @@ const Profile = () => {
         </div>
 
         <div className="shadow w-full border p-5">
-          <h1 className="text-2xl text-gray-400 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-roboto">
+          <h1 className="text-2xl text-gray-400 roboto">
             Your Profile Information
           </h1>
           <hr></hr>
@@ -173,9 +173,7 @@ const Profile = () => {
             <div className="flex">
               <p className="text-red-300 montserrat font-bold">
                 Password:{" "}
-                <span className="text-gray-400">
-                  {user.password || "Change Current Password"}
-                </span>
+                <span className="text-gray-400">Change Current Password</span>
               </p>
               <FontAwesomeIcon
                 onClick={() => showEditingSpace("password")}
@@ -188,7 +186,6 @@ const Profile = () => {
                 onChange={handleUpdate}
                 name="password"
                 className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                defaultValue={user.password}
                 type="password"
               />
             )}

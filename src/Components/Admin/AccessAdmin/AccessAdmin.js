@@ -1,17 +1,26 @@
 import React from "react";
 import { useState } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const AccessAdmin = (props) => {
   const { getStateData } = props;
   const [typedCodeError, setTypedCodeError] = useState("");
   const [typedCode, setTypedCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const allowAccessToAdmin = (e) => {
     e.preventDefault();
     if (typedCode === "t$st@dminN0w") {
-      getStateData(true);
+      setLoading(true);
+      setTimeout(() => {
+        getStateData(true);
+      }, 3000);
     } else {
-      setTypedCodeError("Code didn't match");
+      setLoading(true);
+      setTimeout(() => {
+        setTypedCodeError("Code didn't match");
+        setLoading(false);
+      }, 3000);
     }
   };
 
@@ -45,11 +54,15 @@ const AccessAdmin = (props) => {
             />
             <p className="text-red-300 text-left">{typedCodeError}</p>
           </label>
-          <input
-            type="submit"
-            className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
-            value="Go to Admin Panel"
-          />
+          {loading ? (
+            <CircularProgress className="m-auto" />
+          ) : (
+            <input
+              type="submit"
+              className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+              value="Go to Admin Panel"
+            />
+          )}
         </form>
       </div>
     </section>
