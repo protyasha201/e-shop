@@ -71,7 +71,7 @@ const Profile = () => {
                 <img
                   className="w-full h-full text-5xl font-bold text-blue-300 rounded-full"
                   src={user.photoUrl}
-                  alt="protyasha"
+                  alt={user.userName}
                 />
               ) : (
                 <FontAwesomeIcon

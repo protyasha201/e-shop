@@ -55,7 +55,7 @@ const AccessAdmin = (props) => {
             <p className="text-red-300 text-left">{typedCodeError}</p>
           </label>
           {loading ? (
-            <CircularProgress className="m-auto" />
+            <CircularProgress className="m-auto mt-2" />
           ) : (
             <input
               type="submit"
