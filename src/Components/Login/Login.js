@@ -33,7 +33,7 @@ const Login = () => {
   const [admins, setAdmins] = useState([]);
   const [isConfirmPassValid, setIsConfirmPassValid] = useState(false);
   let currentUser;
-  let isCurrentUserAdmin;
+  let userMatchedAdmin;
 
   useEffect(() => {
     fetch("http://localhost:5000/users")
@@ -54,7 +54,7 @@ const Login = () => {
   }
 
   if (admins.length > 0) {
-    isCurrentUserAdmin = admins.filter(
+    userMatchedAdmin = admins.filter(
       (admin) => user.email === admin.adminEmail
     );
   }
@@ -196,14 +196,33 @@ const Login = () => {
         currentUser.length > 0 &&
         currentUser[0].password === user.password
       ) {
-        localStorage.setItem("user", JSON.stringify(currentUser[0]));
-        setAdminPages();
-        setLoading(true);
-        setUser(currentUser[0]);
-        setTimeout(() => {
-          getUserToken();
-          history.push(from);
-        }, 3000);
+        if (userMatchedAdmin.length > 0) {
+          const updateUser = { ...currentUser[0] };
+          updateUser.isAdmin = true;
+          localStorage.setItem("user", JSON.stringify(updateUser));
+          setUser(updateUser);
+          setAdminPages();
+          setLoading(true);
+          setTimeout(() => {
+            getUserToken();
+            history.push(from);
+          }, 3000);
+        } else {
+          localStorage.setItem("user", JSON.stringify(currentUser[0]));
+          setUser(currentUser[0]);
+          setAdminPages();
+          setLoading(true);
+          setTimeout(() => {
+            getUserToken();
+            history.push(from);
+          }, 3000);
+        }
+        // setAdminPages();
+        // setLoading(true);
+        // setTimeout(() => {
+        //   getUserToken();
+        //   history.push(from);
+        // }, 3000);
       } else if (
         currentUser.length > 0 &&
         currentUser.password !== user.password
