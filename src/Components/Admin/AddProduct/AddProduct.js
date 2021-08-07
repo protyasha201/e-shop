@@ -62,7 +62,7 @@ const AddProduct = () => {
                 required
                 name="category"
                 type="text"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="category name..."
               />
               <input
@@ -98,7 +98,7 @@ const AddProduct = () => {
                 required
                 name="category"
                 type="text"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="sub-category name..."
               />
               <input
@@ -117,7 +117,7 @@ const AddProduct = () => {
             required
             name="productName"
             type="text"
-            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
             placeholder="1kg china rice..."
           />
         </label>
@@ -129,7 +129,7 @@ const AddProduct = () => {
             required
             name="productPrice"
             type="number"
-            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
             placeholder="340..."
           />
         </label>
@@ -141,7 +141,7 @@ const AddProduct = () => {
             required
             name="description"
             type="text"
-            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1 h-40"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1 h-40"
             placeholder="give a short description of the product..."
           />
         </label>
@@ -156,7 +156,7 @@ const AddProduct = () => {
               ref={textFeature}
               name="features"
               type="text"
-              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-2 w-4/5"
+              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-2 w-4/5"
               placeholder="features..."
             />
             <input
@@ -181,7 +181,7 @@ const AddProduct = () => {
             required
             name="productImage"
             type="file"
-            className="shadow-md border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1 cursor-pointer hover:bg-blue-300"
+            className="shadow-md border rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1 cursor-pointer hover:bg-blue-300"
           />
         </label>
         <input
