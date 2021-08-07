@@ -89,18 +89,32 @@ function Admin(props) {
   ];
 
   useEffect(() => {
-    const updateCurrentPage = JSON.parse(localStorage.getItem("currentPage"));
-    const updateCurrentPageTitle = JSON.parse(
-      localStorage.getItem("currentPageTitle")
-    );
-
-    setCurrentPage(updateCurrentPage);
-    setCurrentPageTitle(updateCurrentPageTitle);
+    let unmounted = false;
+    if (!unmounted) {
+      const updateCurrentPage = JSON.parse(localStorage.getItem("currentPage"));
+      const updateCurrentPageTitle = JSON.parse(
+        localStorage.getItem("currentPageTitle")
+      );
+      setCurrentPage(updateCurrentPage);
+      setCurrentPageTitle(updateCurrentPageTitle);
+    }
+    return () => {
+      unmounted = true;
+    };
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("currentPage", JSON.stringify(currentPage));
-    localStorage.setItem("currentPageTitle", JSON.stringify(currentPageTitle));
+    let unmounted = false;
+    if (!unmounted) {
+      localStorage.setItem("currentPage", JSON.stringify(currentPage));
+      localStorage.setItem(
+        "currentPageTitle",
+        JSON.stringify(currentPageTitle)
+      );
+    }
+    return () => {
+      unmounted = true;
+    };
   });
 
   const getStateData = (state) => {
@@ -154,7 +168,7 @@ function Admin(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  if (isTemporaryAdmin) {
+  if (isTemporaryAdmin || user.isAdmin) {
     return (
       <div className={classes.root}>
         <CssBaseline />
