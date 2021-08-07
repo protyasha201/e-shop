@@ -30,8 +30,10 @@ const Login = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPassValid, setIsPassValid] = useState(false);
   const [isNameValid, setIsNameValid] = useState(false);
+  const [admins, setAdmins] = useState([]);
   const [isConfirmPassValid, setIsConfirmPassValid] = useState(false);
   let currentUser;
+  let isCurrentUserAdmin;
 
   useEffect(() => {
     fetch("http://localhost:5000/users")
@@ -39,9 +41,21 @@ const Login = () => {
       .then((result) => setAllUsers(result));
   }, []);
 
+  useEffect(() => {
+    fetch(`http://localhost:5000/admins`)
+      .then((res) => res.json())
+      .then((result) => setAdmins(result));
+  }, []);
+
   if (allUsers.length > 0) {
     currentUser = allUsers.filter(
       (registeredUser) => user.email === registeredUser.email
+    );
+  }
+
+  if (admins.length > 0) {
+    isCurrentUserAdmin = admins.filter(
+      (admin) => user.email === admin.adminEmail
     );
   }
 
