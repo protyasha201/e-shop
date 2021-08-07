@@ -1,16 +1,19 @@
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
-import React, { createRef } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
 const AddAdmin = () => {
-  const adminEmail = createRef();
   const [loading, setLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
+  const [adminsError, setAdminsError] = useState("");
+  const [isFieldValid, setIsFiledValid] = useState(false);
   const adminEmailInputField = document.getElementById("adminEmail");
+  let adminMatched;
+  let [isEmailAdded, setIsEmailAdded] = useState(false);
 
   const loadAdmins = () => {
     fetch(`http://localhost:5000/admins`)
@@ -19,28 +22,64 @@ const AddAdmin = () => {
   };
 
   useEffect(() => {
+    let unmounted = false;
     setInterval(() => {
-      loadAdmins();
-    }, 5000);
+      if (!unmounted) {
+        loadAdmins();
+      }
+    }, 3000);
+    return () => {
+      unmounted = true;
+    };
   }, []);
 
   const handleAddAdmin = (e) => {
-    const adminEmailValue = adminEmail.current.value;
-
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/addAdmin", { adminEmail: adminEmailValue })
-      .then(function (response) {
-        adminEmailInputField.value = "";
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          alert("Admin added successfully");
-        }, 3000);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    const adminEmailValue = adminEmailInputField.value;
+    adminMatched = admins.filter(
+      (eachAdmin) => adminEmailValue === eachAdmin.adminEmail
+    );
+
+    if (adminMatched.length > 0) {
+      setIsEmailAdded(true);
+      setAdminsError("This email is already added as admin");
+    } else if (adminMatched.length === 0 && isFieldValid) {
+      setIsEmailAdded(false);
+      setAdminsError("");
+      axios
+        .post("http://localhost:5000/addAdmin", { adminEmail: adminEmailValue })
+        .then(function (response) {
+          adminEmailInputField.value = "";
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+            alert("Admin added successfully");
+          }, 3000);
+        })
+        .catch(function (error) {
+          setAdminsError(error.message);
+        });
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    setIsFiledValid(/\S+@\S+\.\S+/.test(e.target.value));
+
+    if (isFieldValid) {
+      setAdminsError("Email is Valid");
+    } else {
+      setAdminsError("Invalid Email");
+    }
+  };
+
+  const deleteAdmin = (id) => {
+    fetch(`http://localhost:5000/deleteAdmin/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {});
+    alert("Deleted successfully");
   };
 
   return (
@@ -53,14 +92,23 @@ const AddAdmin = () => {
         className="border rounded flex flex-col w-full mt-3 sm:w-2/4 shadow-md p-5 md:w-2/5"
       >
         <input
+          onChange={handleEmailChange}
           id="adminEmail"
-          ref={adminEmail}
           required
           name="adminEmail"
           type="email"
-          className="shadow-md border rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
+          className="shadow border rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
           placeholder="admin@gmail.com"
         />
+        <p
+          className={
+            !isFieldValid || isEmailAdded
+              ? "text-red-400 mt-3"
+              : "text-green-400 mt-3"
+          }
+        >
+          {adminsError}
+        </p>
         {loading ? (
           <CircularProgress className="m-auto mt-3" />
         ) : (
@@ -92,7 +140,10 @@ const AddAdmin = () => {
                     {admin.adminEmail}
                   </td>
                   <td className="flex justify-center gap-4 items-center border p-2">
-                    <DeleteIcon className="text-red-500 cursor-pointer hover:text-green-400" />
+                    <DeleteIcon
+                      onClick={() => deleteAdmin(admin._id)}
+                      className="text-red-500 cursor-pointer hover:text-green-400"
+                    />
                     <EditIcon className="text-blue-500 cursor-pointer hover:text-green-400" />
                   </td>
                 </tr>
