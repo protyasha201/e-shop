@@ -36,9 +36,9 @@ const AddProduct = () => {
       </h1>
       <form
         onSubmit={handleAddProduct}
-        className="sm:grid grid-flow-row grid-cols-2 gap-4"
+        className="sm:grid grid-flow-row grid-cols-2 gap-4 lg:justify-items-center"
       >
-        <label className="mt-4 flex flex-col md:w-2/3">
+        <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Select Category
           </span>
@@ -74,7 +74,7 @@ const AddProduct = () => {
           )}
         </label>
 
-        <label className="mt-4 flex flex-col md:w-2/3">
+        <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Select Sub-category
           </span>
@@ -109,7 +109,7 @@ const AddProduct = () => {
             </div>
           )}
         </label>
-        <label className="mt-4 flex flex-col md:w-2/3">
+        <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Product Name
           </span>
@@ -121,7 +121,7 @@ const AddProduct = () => {
             placeholder="1kg china rice..."
           />
         </label>
-        <label className="mt-4 flex flex-col md:w-2/3">
+        <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Price
           </span>
@@ -133,7 +133,7 @@ const AddProduct = () => {
             placeholder="340..."
           />
         </label>
-        <label className="mt-4 flex flex-col md:w-2/3">
+        <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Description
           </span>
@@ -145,7 +145,7 @@ const AddProduct = () => {
             placeholder="give a short description of the product..."
           />
         </label>
-        <label className="mt-4 flex flex-col md:w-2/3">
+        <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Add Features
           </span>
@@ -173,7 +173,7 @@ const AddProduct = () => {
             ))}
           </div>
         </label>
-        <label className="cursor-pointer mt-4 flex flex-col md:w-2/3">
+        <label className="cursor-pointer mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
             Upload Image
           </span>
