@@ -98,6 +98,9 @@ const ViewUser = () => {
             <p>
               <span className="text-red-400">Postal</span>: {userData.postal}
             </p>
+            <p>
+              <span className="text-red-400">IP</span>: {userData.ipAddress}
+            </p>
             <div className="flex justify-between sm:w-4/5 md:full">
               <p>
                 <span className="text-red-400">Longitude</span>:{" "}
