@@ -41,6 +41,9 @@ const ManageUsers = () => {
     <section className="border-2 rounded p-2 md:w-11/12 m-auto">
       <h1 className="text-green-400 text-xl text-left">Manage Users</h1>
       <div className="p-5 shadow-md border m-auto sm:w-3/4">
+        <h1 className="text-blue-400 font-bold montserrat text-md">
+          All Users({allUsers.length})
+        </h1>
         {allUsers.length === 0 ? (
           <h1 className="text-center">Loading...</h1>
         ) : (

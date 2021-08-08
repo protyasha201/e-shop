@@ -24,8 +24,13 @@ function App() {
     isAdmin: false,
     mobileNumber: null,
     country: "",
-    district: "",
-    house: "",
+    countryCode: "",
+    state: "",
+    city: "",
+    postal: "",
+    ipAddress: "",
+    longitude: "",
+    latitude: "",
   });
 
   useEffect(() => {

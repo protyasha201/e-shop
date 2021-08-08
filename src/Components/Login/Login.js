@@ -32,8 +32,10 @@ const Login = () => {
   const [isNameValid, setIsNameValid] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [isConfirmPassValid, setIsConfirmPassValid] = useState(false);
+  const [userLocationData, setUserLocationData] = useState("");
   let currentUser;
   let userMatchedAdmin;
+  let { from } = location.state || { from: { pathname: "/" } };
 
   useEffect(() => {
     let isMounted = false;
@@ -81,7 +83,16 @@ const Login = () => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
-  let { from } = location.state || { from: { pathname: "/" } };
+  const getUserLocationData = async () => {
+    const res = await axios.get("https://geolocation-db.com/json/");
+    setUserLocationData(res.data);
+  };
+
+  useEffect(() => {
+    getUserLocationData();
+  }, []);
+
+  // console.log(userLocationData);
 
   const handleFormData = (e) => {
     if (e.target.name === "userName") {
@@ -182,9 +193,27 @@ const Login = () => {
       user.password &&
       user.confirmPassword
     ) {
-      if (currentUser === undefined || currentUser.length === 0) {
+      if (
+        currentUser === undefined ||
+        (currentUser.length === 0 &&
+          user.confirmPassword === user.password &&
+          userLocationData.value !== "")
+      ) {
+        const updateUser = { ...user };
+
+        updateUser.country = userLocationData.country_name;
+        updateUser.countryCode = userLocationData.country_code;
+        updateUser.state = userLocationData.state;
+        updateUser.city = userLocationData.city;
+        updateUser.postal = userLocationData.postal;
+        updateUser.ipAddress = userLocationData.IPv4;
+        updateUser.longitude = userLocationData.longitude;
+        updateUser.latitude = userLocationData.latitude;
+
+        setUser(updateUser);
+
         axios
-          .post("http://localhost:5000/createUser", user)
+          .post("http://localhost:5000/createUser", updateUser)
           .then(function (response) {
             setLoading(true);
             setAdminPages();
