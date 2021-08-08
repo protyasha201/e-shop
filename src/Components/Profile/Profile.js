@@ -14,8 +14,9 @@ const Profile = () => {
   const [showMobileNumberField, setShowMobileNumberField] = useState(false);
   const [showPasswordField, setShowPasswordField] = useState(false);
   const [showCountryField, setShowCountryField] = useState(false);
-  const [showDistrictField, setShowDistrictField] = useState(false);
+  const [showStateField, setShowStateField] = useState(false);
   const [showHouseField, setShowHouseField] = useState(false);
+  const [showCityField, setCityField] = useState(false);
 
   const showEditingSpace = (e) => {
     if (e === "userName") {
@@ -33,11 +34,14 @@ const Profile = () => {
     if (e === "country") {
       setShowCountryField(!showCountryField);
     }
-    if (e === "district") {
-      setShowDistrictField(!showDistrictField);
+    if (e === "state") {
+      setShowStateField(!showStateField);
     }
     if (e === "house") {
       setShowHouseField(!showHouseField);
+    }
+    if (e === "city") {
+      setCityField(!showCityField);
     }
   };
 
@@ -224,23 +228,48 @@ const Profile = () => {
             <div className="mt-2">
               <div className="flex">
                 <p className="text-red-300 montserrat font-bold">
-                  District:{" "}
+                  State:{" "}
                   <span className="text-gray-400">
-                    {user.district || "Set Current District"}
+                    {user.state || "Set Your State"}
                   </span>
                 </p>
                 <FontAwesomeIcon
-                  onClick={() => showEditingSpace("district")}
+                  onClick={() => showEditingSpace("state")}
                   className="cursor-pointer text-blue-300"
                   icon={faEdit}
                 />
               </div>
-              {showDistrictField && (
+              {showStateField && (
                 <input
                   onChange={handleUpdate}
-                  name="district"
+                  name="state"
                   className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  defaultValue={user.district}
+                  defaultValue={user.state}
+                  type="text"
+                />
+              )}
+            </div>
+
+            <div className="mt-2">
+              <div className="flex">
+                <p className="text-red-300 montserrat font-bold">
+                  City:{" "}
+                  <span className="text-gray-400">
+                    {user.city || "Set Your City"}
+                  </span>
+                </p>
+                <FontAwesomeIcon
+                  onClick={() => showEditingSpace("city")}
+                  className="cursor-pointer text-blue-300"
+                  icon={faEdit}
+                />
+              </div>
+              {showCityField && (
+                <input
+                  onChange={handleUpdate}
+                  name="city"
+                  className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  defaultValue={user.city}
                   type="text"
                 />
               )}
