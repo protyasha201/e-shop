@@ -87,7 +87,7 @@ const AddAdmin = () => {
 
   const showWarning = () => {
     alert(
-      "You are given accessed as a visitor admin. So,you can't perform any change in actions"
+      "You are given access as a visitor admin. So,you can't perform any change in actions"
     );
   };
 
