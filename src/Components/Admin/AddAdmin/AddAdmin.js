@@ -5,8 +5,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { useContext } from "react";
+import { UserContext } from "../../../App";
 
 const AddAdmin = () => {
+  const [user] = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [adminsError, setAdminsError] = useState("");
@@ -82,6 +85,12 @@ const AddAdmin = () => {
     alert("Deleted successfully");
   };
 
+  const showWarning = () => {
+    alert(
+      "You are given accessed as a visitor admin. So,you can't perform any change in actions"
+    );
+  };
+
   return (
     <section className="border-2 rounded p-2 md:w-11/12 m-auto">
       <h1 className="text-green-400 text-xl text-left">
@@ -141,9 +150,14 @@ const AddAdmin = () => {
                   </td>
                   <td className="flex justify-center gap-4 items-center border p-2">
                     <DeleteIcon
-                      onClick={() => deleteAdmin(admin._id)}
+                      onClick={
+                        user.isAdmin
+                          ? () => deleteAdmin(admin._id)
+                          : () => showWarning()
+                      }
                       className="text-red-500 cursor-pointer hover:text-green-400"
                     />
+
                     <EditIcon className="text-blue-500 cursor-pointer hover:text-green-400" />
                   </td>
                 </tr>

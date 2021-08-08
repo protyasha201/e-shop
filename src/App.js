@@ -11,6 +11,7 @@ import { createContext } from "react";
 import { useState } from "react";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import { useEffect } from "react";
+import ViewUser from "./Components/Admin/ViewUser/ViewUser";
 export const UserContext = createContext([]);
 
 function App() {
@@ -55,6 +56,9 @@ function App() {
           </PrivateRoute>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/user/:id">
+            <ViewUser />
           </Route>
         </Switch>
       </Router>
