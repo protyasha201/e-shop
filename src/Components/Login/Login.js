@@ -36,15 +36,33 @@ const Login = () => {
   let userMatchedAdmin;
 
   useEffect(() => {
+    let isMounted = false;
     fetch("http://localhost:5000/users")
       .then((res) => res.json())
-      .then((result) => setAllUsers(result));
+      .then((result) => {
+        if (!isMounted) {
+          setAllUsers(result);
+        }
+      });
+
+    return () => {
+      isMounted = true;
+    };
   }, []);
 
   useEffect(() => {
+    let isMounted = false;
     fetch(`http://localhost:5000/admins`)
       .then((res) => res.json())
-      .then((result) => setAdmins(result));
+      .then((result) => {
+        if (!isMounted) {
+          setAdmins(result);
+        }
+      });
+
+    return () => {
+      isMounted = true;
+    };
   }, []);
 
   if (allUsers.length > 0) {

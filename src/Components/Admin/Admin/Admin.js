@@ -89,8 +89,8 @@ function Admin(props) {
   ];
 
   useEffect(() => {
-    let unmounted = false;
-    if (!unmounted) {
+    let isisUnmounted = false;
+    if (!isisUnmounted) {
       const updateCurrentPage = JSON.parse(localStorage.getItem("currentPage"));
       const updateCurrentPageTitle = JSON.parse(
         localStorage.getItem("currentPageTitle")
@@ -99,13 +99,13 @@ function Admin(props) {
       setCurrentPageTitle(updateCurrentPageTitle);
     }
     return () => {
-      unmounted = true;
+      isisUnmounted = true;
     };
   }, []);
 
   useEffect(() => {
-    let unmounted = false;
-    if (!unmounted) {
+    let isUnmounted = false;
+    if (!isUnmounted) {
       localStorage.setItem("currentPage", JSON.stringify(currentPage));
       localStorage.setItem(
         "currentPageTitle",
@@ -113,7 +113,7 @@ function Admin(props) {
       );
     }
     return () => {
-      unmounted = true;
+      isUnmounted = true;
     };
   });
 

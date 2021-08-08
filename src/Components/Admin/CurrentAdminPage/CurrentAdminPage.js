@@ -30,8 +30,6 @@ const CurrentAdminPage = (props) => {
     return <Reports />;
   } else if (currentPage === 8) {
     return <Statistics />;
-  } else {
-    return;
   }
 };
 
