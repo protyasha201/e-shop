@@ -28,6 +28,7 @@ function App() {
     state: "",
     city: "",
     postal: "",
+    house: "",
     ipAddress: "",
     longitude: "",
     latitude: "",

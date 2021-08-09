@@ -45,7 +45,31 @@ const Profile = () => {
     }
   };
 
-  const handleUpdate = (e) => {};
+  const handleUpdate = (e) => {
+    const updateUser = { ...user };
+    updateUser[e.target.name] = e.target.value;
+    setUser(updateUser);
+  };
+
+  const saveUpdate = () => {
+    axios
+      .patch(`http://localhost:5000/updateUser`, user)
+      .then(function (response) {
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Updated Successfully");
+        setShowUserNameField(false);
+        setShowEmailField(false);
+        setShowMobileNumberField(false);
+        setShowPasswordField(false);
+        setShowCountryField(false);
+        setShowStateField(false);
+        setCityField(false);
+        setShowHouseField(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const uploadProfileImage = (e) => {
     const imageData = new FormData();
@@ -57,6 +81,7 @@ const Profile = () => {
       .then(function (response) {
         const updateUser = { ...user };
         updateUser.photoUrl = response.data.data.display_url;
+        localStorage.setItem("user", JSON.stringify(updateUser));
         setUser(updateUser);
       })
       .catch(function (error) {
@@ -125,7 +150,9 @@ const Profile = () => {
             Your Profile Information
           </h1>
           <hr></hr>
-
+          <p className="text-red-300 montserrat font-bold">
+            IP: <span className="text-gray-400">{user.ipAddress}</span>
+          </p>
           <div className="mt-2">
             <div className="flex">
               <p className="text-red-300 montserrat font-bold">
@@ -186,12 +213,23 @@ const Profile = () => {
               />
             </div>
             {showPasswordField && (
-              <input
-                onChange={handleUpdate}
-                name="password"
-                className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                type="password"
-              />
+              <div>
+                <input
+                  onChange={handleUpdate}
+                  name="password"
+                  placeholder="change password"
+                  className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  type="password"
+                />
+                <p className="text-green-400 mt-2">Confirm Password</p>
+                <input
+                  onChange={handleUpdate}
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  type="password"
+                />
+              </div>
             )}
           </div>
 
@@ -300,7 +338,10 @@ const Profile = () => {
               )}
             </div>
           </div>
-          <button className="bg-green-300 text-white montserrat p-2 font-bold rounded  mt-2 float-right">
+          <button
+            onClick={saveUpdate}
+            className="bg-green-300 text-white montserrat p-2 font-bold rounded  mt-2 float-right"
+          >
             Save Changes
           </button>
         </div>
