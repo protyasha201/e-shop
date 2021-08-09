@@ -17,6 +17,11 @@ const Profile = () => {
   const [showStateField, setShowStateField] = useState(false);
   const [showHouseField, setShowHouseField] = useState(false);
   const [showCityField, setCityField] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [errors, setErrors] = useState({
+    passwordError: "",
+    confirmPassError: "",
+  });
 
   const showEditingSpace = (e) => {
     if (e === "userName") {
@@ -46,6 +51,19 @@ const Profile = () => {
   };
 
   const handleUpdate = (e) => {
+    if (e.target.name === "confirmPassword") {
+      if (e.target.value === user.password) {
+        const updateError = { ...errors };
+        updateError.confirmPassError = "Password matched";
+        setErrors(updateError);
+        setIsPasswordValid(true);
+      } else {
+        const updateError = { ...errors };
+        updateError.confirmPassError = "Password didn't match";
+        setErrors(updateError);
+        setIsPasswordValid(false);
+      }
+    }
     const updateUser = { ...user };
     updateUser[e.target.name] = e.target.value;
     setUser(updateUser);
@@ -229,6 +247,13 @@ const Profile = () => {
                   className="w-full shadow p-1 border rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   type="password"
                 />
+                <p
+                  className={
+                    isPasswordValid ? "text-green-400" : "text-red-400"
+                  }
+                >
+                  {errors.confirmPassError}
+                </p>
               </div>
             )}
           </div>
