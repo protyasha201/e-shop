@@ -56,9 +56,17 @@ const ViewUser = () => {
       ) : (
         <div className="p-3 flex flex-col sm:flex-row justify-between items-center md:w-4/5 md:m-auto border lg:w-3/5">
           <div className="w-1/2 flex flex-col items-center">
-            <div className="rounded-full p-5 border">
+            <div
+              className={
+                userData.photoUrl ? "w-1/2" : "rounded-full p-5 border"
+              }
+            >
               {userData.photoUrl ? (
-                <img alt={userData.userName} src={userData.photoUrl} />
+                <img
+                  className="w-full h-full rounded"
+                  alt={userData.userName}
+                  src={userData.photoUrl}
+                />
               ) : (
                 <FontAwesomeIcon
                   className="w-full h-full text-5xl font-bold text-blue-300"
