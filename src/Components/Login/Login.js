@@ -67,13 +67,13 @@ const Login = () => {
     };
   }, []);
 
-  if (allUsers.length > 0) {
+  if (allUsers.length > 0 && user.email) {
     currentUser = allUsers.filter(
       (registeredUser) => user.email === registeredUser.email
     );
   }
 
-  if (admins.length > 0) {
+  if (admins.length > 0 && user.email) {
     userMatchedAdmin = admins.filter(
       (admin) => user.email === admin.adminEmail
     );
@@ -91,8 +91,6 @@ const Login = () => {
   useEffect(() => {
     getUserLocationData();
   }, []);
-
-  // console.log(userLocationData);
 
   const handleFormData = (e) => {
     if (e.target.name === "userName") {
@@ -264,12 +262,6 @@ const Login = () => {
             history.push(from);
           }, 3000);
         }
-        // setAdminPages();
-        // setLoading(true);
-        // setTimeout(() => {
-        //   getUserToken();
-        //   history.push(from);
-        // }, 3000);
       } else if (
         currentUser.length > 0 &&
         currentUser.password !== user.password
