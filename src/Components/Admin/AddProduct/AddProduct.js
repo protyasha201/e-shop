@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { createRef } from "react";
 import { useState } from "react";
@@ -7,17 +8,30 @@ const AddProduct = () => {
   const [addSubCategory, setAddSubCategory] = useState(false);
   const [features, setFeatures] = useState([]);
   const [featureError, setFeatureError] = useState("");
+  const [isImageUploaded, setIsImageUploaded] = useState("");
+
   let textFeature = createRef();
+  const [product, setProduct] = useState({
+    category: "",
+    subCategory: "",
+    productName: "",
+    productPrice: "",
+    description: "",
+    features: [],
+    productImage: "",
+  });
 
   const addFeature = () => {
     const addedFeature = textFeature.current.value;
     const findFeature = features.filter((feature) => addedFeature === feature);
-    const addFeatureValue = document.getElementById("addFeature");
-
+    const addFeatureValue = document.getElementById("features");
     if (findFeature.length === 0 && addedFeature !== "") {
       setFeatureError("");
       addFeatureValue.value = "";
       setFeatures((feature) => [...feature, addedFeature]);
+      const updateProduct = { ...product };
+      updateProduct.features.push(addedFeature);
+      setProduct(updateProduct);
     } else if (addedFeature === "") {
       setFeatureError("Please add a feature First");
     } else {
@@ -25,17 +39,60 @@ const AddProduct = () => {
     }
   };
 
-  const handleAddProduct = (e) => {
-    e.preventDefault();
-    alert("product added");
+  const handleUploadProductImage = (e) => {
+    setIsImageUploaded(false);
+    const imageData = new FormData();
+    imageData.set("key", "b07e1e0b5c689a98391f6a4377e0f41a");
+    imageData.append("image", e.target.files[0]);
+
+    axios
+      .post("https://api.imgbb.com/1/upload", imageData)
+      .then(function (response) {
+        setIsImageUploaded(true);
+        const updateProduct = { ...product };
+        updateProduct.productImage = response.data.data.display_url;
+        setProduct(updateProduct);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
+
+  const handleProduct = (e) => {
+    const updateProduct = { ...product };
+    updateProduct[e.target.name] = e.target.value;
+    setProduct(updateProduct);
+  };
+
+  const addProduct = (e) => {
+    e.preventDefault();
+    setFeatures([]);
+    setIsImageUploaded("");
+    document.getElementById("category").value = "";
+    document.getElementById("subCategory").value = "";
+    document.getElementById("productName").value = "";
+    document.getElementById("productPrice").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("features").value = "";
+    document.getElementById("productImage").value = "";
+
+    axios
+      .post("http://localhost:5000/addProduct", product)
+      .then(function (response) {
+        alert("Product added successfully");
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
   return (
     <section className="border-2 rounded p-2 md:w-11/12 m-auto">
       <h1 className="text-green-400 text-xl roboto text-left">
         Add New Product
       </h1>
       <form
-        onSubmit={handleAddProduct}
+        onSubmit={addProduct}
         className="sm:grid grid-flow-row grid-cols-2 gap-4 lg:justify-items-center"
       >
         <label className="mt-4 flex flex-col lg:w-4/5">
@@ -59,6 +116,8 @@ const AddProduct = () => {
           {addCategory && (
             <div className="flex flex-col shadow p-3 rounded border">
               <input
+                id="category"
+                onBlur={handleProduct}
                 required
                 name="category"
                 type="text"
@@ -95,8 +154,10 @@ const AddProduct = () => {
           {addSubCategory && (
             <div className="flex flex-col shadow p-3 rounded border">
               <input
+                onBlur={handleProduct}
                 required
-                name="category"
+                id="subCategory"
+                name="subCategory"
                 type="text"
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="sub-category name..."
@@ -114,7 +175,9 @@ const AddProduct = () => {
             Product Name
           </span>
           <input
+            onBlur={handleProduct}
             required
+            id="productName"
             name="productName"
             type="text"
             className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
@@ -126,7 +189,9 @@ const AddProduct = () => {
             Price
           </span>
           <input
+            onBlur={handleProduct}
             required
+            id="productPrice"
             name="productPrice"
             type="number"
             className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
@@ -138,7 +203,9 @@ const AddProduct = () => {
             Description
           </span>
           <textarea
+            onBlur={handleProduct}
             required
+            id="description"
             name="description"
             type="text"
             className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1 h-40"
@@ -151,8 +218,7 @@ const AddProduct = () => {
           </span>
           <div className="flex justify-center items-between shadow p-2 rounded border gap-2">
             <input
-              required
-              id="addFeature"
+              id="features"
               ref={textFeature}
               name="features"
               type="text"
@@ -178,11 +244,26 @@ const AddProduct = () => {
             Upload Image
           </span>
           <input
+            onChange={handleUploadProductImage}
             required
+            id="productImage"
             name="productImage"
             type="file"
             className="shadow-md border rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1 cursor-pointer hover:bg-blue-300"
           />
+          {isImageUploaded !== "" && (
+            <div>
+              {isImageUploaded ? (
+                <p className="mt-3 text-gray-500">
+                  Image Uploaded Successfully
+                </p>
+              ) : (
+                <p className="mt-3 text-gray-500">
+                  Let the image upload before adding the product
+                </p>
+              )}
+            </div>
+          )}
         </label>
         <input
           type="submit"
