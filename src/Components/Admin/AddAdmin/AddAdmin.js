@@ -7,6 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { useContext } from "react";
 import { UserContext } from "../../../App";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 const AddAdmin = () => {
   const [user] = useContext(UserContext);
@@ -14,10 +15,10 @@ const AddAdmin = () => {
   const [admins, setAdmins] = useState([]);
   const [adminsError, setAdminsError] = useState("");
   const [isFieldValid, setIsFiledValid] = useState(false);
+  const [showEditingField, setShowEditingField] = useState(false);
   const adminEmailInputField = document.getElementById("adminEmail");
   let adminMatched;
   let [isEmailAdded, setIsEmailAdded] = useState(false);
-
   const loadAdmins = () => {
     fetch(`http://localhost:5000/admins`)
       .then((res) => res.json())
@@ -157,8 +158,17 @@ const AddAdmin = () => {
                       }
                       className="text-red-500 cursor-pointer hover:text-green-400"
                     />
-
-                    <EditIcon className="text-blue-500 cursor-pointer hover:text-green-400" />
+                    {showEditingField ? (
+                      <CancelIcon
+                        onClick={() => setShowEditingField(!showEditingField)}
+                        className="text-red-500 cursor-pointer hover:text-green-400"
+                      />
+                    ) : (
+                      <EditIcon
+                        onClick={() => setShowEditingField(!showEditingField)}
+                        className="text-blue-500 cursor-pointer hover:text-green-400"
+                      />
+                    )}
                   </td>
                 </tr>
               ))}
