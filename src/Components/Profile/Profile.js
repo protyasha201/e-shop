@@ -54,7 +54,11 @@ const Profile = () => {
     if (e.target.name === "confirmPassword") {
       if (e.target.value === user.password) {
         const updateError = { ...errors };
+        const updateUser = { ...user };
+
+        updateUser[e.target.name] = e.target.value;
         updateError.confirmPassError = "Password matched";
+        setUser(updateUser);
         setErrors(updateError);
         setIsPasswordValid(true);
       } else {

@@ -67,13 +67,13 @@ const Login = () => {
     };
   }, []);
 
-  if (allUsers.length > 0 && user.email) {
+  if (allUsers.length > 0 && user !== null) {
     currentUser = allUsers.filter(
       (registeredUser) => user.email === registeredUser.email
     );
   }
 
-  if (admins.length > 0 && user.email) {
+  if (admins.length > 0 && user !== null) {
     userMatchedAdmin = admins.filter(
       (admin) => user.email === admin.adminEmail
     );
