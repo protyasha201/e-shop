@@ -1,6 +1,5 @@
 import axios from "axios";
 import React from "react";
-import { useEffect } from "react";
 import { createRef } from "react";
 import { useState } from "react";
 
@@ -28,19 +27,45 @@ const AddProduct = () => {
     allProducts: [],
   });
 
+  if (allProductsByCategory.length > 0) {
+    productExist = allProductsByCategory.filter(
+      (products) =>
+        products.category.toUpperCase() ===
+        productsByCategory.category.toUpperCase()
+    );
+  }
+
   const postProductByCategory = (value) => {
     const updateProductByCategory = { ...productsByCategory };
     updateProductByCategory.allProducts.push(value);
     setProductsByCategory(updateProductByCategory);
-    axios
-      .post("http://localhost:5000/addProductWithCategory", productsByCategory)
-      .then(function (response) {
-        setProductsByCategory({
-          category: "",
-          allProducts: [],
+
+    if (productExist === undefined || productExist.length === 0) {
+      axios
+        .post(
+          "http://localhost:5000/addProductWithCategory",
+          productsByCategory
+        )
+        .then(function (response) {
+          setProductsByCategory({
+            category: "",
+            allProducts: [],
+          });
+        })
+        .catch(function (err) {});
+    } else if (productExist.length > 0) {
+      axios
+        .patch(`http://localhost:5000/updateProductsByCategory`, value)
+        .then(function (response) {
+          setProductsByCategory({
+            category: "",
+            allProducts: [],
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-      })
-      .catch(function (err) {});
+    }
   };
 
   const loadAllProductsData = () => {
@@ -48,7 +73,6 @@ const AddProduct = () => {
       .then((res) => res.json())
       .then((result) => {
         if (result.length > 0) {
-          console.log(result[result.length - 1]);
           postProductByCategory(result[result.length - 1]);
         }
       });
@@ -64,15 +88,6 @@ const AddProduct = () => {
       });
   };
 
-  if (allProductsByCategory.length > 0) {
-    productExist = allProductsByCategory.filter(
-      (products) =>
-        products.category.toUpperCase() ===
-        productsByCategory.category.toUpperCase()
-    );
-  }
-
-  console.log(productExist);
   const addFeature = () => {
     const addedFeature = textFeature.current.value;
     const findFeature = features.filter((feature) => addedFeature === feature);
@@ -256,7 +271,7 @@ const AddProduct = () => {
             required
             id="productPrice"
             name="productPrice"
-            type="number"
+            type="text"
             className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
             placeholder="340..."
           />
