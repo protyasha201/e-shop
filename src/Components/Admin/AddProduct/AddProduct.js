@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { createRef } from "react";
 import { useState } from "react";
 
@@ -9,8 +10,10 @@ const AddProduct = () => {
   const [features, setFeatures] = useState([]);
   const [featureError, setFeatureError] = useState("");
   const [isImageUploaded, setIsImageUploaded] = useState("");
-
+  const [allProductsByCategory, setAllProductsByCategory] = useState([]);
   let textFeature = createRef();
+  let productExist;
+
   const [product, setProduct] = useState({
     category: "",
     subCategory: "",
@@ -20,7 +23,56 @@ const AddProduct = () => {
     features: [],
     productImage: "",
   });
+  const [productsByCategory, setProductsByCategory] = useState({
+    category: "",
+    allProducts: [],
+  });
 
+  const postProductByCategory = (value) => {
+    const updateProductByCategory = { ...productsByCategory };
+    updateProductByCategory.allProducts.push(value);
+    setProductsByCategory(updateProductByCategory);
+    axios
+      .post("http://localhost:5000/addProductWithCategory", productsByCategory)
+      .then(function (response) {
+        setProductsByCategory({
+          category: "",
+          allProducts: [],
+        });
+      })
+      .catch(function (err) {});
+  };
+
+  const loadAllProductsData = () => {
+    fetch(`http://localhost:5000/allProducts`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.length > 0) {
+          console.log(result[result.length - 1]);
+          postProductByCategory(result[result.length - 1]);
+        }
+      });
+  };
+
+  const loadAllProductsByCategory = () => {
+    fetch(`http://localhost:5000/allProductsByCategory`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.length > 0) {
+          setAllProductsByCategory(result);
+        }
+      });
+  };
+
+  if (allProductsByCategory.length > 0) {
+    productExist = allProductsByCategory.filter(
+      (products) =>
+        products.category.toUpperCase() ===
+        productsByCategory.category.toUpperCase()
+    );
+  }
+
+  console.log(productExist);
   const addFeature = () => {
     const addedFeature = textFeature.current.value;
     const findFeature = features.filter((feature) => addedFeature === feature);
@@ -28,10 +80,12 @@ const AddProduct = () => {
     if (findFeature.length === 0 && addedFeature !== "") {
       setFeatureError("");
       addFeatureValue.value = "";
-      setFeatures((feature) => [...feature, addedFeature]);
       const updateProduct = { ...product };
-      updateProduct.features.push(addedFeature);
-      setProduct(updateProduct);
+      setFeatures((feature) => [...feature, addedFeature]);
+      if (updateProduct.features !== undefined) {
+        updateProduct.features.push(addedFeature);
+        setProduct(updateProduct);
+      }
     } else if (addedFeature === "") {
       setFeatureError("Please add a feature First");
     } else {
@@ -60,29 +114,48 @@ const AddProduct = () => {
 
   const handleProduct = (e) => {
     const updateProduct = { ...product };
+    const updateProductByCategory = { ...productsByCategory };
+
+    if (e.target.name === "category") {
+      loadAllProductsByCategory();
+      updateProductByCategory.category = e.target.value;
+      setProductsByCategory(updateProductByCategory);
+    }
     updateProduct[e.target.name] = e.target.value;
     setProduct(updateProduct);
+    setProductsByCategory(updateProductByCategory);
   };
 
   const addProduct = (e) => {
     e.preventDefault();
-    setFeatures([]);
-    setIsImageUploaded("");
-    document.getElementById("category").value = "";
-    document.getElementById("subCategory").value = "";
-    document.getElementById("productName").value = "";
-    document.getElementById("productPrice").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("features").value = "";
-    document.getElementById("productImage").value = "";
-
     axios
       .post("http://localhost:5000/addProduct", product)
       .then(function (response) {
+        loadAllProductsData();
         alert("Product added successfully");
+
+        setProduct({
+          category: "",
+          subCategory: "",
+          productName: "",
+          productPrice: "",
+          description: "",
+          features: [],
+          productImage: "",
+        });
+
+        setFeatures([]);
+        setIsImageUploaded("");
+        document.getElementById("category").value = "";
+        document.getElementById("subCategory").value = "";
+        document.getElementById("productName").value = "";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("features").value = "";
+        document.getElementById("productImage").value = "";
       })
       .catch(function (err) {
-        console.log(err);
+        alert("Try again, product was not added");
       });
   };
 
@@ -124,11 +197,6 @@ const AddProduct = () => {
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="category name..."
               />
-              <input
-                type="submit"
-                className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
-                value="Add Category"
-              />
             </div>
           )}
         </label>
@@ -161,11 +229,6 @@ const AddProduct = () => {
                 type="text"
                 className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
                 placeholder="sub-category name..."
-              />
-              <input
-                type="submit"
-                className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
-                value="Add sub-category"
               />
             </div>
           )}
