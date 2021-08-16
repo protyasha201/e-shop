@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,11 @@ const Products = () => {
         }
       });
   }, []);
+  let history = useHistory();
+
+  const goToProductDetails = (id) => {
+    history.push(`productDetails/${id}`);
+  };
 
   return (
     <section>
@@ -41,7 +47,10 @@ const Products = () => {
                       alt={product.productName}
                     />
                   </div>
-                  <p className="text-sm font-thin text-gray-600 condensed mt-2 underline cursor-pointer hover:text-blue-400">
+                  <p
+                    onClick={() => goToProductDetails(product._id)}
+                    className="text-sm font-thin text-gray-600 condensed mt-2 underline cursor-pointer hover:text-blue-400"
+                  >
                     {product.description.slice(0, 90)}...
                   </p>
                   <div className="mt-3 justify-between flex flex-col">
