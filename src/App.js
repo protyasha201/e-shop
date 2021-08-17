@@ -4,7 +4,6 @@ import Home from "./Components/Home/Home";
 import Orders from "./Components/Orders/Orders";
 import Profile from "./Components/Profile/Profile";
 import Cart from "./Components/Cart/Cart";
-import Products from "./Components/Products/Products";
 import Login from "./Components/Login/Login";
 import Admin from "./Components/Admin/Admin/Admin";
 import { createContext } from "react";
@@ -57,9 +56,6 @@ function App() {
           </PrivateRoute>
           <PrivateRoute path="/cart">
             <Cart />
-          </PrivateRoute>
-          <PrivateRoute path="/products">
-            <Products />
           </PrivateRoute>
           <Route path="/login">
             <Login />

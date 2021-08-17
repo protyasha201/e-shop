@@ -11,7 +11,6 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <h1 className="text-red-400">This is {user.userName}</h1>
       <Products />
     </div>
   );
