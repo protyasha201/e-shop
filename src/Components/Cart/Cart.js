@@ -103,7 +103,9 @@ const Cart = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-red-400 text-xl">Loading...</p>
+            <p className="text-center text-red-400 text-xl">
+              Empty Cart...
+            </p>
           )}
         </div>
         <div className="w-full md:w-1/2 p-4 mb-3">

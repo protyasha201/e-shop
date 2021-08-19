@@ -74,23 +74,25 @@ const Profile = () => {
   };
 
   const saveUpdate = () => {
-    axios
-      .patch(`http://localhost:5000/updateUser`, user)
-      .then(function (response) {
-        localStorage.setItem("user", JSON.stringify(user));
-        alert("Updated Successfully");
-        setShowUserNameField(false);
-        setShowEmailField(false);
-        setShowMobileNumberField(false);
-        setShowPasswordField(false);
-        setShowCountryField(false);
-        setShowStateField(false);
-        setCityField(false);
-        setShowHouseField(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (isPasswordValid || user.password === user.confirmPassword) {
+      axios
+        .patch(`http://localhost:5000/updateUser`, user)
+        .then(function (response) {
+          localStorage.setItem("user", JSON.stringify(user));
+          alert("Updated Successfully");
+          setShowUserNameField(false);
+          setShowEmailField(false);
+          setShowMobileNumberField(false);
+          setShowPasswordField(false);
+          setShowCountryField(false);
+          setShowStateField(false);
+          setCityField(false);
+          setShowHouseField(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const uploadProfileImage = (e) => {
