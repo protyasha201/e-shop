@@ -1,23 +1,61 @@
+import axios from "axios";
 import React from "react";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../../../App";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [user] = useContext(UserContext);
+
   useEffect(() => {
+    let isMounted = true;
     fetch(`http://localhost:5000/allProductsByCategory`)
       .then((res) => res.json())
       .then((result) => {
-        if (result.length > 0) {
+        if (isMounted) {
           setProducts(result);
         }
       });
+    return () => {
+      isMounted = false;
+    };
   }, []);
   let history = useHistory();
 
   const goToProductDetails = (id) => {
     history.push(`productDetails/${id}`);
+  };
+
+  const addToCart = (product) => {
+    const addToCartProduct = {
+      product: product,
+      userName: user.userName,
+      email: user.email,
+      photoUrl: user.photoUrl,
+      password: user.password,
+      confirmPassword: user.confirmPassword,
+      isAdmin: user.isAdmin,
+      mobileNumber: user.mobileNumber,
+      country: user.country,
+      countryCode: user.countryCode,
+      state: user.state,
+      city: user.city,
+      postal: user.postal,
+      house: user.house,
+      ipAddress: user.ipAddress,
+      longitude: user.longitude,
+      latitude: user.latitude,
+    };
+
+    axios
+      .post("http://localhost:5000/addToCart", addToCartProduct)
+      .then(function (response) {
+        alert("Added to cart successfully");
+      })
+      .catch(function (err) {});
   };
 
   return (
@@ -59,7 +97,10 @@ const Products = () => {
                       {product.productPrice}
                     </p>
                     <div className="flex flex-col gap-2 mt-2">
-                      <button className="bg-blue-400 p-2 rounded text-white condensed hover:bg-blue-500">
+                      <button
+                        onClick={() => addToCart(product)}
+                        className="bg-blue-400 p-2 rounded text-white condensed hover:bg-blue-500"
+                      >
                         Add To Cart
                       </button>
                       <button className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500">

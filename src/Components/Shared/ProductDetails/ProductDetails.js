@@ -2,10 +2,14 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "../../../App";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [productDetails, setProductDetails] = useState([]);
+  const [user] = useContext(UserContext);
   let history = useHistory();
 
   useEffect(() => {
@@ -18,6 +22,35 @@ const ProductDetails = () => {
 
   const goToHomePage = () => {
     history.push("/");
+  };
+
+  const addToCart = () => {
+    const addToCartProduct = {
+      product: productDetails,
+      userName: user.userName,
+      email: user.email,
+      photoUrl: user.photoUrl,
+      password: user.password,
+      confirmPassword: user.confirmPassword,
+      isAdmin: user.isAdmin,
+      mobileNumber: user.mobileNumber,
+      country: user.country,
+      countryCode: user.countryCode,
+      state: user.state,
+      city: user.city,
+      postal: user.postal,
+      house: user.house,
+      ipAddress: user.ipAddress,
+      longitude: user.longitude,
+      latitude: user.latitude,
+    };
+
+    axios
+      .post("http://localhost:5000/addToCart", addToCartProduct)
+      .then(function (response) {
+        alert("Added to cart successfully");
+      })
+      .catch(function (err) {});
   };
 
   return (
@@ -70,7 +103,10 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="flex flex-col gap-2 mt-2">
-              <button className="bg-blue-400 p-2 rounded text-white condensed hover:bg-blue-500 sm:w-3/5 sm:m-auto">
+              <button
+                onClick={addToCart}
+                className="bg-blue-400 p-2 rounded text-white condensed hover:bg-blue-500 sm:w-3/5 sm:m-auto"
+              >
                 Add To Cart
               </button>
               <button className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500 sm:w-3/5 sm:m-auto">

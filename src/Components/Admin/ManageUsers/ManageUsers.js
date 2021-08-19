@@ -10,18 +10,18 @@ const ManageUsers = () => {
   let history = useHistory();
 
   useEffect(() => {
-    let isUnmounted = false;
+    let isMounted = true;
     setInterval(() => {
       fetch(`http://localhost:5000/users`)
         .then((res) => res.json())
         .then((result) => {
-          if (!isUnmounted) {
+          if (isMounted) {
             setAllUsers(result);
           }
         });
     }, 3000);
     return () => {
-      isUnmounted = true;
+      isMounted = false;
     };
   }, []);
 

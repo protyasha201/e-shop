@@ -21,6 +21,7 @@ import AcUnitIcon from "@material-ui/icons/AcUnit";
 import logo from "../../images/others/e-shop-logo.png";
 import { useState } from "react";
 import { UserContext } from "../../App";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -94,6 +95,7 @@ export default function Header() {
   const [categoryEl, setCategoryEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = useContext(UserContext);
+  const [cart, setCart] = useState([]);
   let userNameFirstLetter;
 
   if (user.userName.length > 0) {
@@ -121,6 +123,20 @@ export default function Header() {
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/cart?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted) {
+          setCart(data);
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  });
 
   const handleMenuClose = (event) => {
     if (event.target.getAttribute("name") === "orders") {
@@ -285,7 +301,7 @@ export default function Header() {
       </MenuItem>
       <MenuItem onClick={goToCartPage}>
         <IconButton aria-label="Show Shopping Cart Of User" color="inherit">
-          <Badge badgeContent={0} color="secondary">
+          <Badge badgeContent={cart.length} color="secondary">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -376,7 +392,7 @@ export default function Header() {
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge color="secondary">
+              <Badge badgeContent={cart.length} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

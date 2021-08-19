@@ -26,14 +26,14 @@ const AddAdmin = () => {
   };
 
   useEffect(() => {
-    let isMounted = false;
+    let isMounted = true;
     setInterval(() => {
-      if (!isMounted) {
+      if (isMounted) {
         loadAdmins();
       }
     }, 3000);
     return () => {
-      isMounted = true;
+      isMounted = false;
     };
   }, []);
 
