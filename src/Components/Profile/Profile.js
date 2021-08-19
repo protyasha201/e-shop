@@ -92,6 +92,11 @@ const Profile = () => {
         .catch(function (error) {
           console.log(error);
         });
+    } else {
+      const updateError = { ...errors };
+      updateError.confirmPassError = "Password didn't match";
+      setErrors(updateError);
+      setIsPasswordValid(false);
     }
   };
 
