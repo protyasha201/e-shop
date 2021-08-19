@@ -99,7 +99,7 @@ const AddAdmin = () => {
       </h1>
       <form
         onSubmit={handleAddAdmin}
-        className="border rounded flex flex-col w-full mt-3 sm:w-2/4 shadow-md p-5 md:w-2/5"
+        className="border rounded flex flex-col w-full mt-3 sm:w-2/4 p-5 md:w-2/5"
       >
         <input
           onChange={handleEmailChange}

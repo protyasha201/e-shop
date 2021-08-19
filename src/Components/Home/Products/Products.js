@@ -59,7 +59,7 @@ const Products = () => {
   };
 
   return (
-    <section>
+    <section className="mt-5">
       {products.length > 0 ? (
         products.map((productsByCategory) => (
           <div
