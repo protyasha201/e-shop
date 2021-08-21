@@ -22,7 +22,7 @@ const Offers = () => {
 
   const images = offers.map((eachOffer) => eachOffer.offerImageUrl);
 
-  const [currentOffer, setCurrentOffer] = useState();
+  const [currentOffer, setCurrentOffer] = useState(images[count]);
 
   const changeOfferImage = () => {
     if (count >= images.length) {
@@ -48,11 +48,15 @@ const Offers = () => {
 
   return (
     <section className="w-full h-80 md:w-11/12 md:m-auto md:mt-5 rounded border">
-      <img
-        className="w-full h-full rounded"
-        src={currentOffer}
-        alt={currentOffer}
-      />
+      {currentOffer ? (
+        <img
+          className="w-full h-full rounded"
+          src={currentOffer}
+          alt={currentOffer}
+        />
+      ) : (
+        <h1 className="text-center mt-5 text-xl">Loading...</h1>
+      )}
     </section>
   );
 };

@@ -58,14 +58,13 @@ const Cart = () => {
       .then((result) => {
         loadCartData();
       });
-    alert("Deleted successfully");
   };
 
   return (
     <section>
       <Header />
       <div className="flex flex-col md:flex-row justify-center">
-        <div className="md:w-1/2">
+        <div className="md:w-1/2 p-3">
           <h1 className="text-xl text-blue-500 condensed text-left">
             Cart({cart.length})
           </h1>
@@ -109,7 +108,7 @@ const Cart = () => {
           )}
         </div>
         <div className="w-full md:w-1/2 p-4 mb-3">
-          <div className="border sticky top-2 sm:w-4/5 lg:w-4/5 md:w-full m-auto p-3 rounded">
+          <div className="border sticky top-2 sm:w-4/5 lg:w-3/5 md:w-full m-auto p-3 rounded">
             <h1 className="text-xl text-green-400 condensed">Order Summary</h1>
             <div className="flex justify-between items-center">
               <p className="text-red-400 montserrat font-bold">Subtotal</p>

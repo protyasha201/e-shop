@@ -5,6 +5,7 @@ import { UserContext } from "../../App";
 import Header from "../Header/Header";
 import Products from "./Products/Products";
 import Offers from "./Offers/Offers";
+import Footer from "./Footer/Footer";
 const Home = () => {
   const [user] = useContext(UserContext);
 
@@ -13,6 +14,7 @@ const Home = () => {
       <Header />
       <Offers />
       <Products />
+      <Footer />
     </div>
   );
 };

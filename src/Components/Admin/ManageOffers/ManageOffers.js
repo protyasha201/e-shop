@@ -4,6 +4,7 @@ import { useState } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const ManageOffers = () => {
   const [isImageUploaded, setIsImageUploaded] = useState("");
@@ -11,6 +12,7 @@ const ManageOffers = () => {
     offerImageUrl: "",
   });
   const [allOffers, setAllOffers] = useState([]);
+  let history = useHistory();
 
   const loadAllOffers = () => {
     fetch(`http://localhost:5000/offers`)
@@ -71,9 +73,20 @@ const ManageOffers = () => {
     }
   };
 
-  const deleteOffer = (id) => {};
+  const deleteOffer = (id) => {
+    fetch(`http://localhost:5000/deleteOffer/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        loadAllOffers();
+      });
+    alert("Deleted successfully");
+  };
 
-  const handleViewOffer = (id) => {};
+  const handleViewOffer = (id) => {
+    history.push(`/offerDetails/${id}`);
+  };
 
   return (
     <section className="border-2 rounded p-2 md:w-11/12 m-auto">

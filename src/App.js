@@ -12,6 +12,7 @@ import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import { useEffect } from "react";
 import ViewUser from "./Components/Admin/ViewUser/ViewUser";
 import ProductDetails from "./Components/Shared/ProductDetails/ProductDetails";
+import OfferDetails from "./Components/Admin/ManageOffers/OfferDetails";
 export const UserContext = createContext([]);
 
 function App() {
@@ -65,6 +66,9 @@ function App() {
           </Route>
           <Route path="/productDetails/:id">
             <ProductDetails />
+          </Route>
+          <Route path="/offerDetails/:id">
+            <OfferDetails />
           </Route>
         </Switch>
       </Router>
