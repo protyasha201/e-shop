@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import ViewUser from "./Components/Admin/ViewUser/ViewUser";
 import ProductDetails from "./Components/Shared/ProductDetails/ProductDetails";
 import OfferDetails from "./Components/Admin/ManageOffers/OfferDetails";
+import ViewProduct from "./Components/Admin/ManageProducts/ViewProduct";
+import EditProduct from "./Components/Admin/ManageProducts/EditProduct";
 export const UserContext = createContext([]);
 
 function App() {
@@ -69,6 +71,12 @@ function App() {
           </Route>
           <Route path="/offerDetails/:id">
             <OfferDetails />
+          </Route>
+          <Route path="/viewProduct/:id">
+            <ViewProduct />
+          </Route>
+          <Route path="/editProduct/:id">
+            <EditProduct />
           </Route>
         </Switch>
       </Router>
