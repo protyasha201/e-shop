@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import EditIcon from "@material-ui/icons/Edit";
 
 const ManageProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -76,6 +77,10 @@ const ManageProducts = () => {
     history.push(`/viewProduct/${id}`);
   };
 
+  const goToEditPage = (id) => {
+    history.push(`editProduct/${id}`);
+  };
+
   return (
     <section className="border-2 rounded p-2 md:w-11/12 m-auto">
       <h1 className="text-green-400 text-xl text-left">Manage Products</h1>
@@ -102,11 +107,15 @@ const ManageProducts = () => {
                   <td className="flex justify-center gap-4 items-center p-2 border">
                     <DeleteIcon
                       onClick={() => deleteProduct(eachProduct)}
-                      className="text-red-500 cursor-pointer hover:text-green-400"
+                      className="shadow text-red-500 cursor-pointer hover:text-green-400"
                     />
                     <VisibilityIcon
                       onClick={() => handleViewProduct(eachProduct._id)}
-                      className="text-blue-500 cursor-pointer hover:text-green-400"
+                      className="shadow text-blue-500 cursor-pointer hover:text-green-400"
+                    />
+                    <EditIcon
+                      onClick={() => goToEditPage(eachProduct._id)}
+                      className="shadow text-black-500 cursor-pointer hover:text-green-400"
                     />
                   </td>
                 </tr>

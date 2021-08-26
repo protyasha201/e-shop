@@ -156,17 +156,17 @@ const AddAdmin = () => {
                           ? () => deleteAdmin(admin._id)
                           : () => showWarning()
                       }
-                      className="text-red-500 cursor-pointer hover:text-green-400"
+                      className="shadow text-red-500 cursor-pointer hover:text-green-400"
                     />
                     {showEditingField ? (
                       <CancelIcon
                         onClick={() => setShowEditingField(!showEditingField)}
-                        className="text-red-500 cursor-pointer hover:text-green-400"
+                        className="shadow text-red-500 cursor-pointer hover:text-green-400"
                       />
                     ) : (
                       <EditIcon
                         onClick={() => setShowEditingField(!showEditingField)}
-                        className="text-blue-500 cursor-pointer hover:text-green-400"
+                        className="shadow text-blue-500 cursor-pointer hover:text-green-400"
                       />
                     )}
                   </td>

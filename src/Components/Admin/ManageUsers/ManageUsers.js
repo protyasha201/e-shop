@@ -63,11 +63,11 @@ const ManageUsers = () => {
                   <td className="flex justify-center gap-4 items-center p-2 border">
                     <DeleteIcon
                       onClick={() => deleteUser(eachUser._id)}
-                      className="text-red-500 cursor-pointer hover:text-green-400"
+                      className="shadow text-red-500 cursor-pointer hover:text-green-400"
                     />
                     <VisibilityIcon
                       onClick={() => handleViewUser(eachUser._id)}
-                      className="text-blue-500 cursor-pointer hover:text-green-400"
+                      className="shadow text-blue-500 cursor-pointer hover:text-green-400"
                     />
                   </td>
                 </tr>
