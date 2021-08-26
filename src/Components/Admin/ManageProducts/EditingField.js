@@ -3,8 +3,20 @@ import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Cancel";
 
 const EditingField = (props) => {
-  const { name, data, fieldName, handleDataChange, inputName, setFieldName } =
-    props;
+  const {
+    name,
+    data,
+    fieldName,
+    handleDataChange,
+    inputName,
+    setFieldName,
+    cancelChange,
+  } = props;
+
+  const cancelEdit = () => {
+    cancelChange(true, inputName);
+    setFieldName(!fieldName);
+  };
 
   return (
     <div className="flex mt-2 justify-between">
@@ -17,16 +29,16 @@ const EditingField = (props) => {
             type="text"
             onChange={handleDataChange}
             defaultValue={data}
+            id="inputField"
           />
         ) : (
           data
         )}
-        
       </h3>
       {fieldName ? (
         <CancelIcon
-          className="shadow text-blue-500 rounded cursor-pointer hover:text-red-600 ml-2"
-          onClick={() => setFieldName(!fieldName)}
+          onClick={cancelEdit}
+          className="shadow text-red-500 rounded cursor-pointer ml-2"
         />
       ) : (
         <EditIcon
