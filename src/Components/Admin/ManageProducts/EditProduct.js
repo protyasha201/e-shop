@@ -127,6 +127,34 @@ const EditProduct = () => {
               data={productDetails.description}
               setFieldName={setShowDescriptionField}
             />
+            <div>
+              <span className="text-gray-400 montserrat font-bold">
+                Features:{" "}
+              </span>
+              <div className="flex justify-center items-between shadow p-2 rounded border gap-2">
+                <input
+                  id="features"
+                  name="features"
+                  type="text"
+                  className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-2 w-4/5"
+                  placeholder="features..."
+                />
+                <input
+                  type="submit"
+                  className="bg-blue-400 rounded cursor-pointer text-white font-bold montserrat focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent p-1"
+                  value="Add Feature"
+                />
+              </div>
+              {productDetails.features.map((feature) => (
+                <p
+                  className="mt-2 text-gray-500 montserrat font-bold"
+                  key={feature}
+                >
+                  <span className="text-red-400">#</span>
+                  {feature}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
