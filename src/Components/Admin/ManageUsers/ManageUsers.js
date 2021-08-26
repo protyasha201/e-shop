@@ -11,27 +11,34 @@ const ManageUsers = () => {
 
   useEffect(() => {
     let isMounted = true;
-    setInterval(() => {
-      fetch(`http://localhost:5000/users`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (isMounted) {
-            setAllUsers(result);
-          }
-        });
-    }, 3000);
+    fetch(`http://localhost:5000/users`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setAllUsers(result);
+        }
+      });
     return () => {
       isMounted = false;
     };
   }, []);
+
+  const loadUsers = () => {
+    fetch(`http://localhost:5000/users`)
+      .then((res) => res.json())
+      .then((result) => {
+        setAllUsers(result);
+      });
+  };
 
   const deleteUser = (id) => {
     fetch(`http://localhost:5000/deleteUser/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
-      .then((result) => {});
-    alert("Deleted successfully");
+      .then((result) => {
+        loadUsers();
+      });
   };
 
   const handleViewUser = (id) => {

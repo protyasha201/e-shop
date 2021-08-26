@@ -19,6 +19,7 @@ const AddAdmin = () => {
   const adminEmailInputField = document.getElementById("adminEmail");
   let adminMatched;
   let [isEmailAdded, setIsEmailAdded] = useState(false);
+
   const loadAdmins = () => {
     fetch(`http://localhost:5000/admins`)
       .then((res) => res.json())
@@ -27,11 +28,14 @@ const AddAdmin = () => {
 
   useEffect(() => {
     let isMounted = true;
-    setInterval(() => {
-      if (isMounted) {
-        loadAdmins();
-      }
-    }, 3000);
+    fetch(`http://localhost:5000/admins`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setAdmins(result);
+        }
+      });
+
     return () => {
       isMounted = false;
     };
@@ -54,12 +58,12 @@ const AddAdmin = () => {
       axios
         .post("http://localhost:5000/addAdmin", { adminEmail: adminEmailValue })
         .then(function (response) {
-          adminEmailInputField.value = "";
           setLoading(true);
           setTimeout(() => {
+            adminEmailInputField.value = "";
             setLoading(false);
-            alert("Admin added successfully");
-          }, 3000);
+            loadAdmins();
+          }, 2000);
         })
         .catch(function (error) {
           setAdminsError(error.message);
@@ -82,8 +86,9 @@ const AddAdmin = () => {
       method: "DELETE",
     })
       .then((res) => res.json())
-      .then((result) => {});
-    alert("Deleted successfully");
+      .then((result) => {
+        loadAdmins();
+      });
   };
 
   const showWarning = () => {

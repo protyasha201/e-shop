@@ -14,15 +14,13 @@ const ManageProducts = () => {
 
   useEffect(() => {
     let isMounted = true;
-    setInterval(() => {
-      fetch(`http://localhost:5000/allProducts`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (isMounted) {
-            setAllProducts(result);
-          }
-        });
-    }, 3000);
+    fetch(`http://localhost:5000/allProducts`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setAllProducts(result);
+        }
+      });
     return () => {
       isMounted = false;
     };

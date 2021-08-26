@@ -63,7 +63,6 @@ const ManageOffers = () => {
         .then(function (response) {
           loadAllOffers();
           setIsImageUploaded("");
-          alert("Offer Added Successfully");
         })
         .catch(function (error) {});
     } else {
@@ -81,7 +80,6 @@ const ManageOffers = () => {
       .then((result) => {
         loadAllOffers();
       });
-    alert("Deleted successfully");
   };
 
   const handleViewOffer = (id) => {

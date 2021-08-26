@@ -3,8 +3,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useContext } from "react";
-import { UserContext } from "../../../App";
 
 const ViewProduct = () => {
   const { id } = useParams();
@@ -68,7 +66,7 @@ const ViewProduct = () => {
 
   return (
     <section className="p-3">
-      <div className="flex justify-between md:w-3/4 m-auto">
+      <div className="flex justify-between md:w-3/4 m-auto items-center">
         <h1 className="montserrat text-blue-400 text-xl font-bold">
           Product Details
         </h1>
