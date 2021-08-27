@@ -150,7 +150,9 @@ const EditProduct = () => {
 
     axios
       .patch(`http://localhost:5000/updateProduct2`, productToUpdate)
-      .then(function (response) {})
+      .then(function (response) {
+        loadAllProductsByCategory();
+      })
       .catch(function (error) {
         console.log(error);
       });
