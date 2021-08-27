@@ -162,7 +162,8 @@ const Login = () => {
       if (e.target.value === user.password) {
         isFieldValid = true;
         setIsConfirmPassValid(true);
-        updateErrors.confirmPassError = "Password Matched";
+        updateErrors.confirmPassError =
+          "Password Matched. Remember your password";
       }
       if (e.target.value !== user.password) {
         setIsConfirmPassValid(false);
@@ -277,10 +278,6 @@ const Login = () => {
     localStorage.setItem("currentPageTitle", JSON.stringify("Manage Products"));
   };
 
-  const handleForgotPassword = () => {
-    alert("Email was sent to your email");
-  };
-
   return (
     <section className="h-screen w-full flex flex-col justify-center items-center sm:flex-row p-5">
       <div className="hidden sm:inline-block sm:w-1/2 lg:w-3/4">
@@ -300,7 +297,7 @@ const Login = () => {
                 name="userName"
                 onChange={handleFormData}
                 type="text"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
                 placeholder="John Doe"
               />
               <p className={isNameValid ? "text-green-400" : "text-red-300"}>
@@ -317,7 +314,7 @@ const Login = () => {
               name="email"
               onChange={handleFormData}
               type="email"
-              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
               placeholder="john@gmail.com"
             />
             <p className={isEmailValid ? "text-green-400" : "text-red-300"}>
@@ -333,7 +330,7 @@ const Login = () => {
               name="password"
               onChange={handleFormData}
               type="password"
-              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
               placeholder="password..."
             />
             <p className={isPassValid ? "text-green-400" : "text-red-300"}>
@@ -350,7 +347,7 @@ const Login = () => {
                 name="confirmPassword"
                 onChange={handleFormData}
                 type="password"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
                 placeholder="confirm password..."
               />
               <p
@@ -362,20 +359,12 @@ const Login = () => {
               </p>
             </label>
           )}
-          {!newUser && (
-            <p
-              onClick={handleForgotPassword}
-              className="text-blue-400 cursor-pointer"
-            >
-              Forgot Password?
-            </p>
-          )}
           {loading ? (
             <CircularProgress className="m-auto mt-3" />
           ) : (
             <input
               type="submit"
-              className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+              className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent"
               value={newUser ? "Create an Account" : "Login"}
             />
           )}

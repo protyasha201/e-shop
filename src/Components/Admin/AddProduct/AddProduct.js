@@ -306,7 +306,7 @@ const AddProduct = () => {
             <input
               onClick={addFeature}
               type="submit"
-              className="bg-blue-400 rounded cursor-pointer text-white font-bold montserrat focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent p-1"
+              className="bg-blue-400 rounded cursor-pointer text-white font-bold montserrat focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent p-1"
               value="Add Feature"
             />
           </div>
@@ -345,7 +345,7 @@ const AddProduct = () => {
         </label>
         <input
           type="submit"
-          className="md:w-2/3 text-white font-bold text-lg roboto mt-4 border-2 rounded focus:outline-none focus:ring-2 focus:border-transparent p-3 sm:p-1 cursor-pointer bg-green-400 clear-both float-right"
+          className="md:w-2/3 text-white font-bold text-lg roboto mt-4 border-2 rounded focus:outline-none focus:ring-2 focus:border-transparent p-3 sm:p-1 cursor-pointer bg-green-400 clear-both float-right focus:ring-gray-700"
           value="Add Product"
         />
       </form>

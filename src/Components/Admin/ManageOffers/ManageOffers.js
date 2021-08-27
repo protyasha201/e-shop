@@ -103,7 +103,7 @@ const ManageOffers = () => {
             id="offerImage"
             name="offerImage"
             type="file"
-            className="shadow-md border rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1 cursor-pointer hover:bg-blue-300"
+            className="shadow-md border rounded focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent p-3 sm:p-1 cursor-pointer hover:bg-blue-300"
           />
           {isImageUploaded !== "" && (
             <div>
@@ -121,7 +121,7 @@ const ManageOffers = () => {
         </label>
         <input
           type="submit"
-          className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:border-transparent"
+          className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:border-transparent focus:ring-gray-600"
           value="Add Offer"
         />
       </form>

@@ -68,9 +68,9 @@ const ProductDetails = () => {
       </div>
       {productDetails.features ? (
         <div className="mt-5 flex flex-col lg:flex-row lg:items-center p-3 justify-center">
-          <div className="lg:w-1/2 m-auto">
+          <div className="lg:w-1/2 lg:h-96 m-auto">
             <img
-              className="m-auto"
+              className="m-auto h-full"
               src={productDetails.productImage}
               alt={productDetails.productName}
             />

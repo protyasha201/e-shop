@@ -49,7 +49,7 @@ const AccessAdmin = (props) => {
               name="code"
               onChange={checkAccessCode}
               type="text"
-              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent p-3 sm:p-1"
+              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent p-3 sm:p-1"
               placeholder="The code"
             />
             <p className="text-red-300 text-left">{typedCodeError}</p>
@@ -59,7 +59,7 @@ const AccessAdmin = (props) => {
           ) : (
             <input
               type="submit"
-              className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+              className="mt-4 h-10 bg-green-400 rounded cursor-pointer text-white font-bold montserrat text-xl focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent"
               value="Go to Admin Panel"
             />
           )}
