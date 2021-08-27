@@ -1,15 +1,14 @@
 import axios from "axios";
 import React from "react";
-import { createRef } from "react";
 import { useState } from "react";
+import { createRef } from "react";
 
 const AddProduct = () => {
-  const [addCategory, setAddCategory] = useState(false);
-  const [addSubCategory, setAddSubCategory] = useState(false);
   const [features, setFeatures] = useState([]);
   const [featureError, setFeatureError] = useState("");
   const [isImageUploaded, setIsImageUploaded] = useState("");
   const [allProductsByCategory, setAllProductsByCategory] = useState([]);
+
   let textFeature = createRef();
   let productExist;
 
@@ -22,6 +21,7 @@ const AddProduct = () => {
     features: [],
     productImage: "",
   });
+
   const [productsByCategory, setProductsByCategory] = useState({
     category: "",
     allProducts: [],
@@ -113,7 +113,6 @@ const AddProduct = () => {
     const imageData = new FormData();
     imageData.set("key", "b07e1e0b5c689a98391f6a4377e0f41a");
     imageData.append("image", e.target.files[0]);
-
     axios
       .post("https://api.imgbb.com/1/upload", imageData)
       .then(function (response) {
@@ -161,6 +160,7 @@ const AddProduct = () => {
 
         setFeatures([]);
         setIsImageUploaded("");
+
         document.getElementById("category").value = "";
         document.getElementById("subCategory").value = "";
         document.getElementById("productName").value = "";
@@ -185,68 +185,31 @@ const AddProduct = () => {
       >
         <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
-            Select Category
+            Category
           </span>
-          <select required className="p-2 shadow border cursor-pointer">
-            <option>Electronics</option>
-            <option>Groceries</option>
-            <option>Clothing</option>
-            <option>Sports</option>
-            <option>Cars and Bikes</option>
-            <option></option>
-          </select>
-          <p
-            onClick={() => setAddCategory(!addCategory)}
-            className="text-center shadow p-1 hover:bg-green-300 hover:text-white mt-2 text-blue-400 cursor-pointer"
-          >
-            Add New Category?
-          </p>
-          {addCategory && (
-            <div className="flex flex-col shadow p-3 rounded border">
-              <input
-                id="category"
-                onBlur={handleProduct}
-                required
-                name="category"
-                type="text"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
-                placeholder="category name..."
-              />
-            </div>
-          )}
+          <input
+            id="category"
+            onBlur={handleProduct}
+            name="category"
+            type="text"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-2"
+            placeholder="category name..."
+          />
         </label>
 
         <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
-            Select Sub-category
+            Sub-category
           </span>
-          <select required className="p-2 shadow border cursor-pointer">
-            <option>watch</option>
-            <option>mobiles</option>
-            <option>laptop</option>
-            <option>tv</option>
-            <option>monitor</option>
-            <option>T-shirts</option>
-          </select>
-          <p
-            onClick={() => setAddSubCategory(!addSubCategory)}
-            className="text-center shadow p-1 hover:bg-green-300 hover:text-white mt-2 text-blue-400 cursor-pointer"
-          >
-            Add New Sub-category?
-          </p>
-          {addSubCategory && (
-            <div className="flex flex-col shadow p-3 rounded border">
-              <input
-                onBlur={handleProduct}
-                required
-                id="subCategory"
-                name="subCategory"
-                type="text"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
-                placeholder="sub-category name..."
-              />
-            </div>
-          )}
+          <input
+            onBlur={handleProduct}
+            required
+            id="subCategory"
+            name="subCategory"
+            type="text"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-2"
+            placeholder="sub-category name..."
+          />
         </label>
         <label className="mt-4 flex flex-col lg:w-4/5">
           <span className="font-bold text-lg montserrat text-gray-600">
@@ -258,7 +221,7 @@ const AddProduct = () => {
             id="productName"
             name="productName"
             type="text"
-            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-2"
             placeholder="1kg china rice..."
           />
         </label>
@@ -272,7 +235,7 @@ const AddProduct = () => {
             id="productPrice"
             name="productPrice"
             type="text"
-            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-1"
+            className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-3 sm:p-2"
             placeholder="340..."
           />
         </label>
