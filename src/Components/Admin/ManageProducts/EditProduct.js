@@ -6,6 +6,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import EditingField from "./EditingField";
 import DescriptionField from "./DescriptionField";
 import axios from "axios";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const EditProduct = () => {
   const [productDetails, setProductDetails] = useState([]);
@@ -16,6 +17,8 @@ const EditProduct = () => {
   const [showPriceField, setShowPriceField] = useState(false);
   const [showDescriptionField, setShowDescriptionField] = useState(false);
   const [product, setProduct] = useState([]);
+  const [isImageUploaded, setIsImageUploaded] = useState("");
+  const [allProductsByCategory, setAllProductsByCategory] = useState([]);
 
   const { id } = useParams();
   let history = useHistory();
@@ -37,6 +40,31 @@ const EditProduct = () => {
       });
   };
 
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/allProductsByCategory`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setAllProductsByCategory(result);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  });
+
+  const loadAllProductsByCategory = () => {
+    fetch(`http://localhost:5000/allProductsByCategory`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.length > 0) {
+          setAllProductsByCategory(result);
+        }
+      });
+  };
+
   const goToAdminPage = () => {
     history.push("/admin");
   };
@@ -48,6 +76,7 @@ const EditProduct = () => {
   };
 
   const uploadProductImage = (e) => {
+    setIsImageUploaded(false);
     const imageData = new FormData();
     imageData.set("key", "b07e1e0b5c689a98391f6a4377e0f41a");
     imageData.append("image", e.target.files[0]);
@@ -55,6 +84,7 @@ const EditProduct = () => {
     axios
       .post("https://api.imgbb.com/1/upload", imageData)
       .then(function (response) {
+        setIsImageUploaded(true);
         const updateProduct = { ...productDetails };
         updateProduct.productImage = response.data.data.display_url;
         setProductDetails(updateProduct);
@@ -86,6 +116,23 @@ const EditProduct = () => {
   };
 
   const saveChanges = () => {
+    setIsImageUploaded("");
+    const matchedProduct = allProductsByCategory.filter(
+      (products) => products.category === productDetails.category
+    );
+
+    const productToUpdate = {
+      parentId: matchedProduct[0]._id,
+      _id: productDetails._id,
+      category: productDetails.category,
+      subCategory: productDetails.subCategory,
+      productName: productDetails.productName,
+      productPrice: productDetails.productPrice,
+      description: productDetails.description,
+      features: productDetails.features,
+      productImage: productDetails.productImage,
+    };
+
     axios
       .patch(`http://localhost:5000/updateProduct`, productDetails)
       .then(function (response) {
@@ -100,6 +147,13 @@ const EditProduct = () => {
       .catch(function (error) {
         console.log(error);
       });
+
+    axios
+      .patch(`http://localhost:5000/updateProduct2`, productToUpdate)
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const cancelChange = (isCanceled, fieldName) => {
@@ -108,6 +162,15 @@ const EditProduct = () => {
       updateProduct[fieldName] = product[fieldName];
       setProductDetails(updateProduct);
     }
+  };
+
+  const removeFeature = (clickedFeature) => {
+    const features = productDetails.features.filter(
+      (existedFeature) => existedFeature !== clickedFeature
+    );
+    const updateProduct = { ...productDetails };
+    updateProduct.features = features;
+    setProductDetails(updateProduct);
   };
 
   return (
@@ -146,6 +209,19 @@ const EditProduct = () => {
               />
             </div>
           </div>
+          {isImageUploaded !== "" && (
+            <div className="text-center">
+              {isImageUploaded ? (
+                <p className="mt-3 text-gray-500">
+                  Image Uploaded Successfully
+                </p>
+              ) : (
+                <p className="mt-3 text-gray-500">
+                  Let the image upload before adding the product
+                </p>
+              )}
+            </div>
+          )}
           <div className="p-2 shadow-md rounded mt-3">
             <EditingField
               name="Name"
@@ -213,13 +289,19 @@ const EditProduct = () => {
               </div>
               <p className="text-red-400">{featureError}</p>
               {productDetails.features.map((feature) => (
-                <p
-                  className="mt-2 text-gray-500 montserrat font-bold"
+                <div
+                  className="flex justify-between items-center"
                   key={feature}
                 >
-                  <span className="text-red-400">#</span>
-                  {feature}
-                </p>
+                  <p className="mt-2 text-gray-500 montserrat font-bold">
+                    <span className="text-red-400">#</span>
+                    {feature}
+                  </p>
+                  <DeleteIcon
+                    onClick={() => removeFeature(feature)}
+                    className="shadow-md cursor-pointer text-red-500 hover:text-red-600"
+                  />
+                </div>
               ))}
             </div>
             <button
