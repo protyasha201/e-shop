@@ -82,7 +82,7 @@ const EditAdmin = () => {
         </button>
       </div>
       {adminDetails.adminEmail ? (
-        <div className="p-3 border mt-5 rounded ">
+        <div className="p-3 border mt-5 rounded w-96 m-auto">
           <div className="flex justify-between">
             <p className="text-gray-600 montserrat font-bold">
               <span className="text-red-400">Email: </span>
