@@ -11,7 +11,34 @@ const EditAdmin = () => {
   const [adminDetails, setAdminDetails] = useState([]);
   const [showEditingField, setShowEditingField] = useState(false);
   const [duplicateAdmin, setDuplicateAdmin] = useState([]);
+  const [errors, setErrors] = useState({ emailError: "" });
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [admins, setAdmins] = useState([]);
+  const [isEmailTaken, setIsEmailTaken] = useState(false);
+  let isFieldValid;
+  let adminMatched;
   let history = useHistory();
+
+  const loadAdmins = () => {
+    fetch(`http://localhost:5000/admins`)
+      .then((res) => res.json())
+      .then((result) => setAdmins(result));
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/admins`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setAdmins(result);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -39,9 +66,33 @@ const EditAdmin = () => {
   };
 
   const handleChange = (e) => {
-    const updateAdminDetails = { ...adminDetails };
-    updateAdminDetails.adminEmail = e.target.value;
-    setAdminDetails(updateAdminDetails);
+    const adminEmailValue = e.target.value;
+    adminMatched = admins.filter(
+      (eachAdmin) => adminEmailValue === eachAdmin.adminEmail
+    );
+
+    let updateErrors = { ...errors };
+    isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
+
+    if (isFieldValid) {
+      setIsEmailValid(true);
+      updateErrors.emailError = "email is valid";
+      setErrors(updateErrors);
+      const updateAdminDetails = { ...adminDetails };
+      updateAdminDetails.adminEmail = e.target.value;
+      setAdminDetails(updateAdminDetails);
+    }
+    if (!isFieldValid) {
+      setIsEmailValid(false);
+      updateErrors.emailError = "email is not valid.";
+      setErrors(updateErrors);
+    }
+    if (adminMatched.length > 0) {
+      setIsEmailValid(false);
+      setIsEmailTaken(true);
+      updateErrors.emailError = "email is already added";
+      setErrors(updateErrors);
+    }
   };
 
   const goToAdminPage = () => {
@@ -49,6 +100,9 @@ const EditAdmin = () => {
   };
 
   const cancelEdit = () => {
+    const updateErrors = { ...errors };
+    updateErrors.emailError = "";
+    setErrors(updateErrors);
     setShowEditingField(!showEditingField);
     const updateAdminDetails = { ...adminDetails };
     updateAdminDetails.adminEmail = duplicateAdmin.adminEmail;
@@ -56,16 +110,21 @@ const EditAdmin = () => {
   };
 
   const saveChanges = () => {
-    axios
-      .patch("http://localhost:5000/updateAdmin", adminDetails)
-      .then(function (response) {
-        loadAdminDetails();
-        setShowEditingField(false);
-        alert("Changes saved");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (isEmailValid || duplicateAdmin.adminEmail === adminDetails.adminEmail) {
+      axios
+        .patch("http://localhost:5000/updateAdmin", adminDetails)
+        .then(function (response) {
+          loadAdminDetails();
+          const updateErrors = { ...errors };
+          updateErrors.emailError = "";
+          setErrors(updateErrors);
+          setShowEditingField(false);
+          alert("Changes saved");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -111,6 +170,13 @@ const EditAdmin = () => {
               />
             )}
           </div>
+          <p
+            className={
+              !isEmailValid || isEmailTaken ? "text-red-400" : "text-green-400"
+            }
+          >
+            {errors.emailError}
+          </p>
           <button
             onClick={saveChanges}
             className="bg-green-400 text-white p-2 condensed rounded mt-10 float-right"

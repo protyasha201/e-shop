@@ -19,6 +19,7 @@ const AddAdmin = () => {
   let adminMatched;
   let [isEmailAdded, setIsEmailAdded] = useState(false);
   let history = useHistory();
+
   const loadAdmins = () => {
     fetch(`http://localhost:5000/admins`)
       .then((res) => res.json())
