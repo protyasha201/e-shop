@@ -15,6 +15,7 @@ import ProductDetails from "./Components/Shared/ProductDetails/ProductDetails";
 import OfferDetails from "./Components/Admin/ManageOffers/OfferDetails";
 import ViewProduct from "./Components/Admin/ManageProducts/ViewProduct";
 import EditProduct from "./Components/Admin/ManageProducts/EditProduct";
+import EditAdmin from "./Components/Admin/AddAdmin/EditAdmin";
 export const UserContext = createContext([]);
 
 function App() {
@@ -77,6 +78,9 @@ function App() {
           </Route>
           <Route path="/editProduct/:id">
             <EditProduct />
+          </Route>
+          <Route path="/editAdmin/:id">
+            <EditAdmin />
           </Route>
         </Switch>
       </Router>

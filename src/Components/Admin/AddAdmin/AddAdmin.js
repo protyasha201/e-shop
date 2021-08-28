@@ -7,7 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { useContext } from "react";
 import { UserContext } from "../../../App";
-import CancelIcon from "@material-ui/icons/Cancel";
+import { useHistory } from "react-router-dom";
 
 const AddAdmin = () => {
   const [user] = useContext(UserContext);
@@ -15,11 +15,10 @@ const AddAdmin = () => {
   const [admins, setAdmins] = useState([]);
   const [adminsError, setAdminsError] = useState("");
   const [isFieldValid, setIsFiledValid] = useState(false);
-  const [showEditingField, setShowEditingField] = useState(false);
   const adminEmailInputField = document.getElementById("adminEmail");
   let adminMatched;
   let [isEmailAdded, setIsEmailAdded] = useState(false);
-
+  let history = useHistory();
   const loadAdmins = () => {
     fetch(`http://localhost:5000/admins`)
       .then((res) => res.json())
@@ -97,6 +96,10 @@ const AddAdmin = () => {
     );
   };
 
+  const editAdmin = (id) => {
+    history.push(`/editAdmin/${id}`);
+  };
+
   return (
     <section className="border-2 rounded p-2 md:w-11/12 m-auto">
       <h1 className="text-green-400 text-xl text-left">
@@ -163,17 +166,10 @@ const AddAdmin = () => {
                       }
                       className="shadow text-red-500 cursor-pointer hover:text-green-400"
                     />
-                    {showEditingField ? (
-                      <CancelIcon
-                        onClick={() => setShowEditingField(!showEditingField)}
-                        className="shadow text-red-500 cursor-pointer hover:text-green-400"
-                      />
-                    ) : (
-                      <EditIcon
-                        onClick={() => setShowEditingField(!showEditingField)}
-                        className="shadow text-blue-500 cursor-pointer hover:text-green-400"
-                      />
-                    )}
+                    <EditIcon
+                      onClick={() => editAdmin(admin._id)}
+                      className="shadow text-blue-500 cursor-pointer hover:text-green-400"
+                    />
                   </td>
                 </tr>
               ))}
