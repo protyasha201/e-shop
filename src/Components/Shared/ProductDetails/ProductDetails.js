@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
@@ -51,6 +51,11 @@ const ProductDetails = () => {
         alert("Added to cart successfully");
       })
       .catch(function (err) {});
+  };
+
+  const goToCheckoutPage = () => {
+    history.push("/checkout");
+    localStorage.setItem("productsToCheckout", JSON.stringify(productDetails));
   };
 
   return (
@@ -109,7 +114,10 @@ const ProductDetails = () => {
               >
                 Add To Cart
               </button>
-              <button className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500 sm:w-3/5 sm:m-auto">
+              <button
+                onClick={goToCheckoutPage}
+                className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500 sm:w-3/5 sm:m-auto text-center"
+              >
                 Buy Now
               </button>
             </div>

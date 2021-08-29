@@ -2,12 +2,14 @@ import React from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { UserContext } from "../../App";
 import Header from "../Header/Header";
 
 const Cart = () => {
   const [user] = useContext(UserContext);
   const [cart, setCart] = useState([]);
+  let history = useHistory();
 
   const loadCartData = () => {
     let isMounted = true;
@@ -60,6 +62,15 @@ const Cart = () => {
       });
   };
 
+  const goToProductDetailsPage = (id) => {
+    history.push(`/productDetails/${id}`);
+  };
+
+  const goToCheckoutPage = () => {
+    history.push("/checkout");
+    localStorage.setItem("productsToCheckout", JSON.stringify(cart));
+  };
+
   return (
     <section>
       <Header />
@@ -83,7 +94,10 @@ const Cart = () => {
                   />
                 </div>
                 <div className="p-2 flex flex-col justify-center w-3/4">
-                  <p className="text-sm text-gray-600 montserrat font-bold">
+                  <p
+                    onClick={() => goToProductDetailsPage(carts.product._id)}
+                    className="text-sm text-gray-600 montserrat font-bold underline cursor-pointer hover:text-blue-400"
+                  >
                     {carts.product.productName}
                   </p>
                   <div className="flex justify-between items-center mt-3">
@@ -102,9 +116,7 @@ const Cart = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-red-400 text-xl">
-              Empty Cart...
-            </p>
+            <p className="text-center text-red-400 text-xl">Empty Cart...</p>
           )}
         </div>
         <div className="w-full md:w-1/2 p-4 mb-3">
@@ -123,15 +135,20 @@ const Cart = () => {
               </p>
             </div>
             <hr></hr>
-            <div className="flex justify-between items-center">
-              <p className="text-gray-600 condensed text-lg">Total</p>
-              <p className="text-gray-600 condensed text-lg">
-                ${total.toFixed(4)}
-              </p>
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                <p className="text-gray-600 condensed text-lg">Total</p>
+                <p className="text-gray-600 condensed text-lg">
+                  ${total.toFixed(4)}
+                </p>
+              </div>
+              <button
+                onClick={goToCheckoutPage}
+                className="p-2 rounded bg-green-400 text-white condensed w-full text-center hover:bg-green-500"
+              >
+                Checkout
+              </button>
             </div>
-            <button className="p-2 rounded bg-green-400 text-white condensed w-full hover:bg-green-500">
-              Checkout
-            </button>
           </div>
         </div>
       </div>

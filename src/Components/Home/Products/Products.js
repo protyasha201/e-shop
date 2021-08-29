@@ -3,7 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../../App";
 
 const Products = () => {
@@ -29,8 +29,17 @@ const Products = () => {
     history.push(`productDetails/${id}`);
   };
 
+  const goToCheckoutPage = (product) => {
+    history.push("/checkout");
+    localStorage.setItem("productsToCheckout", JSON.stringify([product]));
+  };
+
   const addToCart = (product) => {
+    const randomNumber = Math.random() * 100000000000000;
+    const key = Math.round(randomNumber);
+
     const addToCartProduct = {
+      key: key,
       product: product,
       userName: user.userName,
       email: user.email,
@@ -103,7 +112,10 @@ const Products = () => {
                       >
                         Add To Cart
                       </button>
-                      <button className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500">
+                      <button
+                        onClick={() => goToCheckoutPage(product)}
+                        className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500 text-center"
+                      >
                         Buy Now
                       </button>
                     </div>
