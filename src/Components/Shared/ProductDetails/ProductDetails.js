@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
@@ -25,7 +25,11 @@ const ProductDetails = () => {
   };
 
   const addToCart = () => {
+    const randomNumber = Math.random() * 100000000000000;
+    const key = Math.round(randomNumber);
+
     const addToCartProduct = {
+      key: key,
       product: productDetails,
       userName: user.userName,
       email: user.email,
@@ -55,7 +59,7 @@ const ProductDetails = () => {
 
   const goToCheckoutPage = () => {
     history.push("/checkout");
-    localStorage.setItem("productsToCheckout", JSON.stringify(productDetails));
+    localStorage.setItem("productsToCheckout", JSON.stringify([productDetails]));
   };
 
   return (
