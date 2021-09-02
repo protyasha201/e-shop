@@ -11,6 +11,7 @@ const EditingField = (props) => {
     inputName,
     setFieldName,
     cancelChange,
+    required,
   } = props;
 
   const cancelEdit = () => {
@@ -24,6 +25,7 @@ const EditingField = (props) => {
         <span className="text-gray-400">{name}: </span>
         {fieldName ? (
           <input
+            required={required === true ? required : false}
             name={inputName}
             className="p-1 shadow border rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent font-bold"
             type="text"
@@ -32,7 +34,7 @@ const EditingField = (props) => {
             id="inputField"
           />
         ) : (
-          data
+          <span>{data !== "" ? data : "not set yet"}</span>
         )}
       </h3>
       {fieldName ? (

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
-import EditingField from "./EditingField";
+import EditingField from "../../Shared/EditingField/EditingField";
 import DescriptionField from "./DescriptionField";
 import axios from "axios";
 import DeleteIcon from "@material-ui/icons/Delete";

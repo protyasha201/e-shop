@@ -4,24 +4,41 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../../App";
-import EditIcon from "@material-ui/icons/Edit";
-import CancelIcon from "@material-ui/icons/Cancel";
+import EditingField from "../EditingField/EditingField";
+import Modal from "@material-ui/core/Modal";
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [user] = useContext(UserContext);
   let history = useHistory();
+  const [showNameField, setShowNameField] = useState(false);
   const [showHouseField, setShowHouseField] = useState(false);
+  const [showCityField, setShowCityField] = useState(false);
+  const [showMobileNumberField, setShowMobileNumberField] = useState(false);
+  const [showCountryField, setShowCountryField] = useState(false);
+  const [showStateField, setShowStateField] = useState(false);
+  const [userDelivery, setUserDelivery] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     setProducts(JSON.parse(localStorage.getItem("productsToCheckout")));
   }, []);
 
+  useEffect(() => {
+    setUserDelivery(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   const updateCheckoutProducts = () => {
     setProducts(JSON.parse(localStorage.getItem("productsToCheckout")));
   };
-
-  console.log(products);
 
   let prices = products.map(
     (eachProduct) =>
@@ -55,10 +72,35 @@ const Checkout = () => {
     updateCheckoutProducts();
   };
 
-  const setDeliveryDetails = (e) => {
-    e.preventDefault();
-    console.log("cole");
+  const proceedToPay = (e) => {
+    if (
+      userDelivery.userName &&
+      userDelivery.mobileNumber &&
+      userDelivery.country &&
+      userDelivery.state &&
+      userDelivery.city &&
+      userDelivery.house
+    ) {
+      console.log(userDelivery);
+    } else {
+      handleOpenModal();
+    }
   };
+
+  const cancelChange = (isCanceled, fieldName) => {
+    if (isCanceled) {
+      const updateDeliveryDetail = { ...userDelivery };
+      updateDeliveryDetail[fieldName] = user[fieldName];
+      setUserDelivery(updateDeliveryDetail);
+    }
+  };
+
+  const handleDetailsChange = (e) => {
+    const updateDeliveryDetail = { ...userDelivery };
+    updateDeliveryDetail[e.target.name] = e.target.value;
+    setUserDelivery(updateDeliveryDetail);
+  };
+
   return (
     <section className="p-3">
       <div className="flex justify-between md:w-3/4 m-auto items-center">
@@ -70,8 +112,8 @@ const Checkout = () => {
           Back To Shopping
         </button>
       </div>
-      <div className="w-full md:w-1/2 p-4 mb-3">
-        <div className="p-3">
+      <div className="w-full p-4 mb-3">
+        <div className="p-3 flex flex-col md:flex-row">
           <div className="border p-2 rounded">
             <h2 className="text-gray-600 condensed">Products</h2>
             {products.map((eachProduct) => (
@@ -115,36 +157,68 @@ const Checkout = () => {
             <h1 className="text-gray-600 text-xl condensed">
               Delivery Details
             </h1>
-            <form className="flex flex-col" onSubmit={setDeliveryDetails}>
-              <label>
-                <div className="flex">
-                  <p className="text-md montserrat font-bold text-gray-600">
-                    Set House
-                  </p>
-                  {showHouseField ? (
-                    <CancelIcon
-                      onClick={() => setShowHouseField(!showHouseField)}
-                      className="ml-5 shadow text-blue-400 cursor-pointer"
-                    />
-                  ) : (
-                    <EditIcon
-                      onClick={() => setShowHouseField(!showHouseField)}
-                      className="ml-5 shadow text-blue-400 cursor-pointer"
-                    />
-                  )}
-                </div>
-                {showHouseField ? (
-                  <input
-                    className="mt-2 w-full p-2 rounded shadow"
-                    defaultValue={user.house}
-                  />
-                ) : (
-                  <p className="text-gray-500 montserrat font-bold">
-                    {user.house ? user.house : "set your house"}
-                  </p>
-                )}
-              </label>
-            </form>
+            <div>
+              <EditingField
+                name="Name"
+                fieldName={showNameField}
+                inputName="userName"
+                handleDataChange={handleDetailsChange}
+                data={user.userName}
+                setFieldName={setShowNameField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="Contact"
+                fieldName={showMobileNumberField}
+                inputName="mobileNumber"
+                handleDataChange={handleDetailsChange}
+                data={user.mobileNumber}
+                setFieldName={setShowMobileNumberField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="Country"
+                fieldName={showCountryField}
+                inputName="country"
+                handleDataChange={handleDetailsChange}
+                data={user.country}
+                setFieldName={setShowCountryField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="State"
+                fieldName={showStateField}
+                inputName="state"
+                handleDataChange={handleDetailsChange}
+                data={user.state}
+                setFieldName={setShowStateField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="City"
+                fieldName={showCityField}
+                inputName="city"
+                handleDataChange={handleDetailsChange}
+                data={user.city}
+                setFieldName={setShowCityField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="House"
+                fieldName={showHouseField}
+                inputName="house"
+                handleDataChange={handleDetailsChange}
+                data={user.house}
+                setFieldName={setShowHouseField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+            </div>
           </div>
 
           <div className="w-full md:w-1/2 mb-3 mt-5">
@@ -174,9 +248,25 @@ const Checkout = () => {
                     ${total.toFixed(4)}
                   </p>
                 </div>
-                <button className="p-2 rounded bg-green-400 text-white condensed w-full text-center hover:bg-green-500">
+                <button
+                  onClick={proceedToPay}
+                  className="p-2 rounded bg-green-400 text-white condensed w-full text-center hover:bg-green-500"
+                >
                   Proceed To Pay
                 </button>
+                <Modal open={openModal} onClose={handleCloseModal}>
+                  <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                    <p className="text-gray-600 montserrat font-bold text-center">
+                      Please set complete delivery details first.
+                    </p>
+                    <button
+                      onClick={handleCloseModal}
+                      className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                    >
+                      OK
+                    </button>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>
