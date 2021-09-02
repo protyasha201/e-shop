@@ -4,15 +4,22 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../../App";
+import EditIcon from "@material-ui/icons/Edit";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [user] = useContext(UserContext);
   let history = useHistory();
+  const [showHouseField, setShowHouseField] = useState(false);
 
   useEffect(() => {
     setProducts(JSON.parse(localStorage.getItem("productsToCheckout")));
   }, []);
+
+  const updateCheckoutProducts = () => {
+    setProducts(JSON.parse(localStorage.getItem("productsToCheckout")));
+  };
 
   console.log(products);
 
@@ -39,6 +46,19 @@ const Checkout = () => {
     history.push(`/productDetails/${id}`);
   };
 
+  const removeFromCheckout = (key) => {
+    const updateProducts = products.filter(
+      (eachProduct) => eachProduct.key !== key
+    );
+    localStorage.setItem("productsToCheckout", JSON.stringify(updateProducts));
+
+    updateCheckoutProducts();
+  };
+
+  const setDeliveryDetails = (e) => {
+    e.preventDefault();
+    console.log("cole");
+  };
   return (
     <section className="p-3">
       <div className="flex justify-between md:w-3/4 m-auto items-center">
@@ -79,7 +99,10 @@ const Checkout = () => {
                       {eachProduct.productPrice ||
                         eachProduct.product.productPrice}
                     </h3>
-                    <button className="bg-red-400 rounded hover:bg-red-500 text-white condensed p-2">
+                    <button
+                      onClick={() => removeFromCheckout(eachProduct.key)}
+                      className="bg-red-400 rounded hover:bg-red-500 text-white condensed p-2"
+                    >
                       Remove
                     </button>
                   </div>
@@ -89,7 +112,39 @@ const Checkout = () => {
           </div>
 
           <div className="border mt-5 rounded p-2">
-            <h1>Delivery Details</h1>
+            <h1 className="text-gray-600 text-xl condensed">
+              Delivery Details
+            </h1>
+            <form className="flex flex-col" onSubmit={setDeliveryDetails}>
+              <label>
+                <div className="flex">
+                  <p className="text-md montserrat font-bold text-gray-600">
+                    Set House
+                  </p>
+                  {showHouseField ? (
+                    <CancelIcon
+                      onClick={() => setShowHouseField(!showHouseField)}
+                      className="ml-5 shadow text-blue-400 cursor-pointer"
+                    />
+                  ) : (
+                    <EditIcon
+                      onClick={() => setShowHouseField(!showHouseField)}
+                      className="ml-5 shadow text-blue-400 cursor-pointer"
+                    />
+                  )}
+                </div>
+                {showHouseField ? (
+                  <input
+                    className="mt-2 w-full p-2 rounded shadow"
+                    defaultValue={user.house}
+                  />
+                ) : (
+                  <p className="text-gray-500 montserrat font-bold">
+                    {user.house ? user.house : "set your house"}
+                  </p>
+                )}
+              </label>
+            </form>
           </div>
 
           <div className="w-full md:w-1/2 mb-3 mt-5">
