@@ -19,6 +19,7 @@ const Checkout = () => {
   const [showStateField, setShowStateField] = useState(false);
   const [userDelivery, setUserDelivery] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -79,10 +80,17 @@ const Checkout = () => {
       userDelivery.country &&
       userDelivery.state &&
       userDelivery.city &&
-      userDelivery.house
+      userDelivery.house &&
+      products.length > 0
     ) {
-      console.log(userDelivery);
+      history.push("/confirmPayment");
+      localStorage.setItem("deliveryDetails", JSON.stringify(userDelivery));
+    }
+    if (products.length === 0) {
+      setModalText("No Product added, Add a product first");
+      handleOpenModal();
     } else {
+      setModalText("Please set complete delivery details first.");
       handleOpenModal();
     }
   };
@@ -257,7 +265,7 @@ const Checkout = () => {
                 <Modal open={openModal} onClose={handleCloseModal}>
                   <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
                     <p className="text-gray-600 montserrat font-bold text-center">
-                      Please set complete delivery details first.
+                      {modalText}
                     </p>
                     <button
                       onClick={handleCloseModal}

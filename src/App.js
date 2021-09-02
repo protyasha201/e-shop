@@ -17,6 +17,8 @@ import ViewProduct from "./Components/Admin/ManageProducts/ViewProduct";
 import EditProduct from "./Components/Admin/ManageProducts/EditProduct";
 import EditAdmin from "./Components/Admin/AddAdmin/EditAdmin";
 import Checkout from "./Components/Shared/Checkout/Checkout";
+import ConfirmPayment from "./Components/ConfirmPayment/ConfirmPayment";
+
 export const UserContext = createContext([]);
 
 function App() {
@@ -73,6 +75,9 @@ function App() {
           </Route>
           <Route path="/checkout">
             <Checkout />
+          </Route>
+          <Route path="/confirmPayment">
+            <ConfirmPayment />
           </Route>
           <Route path="/offerDetails/:id">
             <OfferDetails />

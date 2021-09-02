@@ -5,11 +5,21 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../App";
 import Header from "../Header/Header";
+import Modal from "@material-ui/core/Modal";
 
 const Cart = () => {
   const [user] = useContext(UserContext);
   const [cart, setCart] = useState([]);
   let history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const loadCartData = () => {
     let isMounted = true;
@@ -67,8 +77,12 @@ const Cart = () => {
   };
 
   const goToCheckoutPage = () => {
-    history.push("/checkout");
-    localStorage.setItem("productsToCheckout", JSON.stringify(cart));
+    if (cart.length > 0) {
+      history.push("/checkout");
+      localStorage.setItem("productsToCheckout", JSON.stringify(cart));
+    } else {
+      handleOpenModal();
+    }
   };
 
   return (
@@ -148,6 +162,19 @@ const Cart = () => {
               >
                 Checkout
               </button>
+              <Modal open={openModal} onClose={handleCloseModal}>
+                <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                  <p className="text-gray-600 montserrat font-bold text-center">
+                    Please select a product first.
+                  </p>
+                  <button
+                    onClick={handleCloseModal}
+                    className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                  >
+                    OK
+                  </button>
+                </div>
+              </Modal>
             </div>
           </div>
         </div>
