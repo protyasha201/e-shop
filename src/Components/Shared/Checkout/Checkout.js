@@ -12,6 +12,7 @@ const Checkout = () => {
   const [user] = useContext(UserContext);
   let history = useHistory();
   const [showNameField, setShowNameField] = useState(false);
+  const [showEmailField, setShowEmailField] = useState(false);
   const [showHouseField, setShowHouseField] = useState(false);
   const [showCityField, setShowCityField] = useState(false);
   const [showMobileNumberField, setShowMobileNumberField] = useState(false);
@@ -60,10 +61,6 @@ const Checkout = () => {
     history.push("/");
   };
 
-  const goToProductDetailsPage = (id) => {
-    history.push(`/productDetails/${id}`);
-  };
-
   const removeFromCheckout = (key) => {
     const updateProducts = products.filter(
       (eachProduct) => eachProduct.key !== key
@@ -76,6 +73,7 @@ const Checkout = () => {
   const proceedToPay = (e) => {
     if (
       userDelivery.userName &&
+      userDelivery.email &&
       userDelivery.mobileNumber &&
       userDelivery.country &&
       userDelivery.state &&
@@ -110,7 +108,7 @@ const Checkout = () => {
   };
 
   return (
-    <section className="p-3">
+    <section className="p-3 sm:w-3/4 m-auto md:w-full">
       <div className="flex justify-between md:w-3/4 m-auto items-center">
         <h1 className="montserrat text-blue-400 text-xl font-bold">Checkout</h1>
         <button
@@ -120,48 +118,48 @@ const Checkout = () => {
           Back To Shopping
         </button>
       </div>
-      <div className="w-full p-4 mb-3">
-        <div className="p-3 flex flex-col md:flex-row">
-          <div className="border p-2 rounded">
-            <h2 className="text-gray-600 condensed">Products</h2>
-            {products.map((eachProduct) => (
-              <div
-                className="border mt-2 rounded flex p-2 items-center"
-                key={eachProduct.key || eachProduct._id}
-              >
-                <div className="w-20">
-                  <img
-                    className="w-full"
-                    src={
-                      eachProduct.productImage ||
-                      eachProduct.product.productImage
-                    }
-                    alt={eachProduct.key || eachProduct.productName}
-                  />
-                </div>
-                <div className="w-full p-2">
-                  <h3 className="montserrat font-bold text-gray-600">
-                    {eachProduct.productName || eachProduct.product.productName}
+
+      <div className="p-3 md:flex justify-between gap-4 lg:w-4/5 m-auto border mt-4 rounded">
+        <div className="p-2 rounded rounded md:w-1/2">
+          <h2 className="text-gray-600 condensed">Products</h2>
+          {products.map((eachProduct) => (
+            <div
+              className="border mt-2 rounded flex p-2 items-center"
+              key={eachProduct.key || eachProduct._id}
+            >
+              <div className="w-20">
+                <img
+                  className="w-full"
+                  src={
+                    eachProduct.productImage || eachProduct.product.productImage
+                  }
+                  alt={eachProduct.key || eachProduct.productName}
+                />
+              </div>
+              <div className="w-full p-2">
+                <h3 className="montserrat font-bold text-gray-600">
+                  {eachProduct.productName || eachProduct.product.productName}
+                </h3>
+                <div className="flex justify-between items-center">
+                  <h3 className="montserrat text-gray-500 font-bold text-lg">
+                    <span className="text-red-400">Price: </span>
+                    {eachProduct.productPrice ||
+                      eachProduct.product.productPrice}
                   </h3>
-                  <div className="flex justify-between items-center">
-                    <h3 className="montserrat text-gray-500 font-bold text-lg">
-                      <span className="text-red-400">Price: </span>
-                      {eachProduct.productPrice ||
-                        eachProduct.product.productPrice}
-                    </h3>
-                    <button
-                      onClick={() => removeFromCheckout(eachProduct.key)}
-                      className="bg-red-400 rounded hover:bg-red-500 text-white condensed p-2"
-                    >
-                      Remove
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => removeFromCheckout(eachProduct.key)}
+                    className="bg-red-400 rounded hover:bg-red-500 text-white condensed p-2"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="border mt-5 rounded p-2">
+        <div className="md:w-1/2">
+          <div className="mt-5 md:mt-0 rounded p-2">
             <h1 className="text-gray-600 text-xl condensed">
               Delivery Details
             </h1>
@@ -173,6 +171,16 @@ const Checkout = () => {
                 handleDataChange={handleDetailsChange}
                 data={user.userName}
                 setFieldName={setShowNameField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="Email"
+                fieldName={showEmailField}
+                inputName="email"
+                handleDataChange={handleDetailsChange}
+                data={user.email}
+                setFieldName={setShowEmailField}
                 cancelChange={cancelChange}
                 required={true}
               />
@@ -229,8 +237,8 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-1/2 mb-3 mt-5">
-            <div className="border sticky top-2 sm:w-4/5 lg:w-3/5 md:w-full m-auto p-3 rounded">
+          <div className="mt-5 md:mt-0">
+            <div className="p-2 rounded border">
               <h1 className="text-xl text-green-400 condensed">
                 Order Summary
               </h1>

@@ -12,6 +12,7 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   let history = useHistory();
   const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -69,6 +70,8 @@ const Cart = () => {
       .then((res) => res.json())
       .then((result) => {
         loadCartData();
+        setModalText("Removed From Cart");
+        handleOpenModal();
       });
   };
 
@@ -81,6 +84,7 @@ const Cart = () => {
       history.push("/checkout");
       localStorage.setItem("productsToCheckout", JSON.stringify(cart));
     } else {
+      setModalText("Please add a product first.");
       handleOpenModal();
     }
   };
@@ -165,7 +169,7 @@ const Cart = () => {
               <Modal open={openModal} onClose={handleCloseModal}>
                 <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
                   <p className="text-gray-600 montserrat font-bold text-center">
-                    Please select a product first.
+                    {modalText}
                   </p>
                   <button
                     onClick={handleCloseModal}

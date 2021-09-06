@@ -1,3 +1,4 @@
+import { Modal } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
@@ -26,6 +27,17 @@ const AddProduct = () => {
     category: "",
     allProducts: [],
   });
+
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   if (allProductsByCategory.length > 0) {
     productExist = allProductsByCategory.filter(
@@ -145,8 +157,9 @@ const AddProduct = () => {
     axios
       .post("http://localhost:5000/addProduct", product)
       .then(function (response) {
+        setModalText("Product Added Successfully");
+        handleOpenModal();
         loadAllProductsData();
-        alert("Product added successfully");
 
         setProduct({
           category: "",
@@ -170,7 +183,8 @@ const AddProduct = () => {
         document.getElementById("productImage").value = "";
       })
       .catch(function (err) {
-        alert("Try again, product was not added");
+        setModalText(err.message);
+        handleOpenModal();
       });
   };
 
@@ -311,6 +325,19 @@ const AddProduct = () => {
           className="md:w-2/3 text-white font-bold text-lg roboto mt-4 border-2 rounded focus:outline-none focus:ring-2 focus:border-transparent p-3 sm:p-1 cursor-pointer bg-green-400 clear-both float-right focus:ring-gray-700"
           value="Add Product"
         />
+         <Modal open={openModal} onClose={handleCloseModal}>
+      <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+        <p className="text-gray-600 montserrat font-bold text-center">
+          {modalText}
+        </p>
+        <button
+          onClick={handleCloseModal}
+          className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+        >
+          OK
+        </button>
+      </div>
+    </Modal>
       </form>
     </section>
   );

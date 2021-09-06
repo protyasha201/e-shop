@@ -7,6 +7,7 @@ import EditingField from "../../Shared/EditingField/EditingField";
 import DescriptionField from "./DescriptionField";
 import axios from "axios";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { Modal } from "@material-ui/core";
 
 const EditProduct = () => {
   const [productDetails, setProductDetails] = useState([]);
@@ -19,9 +20,18 @@ const EditProduct = () => {
   const [product, setProduct] = useState([]);
   const [isImageUploaded, setIsImageUploaded] = useState("");
   const [allProductsByCategory, setAllProductsByCategory] = useState([]);
-
   const { id } = useParams();
   let history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     fetch(`http://localhost:5000/productDetails/${id}`)
@@ -136,16 +146,18 @@ const EditProduct = () => {
     axios
       .patch(`http://localhost:5000/updateProduct`, productDetails)
       .then(function (response) {
-        alert("Changes saved");
         loadProductDetails();
         setShowNameField(false);
         setShowCategoryField(false);
         setShowSubCategoryField(false);
         setShowPriceField(false);
         setShowDescriptionField(false);
+        setModalText("Changes Saved Successfully");
+        handleOpenModal();
       })
       .catch(function (error) {
-        console.log(error);
+        setModalText(error.message);
+        handleOpenModal();
       });
 
     axios
@@ -312,6 +324,19 @@ const EditProduct = () => {
             >
               Save Changes
             </button>
+            <Modal open={openModal} onClose={handleCloseModal}>
+              <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                <p className="text-gray-600 montserrat font-bold text-center">
+                  {modalText}
+                </p>
+                <button
+                  onClick={handleCloseModal}
+                  className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                >
+                  OK
+                </button>
+              </div>
+            </Modal>
           </div>
         </div>
       ) : (

@@ -5,6 +5,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Modal } from "@material-ui/core";
 
 const ManageOffers = () => {
   const [isImageUploaded, setIsImageUploaded] = useState("");
@@ -13,6 +14,16 @@ const ManageOffers = () => {
   });
   const [allOffers, setAllOffers] = useState([]);
   let history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const loadAllOffers = () => {
     fetch(`http://localhost:5000/offers`)
@@ -63,8 +74,13 @@ const ManageOffers = () => {
         .then(function (response) {
           loadAllOffers();
           setIsImageUploaded("");
+          setModalText("Offer Added Successfully");
+          handleOpenModal();
         })
-        .catch(function (error) {});
+        .catch(function (error) {
+          setModalText(error.message);
+          handleOpenModal();
+        });
     } else {
       alert(
         "image was not uploaded successfully, click 'Add Offer' again without selecting an image"
@@ -79,6 +95,8 @@ const ManageOffers = () => {
       .then((res) => res.json())
       .then((result) => {
         loadAllOffers();
+        setModalText("Offer Deleted Successfully");
+        handleOpenModal();
       });
   };
 
@@ -150,6 +168,19 @@ const ManageOffers = () => {
                       onClick={() => deleteOffer(eachOffer._id)}
                       className="shadow text-red-500 cursor-pointer hover:text-green-400"
                     />
+                    <Modal open={openModal} onClose={handleCloseModal}>
+                      <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                        <p className="text-gray-600 montserrat font-bold text-center">
+                          {modalText}
+                        </p>
+                        <button
+                          onClick={handleCloseModal}
+                          className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                        >
+                          OK
+                        </button>
+                      </div>
+                    </Modal>
                     <VisibilityIcon
                       onClick={() => handleViewOffer(eachOffer._id)}
                       className="shadow text-blue-500 cursor-pointer hover:text-green-400"

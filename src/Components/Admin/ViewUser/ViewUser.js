@@ -1,5 +1,6 @@
 import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Modal } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -9,6 +10,16 @@ const ViewUser = () => {
   const { id } = useParams();
   const [userData, setUserData] = useState([]);
   let history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     let isUnmounted = false;
@@ -36,7 +47,6 @@ const ViewUser = () => {
     })
       .then((res) => res.json())
       .then((result) => {});
-    alert("Deleted successfully");
     history.push("/admin");
   };
 
@@ -51,7 +61,7 @@ const ViewUser = () => {
           Back To Admin
         </button>
       </div>
-      {userData.length === 0 ? (
+      {userData === undefined || userData.length === 0 ? (
         <h1 className="text-center">Loading...</h1>
       ) : (
         <div className="p-3 flex flex-col sm:flex-row justify-between items-center md:w-4/5 md:m-auto border lg:w-3/5">

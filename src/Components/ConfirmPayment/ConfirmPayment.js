@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import PaymentProcess from "./PaymentProcess";
 
 const ConfirmPayment = () => {
   const [deliveryDetails, setDeliveryDetails] = useState([]);
@@ -34,8 +35,8 @@ const ConfirmPayment = () => {
           Back To Checkout
         </button>
       </div>
-      <div className="p-2 border rounded mt-5">
-        <div>
+      <div className="p-2 rounded border mt-5 sm:w-3/4 md:w-11/12 md:flex m-auto justify-between gap-5 lg:w-4/5">
+        <div className="md:w-1/2">
           <h3 className="text-gray-400 condensed">Products</h3>
           {products.map((eachProduct) => (
             <div
@@ -63,7 +64,7 @@ const ConfirmPayment = () => {
             </div>
           ))}
         </div>
-        <div className="mt-4">
+        <div className="mt-4 md:mt-0 md:w-1/2">
           <h3 className="text-gray-400 condensed">Delivery Details</h3>
           <div>
             <h4 className="text-gray-600 montserrat font-bold">
@@ -91,7 +92,10 @@ const ConfirmPayment = () => {
               {deliveryDetails.house}
             </h4>
           </div>
-          <div></div>
+          <div className="mt-5">
+            <h1 className="text-gray-400 condensed mb-4">Payment</h1>
+            <PaymentProcess />
+          </div>
         </div>
       </div>
     </section>
