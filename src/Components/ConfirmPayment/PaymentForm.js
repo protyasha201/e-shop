@@ -9,7 +9,6 @@ const PaymentForm = () => {
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [modalText, setModalText] = useState("");
-  const [clickedOk, setClickedOk] = useState(false);
   let history = useHistory();
 
   const handleOpenModal = () => {
@@ -22,7 +21,9 @@ const PaymentForm = () => {
 
   const readAlert = () => {
     handleCloseModal();
-    setClickedOk(true);
+    if (modalText === "Order successful.(We don't take real orders)") {
+      history.push("/");
+    }
   };
 
   useEffect(() => {
@@ -71,18 +72,8 @@ const PaymentForm = () => {
     } else {
       setModalText("Order successful.(We don't take real orders)");
       handleOpenModal();
-      // goToHomePage();
     }
   };
-
-  // const goToHomePage = () => {
-  //   if (
-  //     clickedOk &&
-  //     modalText === "Order successful.(We don't take real orders)"
-  //   ) {
-  //     history.push("/");
-  //   }
-  // };
 
   return (
     <form onSubmit={handleConfirmPayment} className="p-3 rounded border">
