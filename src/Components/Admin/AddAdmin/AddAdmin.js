@@ -1,4 +1,4 @@
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Modal } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
@@ -18,6 +18,17 @@ const AddAdmin = () => {
   const adminEmailInputField = document.getElementById("adminEmail");
   let adminMatched;
   let [isEmailAdded, setIsEmailAdded] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   let history = useHistory();
 
   const loadAdmins = () => {
@@ -63,6 +74,8 @@ const AddAdmin = () => {
             adminEmailInputField.value = "";
             setLoading(false);
             loadAdmins();
+            setModalText("Admin added successfully");
+            handleOpenModal();
           }, 2000);
         })
         .catch(function (error) {
@@ -88,6 +101,8 @@ const AddAdmin = () => {
       .then((res) => res.json())
       .then((result) => {
         loadAdmins();
+        setModalText("Admin deleted successfully");
+        handleOpenModal();
       });
   };
 
@@ -167,6 +182,19 @@ const AddAdmin = () => {
                       }
                       className="shadow text-red-500 cursor-pointer hover:text-green-400"
                     />
+                    <Modal open={openModal} onClose={handleCloseModal}>
+                      <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                        <p className="text-gray-600 montserrat font-bold text-center">
+                          {modalText}
+                        </p>
+                        <button
+                          onClick={handleCloseModal}
+                          className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                        >
+                          OK
+                        </button>
+                      </div>
+                    </Modal>
                     <EditIcon
                       onClick={() => editAdmin(admin._id)}
                       className="shadow text-blue-500 cursor-pointer hover:text-green-400"

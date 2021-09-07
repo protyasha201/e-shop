@@ -5,11 +5,23 @@ import { useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "../../../App";
+import { Modal } from "@material-ui/core";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [productDetails, setProductDetails] = useState([]);
   const [user] = useContext(UserContext);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   let history = useHistory();
 
   useEffect(() => {
@@ -52,14 +64,21 @@ const ProductDetails = () => {
     axios
       .post("http://localhost:5000/addToCart", addToCartProduct)
       .then(function (response) {
-        alert("Added to cart successfully");
+        setModalText("Added to cart");
+        handleOpenModal();
       })
-      .catch(function (err) {});
+      .catch(function (err) {
+        setModalText(err.message);
+        openModal();
+      });
   };
 
   const goToCheckoutPage = () => {
     history.push("/checkout");
-    localStorage.setItem("productsToCheckout", JSON.stringify([productDetails]));
+    localStorage.setItem(
+      "productsToCheckout",
+      JSON.stringify([productDetails])
+    );
   };
 
   return (
@@ -118,12 +137,26 @@ const ProductDetails = () => {
               >
                 Add To Cart
               </button>
+
               <button
                 onClick={goToCheckoutPage}
                 className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500 sm:w-3/5 sm:m-auto text-center"
               >
                 Buy Now
               </button>
+              <Modal open={openModal} onClose={handleCloseModal}>
+                <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                  <p className="text-gray-600 montserrat font-bold text-center">
+                    {modalText}
+                  </p>
+                  <button
+                    onClick={handleCloseModal}
+                    className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                  >
+                    OK
+                  </button>
+                </div>
+              </Modal>
             </div>
           </div>
         </div>

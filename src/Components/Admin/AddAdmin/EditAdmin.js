@@ -5,6 +5,7 @@ import { useHistory, useParams } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Cancel";
 import axios from "axios";
+import { Modal } from "@material-ui/core";
 
 const EditAdmin = () => {
   const { id } = useParams();
@@ -18,11 +19,15 @@ const EditAdmin = () => {
   let isFieldValid;
   let adminMatched;
   let history = useHistory();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState("");
 
-  const loadAdmins = () => {
-    fetch(`http://localhost:5000/admins`)
-      .then((res) => res.json())
-      .then((result) => setAdmins(result));
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   useEffect(() => {
@@ -119,7 +124,8 @@ const EditAdmin = () => {
           updateErrors.emailError = "";
           setErrors(updateErrors);
           setShowEditingField(false);
-          alert("Changes saved");
+          setModalText("Changes saved successfully");
+          handleOpenModal();
         })
         .catch(function (error) {
           console.log(error);
@@ -183,6 +189,19 @@ const EditAdmin = () => {
           >
             Save Changes
           </button>
+          <Modal open={openModal} onClose={handleCloseModal}>
+            <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+              <p className="text-gray-600 montserrat font-bold text-center">
+                {modalText}
+              </p>
+              <button
+                onClick={handleCloseModal}
+                className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+              >
+                OK
+              </button>
+            </div>
+          </Modal>
         </div>
       ) : (
         <h1 className="text-center mt-10">Loading...</h1>
