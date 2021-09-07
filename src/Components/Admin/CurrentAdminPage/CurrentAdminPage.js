@@ -3,7 +3,7 @@ import ManageProducts from "../ManageProducts/ManageProducts";
 import ManageUsers from "../ManageUsers/ManageUsers";
 import ManageAds from "../ManageAds/ManageAds";
 import ManageOffers from "../ManageOffers/ManageOffers";
-import Orders from "../Orders/Orders";
+import ManageOrders from "../ManageOrders/ManageOrders";
 import AddProduct from "../AddProduct/AddProduct";
 import AddAdmin from "../AddAdmin/AddAdmin";
 import Reports from "../Reports/Reports";
@@ -21,7 +21,7 @@ const CurrentAdminPage = (props) => {
   } else if (currentPage === 3) {
     return <ManageOffers />;
   } else if (currentPage === 4) {
-    return <Orders />;
+    return <ManageOrders />;
   } else if (currentPage === 5) {
     return <AddProduct />;
   } else if (currentPage === 6) {

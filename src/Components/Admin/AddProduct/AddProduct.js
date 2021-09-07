@@ -21,6 +21,7 @@ const AddProduct = () => {
     description: "",
     features: [],
     productImage: "",
+    status: "pending",
   });
 
   const [productsByCategory, setProductsByCategory] = useState({
@@ -169,6 +170,7 @@ const AddProduct = () => {
           description: "",
           features: [],
           productImage: "",
+          status: "pending",
         });
 
         setFeatures([]);
@@ -325,19 +327,19 @@ const AddProduct = () => {
           className="md:w-2/3 text-white font-bold text-lg roboto mt-4 border-2 rounded focus:outline-none focus:ring-2 focus:border-transparent p-3 sm:p-1 cursor-pointer bg-green-400 clear-both float-right focus:ring-gray-700"
           value="Add Product"
         />
-         <Modal open={openModal} onClose={handleCloseModal}>
-      <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
-        <p className="text-gray-600 montserrat font-bold text-center">
-          {modalText}
-        </p>
-        <button
-          onClick={handleCloseModal}
-          className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
-        >
-          OK
-        </button>
-      </div>
-    </Modal>
+        <Modal open={openModal} onClose={handleCloseModal}>
+          <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+            <p className="text-gray-600 montserrat font-bold text-center">
+              {modalText}
+            </p>
+            <button
+              onClick={handleCloseModal}
+              className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+            >
+              OK
+            </button>
+          </div>
+        </Modal>
       </form>
     </section>
   );

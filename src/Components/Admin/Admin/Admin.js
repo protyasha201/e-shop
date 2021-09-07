@@ -81,7 +81,7 @@ function Admin(props) {
     "Manage Users",
     "Manage Ads",
     "Manage Offers",
-    "Orders",
+    "Manage Orders",
     "Add Product",
     "Add Admin",
     "Reports",
