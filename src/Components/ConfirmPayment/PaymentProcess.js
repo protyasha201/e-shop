@@ -8,10 +8,13 @@ const stripePromise = loadStripe(
   "pk_test_51Ie3qfGyONO5UB1HkQCTkx4nNpRtdEitPLUY5tN5wTLZwPFSShmOfGMp7vtMvw3MBWYoohqmddeo340OBQCkGClR009BlA7eHY"
 );
 
-const PaymentProcess = () => {
+const PaymentProcess = (props) => {
   return (
     <Elements stripe={stripePromise}>
-      <PaymentForm />
+      <PaymentForm
+        productsToBuy={props.productsToBuy}
+        deliveryDetails={props.deliveryDetails}
+      />
     </Elements>
   );
 };

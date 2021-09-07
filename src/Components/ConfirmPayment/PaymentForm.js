@@ -1,23 +1,44 @@
 import { Modal } from "@material-ui/core";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
-const PaymentForm = () => {
+const PaymentForm = (props) => {
+  const { productsToBuy, deliveryDetails } = props;
   const stripe = useStripe();
   const elements = useElements();
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [modalText, setModalText] = useState("");
+  const [cart, setCart] = useState([]);
   let history = useHistory();
 
+  // console.log(deliveryDetails, productsToBuy);
   const handleOpenModal = () => {
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    if (modalText === "Order successful.(We don't take real orders)") {
+      history.push("/");
+    }
   };
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/cart?email=${deliveryDetails.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted) {
+          setCart(data);
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  });
 
   const readAlert = () => {
     handleCloseModal();
@@ -45,6 +66,26 @@ const PaymentForm = () => {
 
   total = subTotalPrice + shippingFee;
 
+  let matchedProducts = [];
+  products.forEach((product) => {
+    const matched = cart.filter(
+      (eachProduct) => eachProduct.key === product.key
+    );
+    if (matched.length > 0) {
+      matchedProducts.push(matched[0]);
+    }
+  });
+
+  const removeCartProducts = () => {
+    matchedProducts.forEach((eachProduct) => {
+      fetch(`http://localhost:5000/removeFromCart/${eachProduct._id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((result) => {});
+    });
+  };
+
   const handleConfirmPayment = async (event) => {
     // Block native form submission.
     event.preventDefault();
@@ -70,8 +111,26 @@ const PaymentForm = () => {
       setModalText(error.message);
       handleOpenModal();
     } else {
-      setModalText("Order successful.(We don't take real orders)");
-      handleOpenModal();
+      const confirmOrder = {
+        email: deliveryDetails.email,
+        deliveryDetails: deliveryDetails,
+        paymentMethod: paymentMethod,
+        orderedProducts: productsToBuy,
+      };
+
+      axios
+        .post("http://localhost:5000/addOrder", confirmOrder)
+        .then(function (response) {
+          setModalText("Order successful.(We don't take real orders)");
+          handleOpenModal();
+          removeCartProducts();
+          localStorage.setItem("productsToCheckout", JSON.stringify(""));
+          localStorage.setItem("deliveryDetails", JSON.stringify(""));
+        })
+        .catch(function (error) {
+          setModalText(error.message);
+          handleOpenModal();
+        });
     }
   };
 

@@ -16,6 +16,7 @@ const Checkout = () => {
   const [showHouseField, setShowHouseField] = useState(false);
   const [showCityField, setShowCityField] = useState(false);
   const [showMobileNumberField, setShowMobileNumberField] = useState(false);
+  const [showPostalField, setShowPostalField] = useState(false);
   const [showCountryField, setShowCountryField] = useState(false);
   const [showStateField, setShowStateField] = useState(false);
   const [userDelivery, setUserDelivery] = useState([]);
@@ -142,7 +143,7 @@ const Checkout = () => {
                 </h3>
                 <div className="flex justify-between items-center">
                   <h3 className="montserrat text-gray-500 font-bold text-lg">
-                    <span className="text-red-400">Price: </span>
+                    <span className="text-red-400">Price: </span>$
                     {eachProduct.productPrice ||
                       eachProduct.product.productPrice}
                   </h3>
@@ -221,6 +222,16 @@ const Checkout = () => {
                 handleDataChange={handleDetailsChange}
                 data={user.city}
                 setFieldName={setShowCityField}
+                cancelChange={cancelChange}
+                required={true}
+              />
+              <EditingField
+                name="Postal"
+                fieldName={showPostalField}
+                inputName="postal"
+                handleDataChange={handleDetailsChange}
+                data={user.postal}
+                setFieldName={setShowPostalField}
                 cancelChange={cancelChange}
                 required={true}
               />

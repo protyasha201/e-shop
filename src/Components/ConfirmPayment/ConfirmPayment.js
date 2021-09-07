@@ -21,7 +21,6 @@ const ConfirmPayment = () => {
     history.push("/checkout");
   };
 
-  console.log(deliveryDetails);
   return (
     <section className="p-3">
       <div className="flex justify-between md:w-3/4 m-auto items-center">
@@ -57,7 +56,7 @@ const ConfirmPayment = () => {
                   {eachProduct.productName || eachProduct.product.productName}
                 </h3>
                 <h3 className="montserrat text-gray-500 font-bold text-lg">
-                  <span className="text-red-400">Price: </span>
+                  <span className="text-red-400">Price: </span>$
                   {eachProduct.productPrice || eachProduct.product.productPrice}
                 </h3>
               </div>
@@ -70,6 +69,10 @@ const ConfirmPayment = () => {
             <h4 className="text-gray-600 montserrat font-bold">
               <span className="text-gray-500">Receiver Name: </span>
               {deliveryDetails.userName}
+            </h4>
+            <h4 className="text-gray-600 montserrat font-bold">
+              <span className="text-gray-500">Receiver email: </span>
+              {deliveryDetails.email}
             </h4>
             <h4 className="text-gray-600 montserrat font-bold">
               <span className="text-gray-500">Contact Number : </span>
@@ -88,13 +91,20 @@ const ConfirmPayment = () => {
               {deliveryDetails.city}
             </h4>
             <h4 className="text-gray-600 montserrat font-bold">
+              <span className="text-gray-500">Postal: </span>
+              {deliveryDetails.postal}
+            </h4>
+            <h4 className="text-gray-600 montserrat font-bold">
               <span className="text-gray-500">House: </span>
               {deliveryDetails.house}
             </h4>
           </div>
           <div className="mt-5">
             <h1 className="text-gray-400 condensed mb-4">Payment</h1>
-            <PaymentProcess />
+            <PaymentProcess
+              productsToBuy={products}
+              deliveryDetails={deliveryDetails}
+            />
           </div>
         </div>
       </div>
