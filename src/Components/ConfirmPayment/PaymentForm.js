@@ -12,6 +12,7 @@ const PaymentForm = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [modalText, setModalText] = useState("");
   const [cart, setCart] = useState([]);
+  let allProducts = [];
   let history = useHistory();
 
   // console.log(deliveryDetails, productsToBuy);
@@ -111,11 +112,30 @@ const PaymentForm = (props) => {
       setModalText(error.message);
       handleOpenModal();
     } else {
+      const randomNumber = Math.random() * 100000000000000;
+      const key = Math.round(randomNumber);
+
+      productsToBuy.forEach((eachProduct) => {
+        if (eachProduct.userName) {
+          allProducts.push(eachProduct.product);
+        } else {
+          allProducts.push(eachProduct);
+        }
+      });
+
+      allProducts.forEach((eachProduct) => {
+        eachProduct.key = key;
+        const randomNumber2 = Math.random() * 100000000000000;
+        const key2 = Math.round(randomNumber2);
+        eachProduct.key2 = key2;
+      });
+
       const confirmOrder = {
+        key: key,
         email: deliveryDetails.email,
         deliveryDetails: deliveryDetails,
         paymentMethod: paymentMethod,
-        orderedProducts: productsToBuy,
+        orderedProducts: allProducts,
       };
 
       axios
