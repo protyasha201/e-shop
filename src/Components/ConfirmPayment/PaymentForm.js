@@ -115,6 +115,21 @@ const PaymentForm = (props) => {
       const randomNumber = Math.random() * 100000000000000;
       const key = Math.round(randomNumber);
 
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
       productsToBuy.forEach((eachProduct) => {
         if (eachProduct.userName) {
           allProducts.push(eachProduct.product);
@@ -123,8 +138,16 @@ const PaymentForm = (props) => {
         }
       });
 
+      const date = new Date();
+      const today = date.getDate();
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      const shippingDate = today + " " + month + "," + year;
+
       allProducts.forEach((eachProduct) => {
         eachProduct.key = key;
+        eachProduct.shippingDate = shippingDate;
         const randomNumber2 = Math.random() * 100000000000000;
         const key2 = Math.round(randomNumber2);
         eachProduct.key2 = key2;
@@ -132,6 +155,7 @@ const PaymentForm = (props) => {
 
       const confirmOrder = {
         key: key,
+        shippingDate: shippingDate,
         email: deliveryDetails.email,
         deliveryDetails: deliveryDetails,
         paymentMethod: paymentMethod,

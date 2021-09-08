@@ -32,6 +32,20 @@ const ManageOrders = () => {
     };
   }, []);
 
+  const loadOrders = () => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/orders`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setOrders(result);
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  };
+
   orders.forEach((eachOrder) => {
     eachOrder.orderedProducts.forEach((order) => {
       if (order.userName) {
@@ -48,7 +62,9 @@ const ManageOrders = () => {
     product.status = e.target.value;
     axios
       .patch(`http://localhost:5000/updateStatus`, product)
-      .then(function (response) {})
+      .then(function (response) {
+        loadOrders();
+      })
       .catch(function (error) {
         console.log(error);
       });
@@ -85,7 +101,12 @@ const ManageOrders = () => {
               {orderedProducts.map((eachProduct) => (
                 <TableRow key={eachProduct.key2}>
                   <TableCell component="th" scope="row">
-                    {eachProduct.productName}
+                    <div>
+                      <p className="bg-gray-600 text-gray-300 condensed inline-block p-1 rounded">
+                        {eachProduct.shippingDate}
+                      </p>
+                      <p>{eachProduct.productName}</p>
+                    </div>
                   </TableCell>
                   <TableCell align="center">
                     <div className="gap-4 flex justify-center gap-4 items-center">
@@ -95,11 +116,20 @@ const ManageOrders = () => {
                   </TableCell>
                   <TableCell align="center">
                     <select
-                      className="shadow p-2 montserrat font-bold text-gray-500 cursor-pointer"
+                      className={
+                        eachProduct.status === "Pending"
+                          ? "rounded shadow-md p-2 montserrat font-bold text-gray-500 cursor-pointer bg-white"
+                          : eachProduct.status === "Delivered"
+                          ? "rounded shadow-md p-2 montserrat font-bold text-white cursor-pointer bg-green-300"
+                          : eachProduct.status === "Canceled"
+                          ? "shadow-md rounded p-2 montserrat font-bold text-white cursor-pointer bg-red-300"
+                          : "shadow-md rounded p-2 montserrat font-bold text-white cursor-pointer bg-blue-300"
+                      }
                       onChange={(e) => handleStatus(e, eachProduct)}
                       defaultValue={eachProduct.status}
                     >
                       <option className="text-xl">Pending</option>
+                      <option className="text-xl">On Going</option>
                       <option className="text-xl">Delivered</option>
                       <option className="text-xl">Canceled</option>
                     </select>
