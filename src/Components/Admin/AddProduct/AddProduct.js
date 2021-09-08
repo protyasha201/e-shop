@@ -21,7 +21,7 @@ const AddProduct = () => {
     description: "",
     features: [],
     productImage: "",
-    status: "pending",
+    status: "Pending",
   });
 
   const [productsByCategory, setProductsByCategory] = useState({
@@ -170,7 +170,7 @@ const AddProduct = () => {
           description: "",
           features: [],
           productImage: "",
-          status: "pending",
+          status: "Pending",
         });
 
         setFeatures([]);
