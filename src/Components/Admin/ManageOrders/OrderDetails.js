@@ -5,7 +5,7 @@ const OrderDetails = () => {
   const { parentKey, childKey } = useParams();
   const [orders, setOrders] = useState([]);
   const receiverDetails = orders.deliveryDetails;
-  const paymentDetails = orders.paymentMethod.card;
+  const [paymentDetails, setPaymentDetails] = useState([]);
   let currentProduct;
   let history = useHistory();
 
@@ -16,6 +16,9 @@ const OrderDetails = () => {
       .then((result) => {
         if (isMounted && result.length > 0) {
           setOrders(result[0]);
+          if (result[0].paymentMethod !== undefined) {
+            setPaymentDetails(result[0].paymentMethod.card);
+          }
         }
       });
     return () => {
@@ -31,8 +34,6 @@ const OrderDetails = () => {
       );
     }
   }
-
-  console.log(orders);
 
   const goToAdmin = () => {
     history.push("/admin");
@@ -50,8 +51,8 @@ const OrderDetails = () => {
           Back To Admin
         </button>
       </div>
-      {currentProduct ? (
-        <div className="mt-3">
+      {currentProduct && paymentDetails ? (
+        <div className="mt-3 md:w-3/4 m-auto lg:w-2/4">
           <div className="p-2 border rounded">
             <div className="flex justify-between items-center">
               <h3 className="text-gray-500">
