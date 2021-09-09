@@ -18,6 +18,7 @@ import EditProduct from "./Components/Admin/ManageProducts/EditProduct";
 import EditAdmin from "./Components/Admin/AddAdmin/EditAdmin";
 import Checkout from "./Components/Shared/Checkout/Checkout";
 import ConfirmPayment from "./Components/ConfirmPayment/ConfirmPayment";
+import OrderDetails from "./Components/Admin/ManageOrders/OrderDetails";
 
 export const UserContext = createContext([]);
 
@@ -81,6 +82,9 @@ function App() {
           </Route>
           <Route path="/offerDetails/:id">
             <OfferDetails />
+          </Route>
+          <Route path="/orderDetails/:parentKey/:childKey">
+            <OrderDetails />
           </Route>
           <Route path="/viewProduct/:id">
             <ViewProduct />
