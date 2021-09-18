@@ -38,6 +38,7 @@ const OrderDetails = () => {
   const goToAdmin = () => {
     history.push("/admin");
   };
+
   return (
     <section className="p-3">
       <div className="flex justify-between md:w-3/4 m-auto items-center">
@@ -126,7 +127,10 @@ const OrderDetails = () => {
               {receiverDetails.userName}.
             </h3>
             <h3 className="text-gray-500 montserrat font-bold">
-              <span className="text-red-300">Email: </span>{" "}
+              <span className="text-red-300">User Email: </span> {orders.email}.
+            </h3>
+            <h3 className="text-gray-500 montserrat font-bold">
+              <span className="text-red-300">Receiver's Email: </span>{" "}
               {receiverDetails.email}.
             </h3>
             <h3 className="text-gray-500 montserrat font-bold">

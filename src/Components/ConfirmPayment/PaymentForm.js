@@ -1,8 +1,10 @@
+import React, { useContext } from "react";
 import { Modal } from "@material-ui/core";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { UserContext } from "../../App";
 
 const PaymentForm = (props) => {
   const { productsToBuy, deliveryDetails } = props;
@@ -12,6 +14,7 @@ const PaymentForm = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [modalText, setModalText] = useState("");
   const [cart, setCart] = useState([]);
+  const [user] = useContext(UserContext);
   let allProducts = [];
   let history = useHistory();
 
@@ -29,7 +32,7 @@ const PaymentForm = (props) => {
 
   useEffect(() => {
     let isMounted = true;
-    fetch(`http://localhost:5000/cart?email=${deliveryDetails.email}`)
+    fetch(`http://localhost:5000/cart?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         if (isMounted) {
@@ -156,7 +159,7 @@ const PaymentForm = (props) => {
       const confirmOrder = {
         key: key,
         shippingDate: shippingDate,
-        email: deliveryDetails.email,
+        email: user.email,
         deliveryDetails: deliveryDetails,
         paymentMethod: paymentMethod,
         orderedProducts: allProducts,
