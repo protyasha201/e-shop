@@ -38,7 +38,7 @@ const Orders = () => {
   return (
     <section>
       <Header />
-      <div className="flex justify-between items-center p-2">
+      <div className="flex justify-between items-center p-2 sm:w-4/5 m-auto lg:w-3/6">
         <h1 className="text-xl condensed text-blue-400">
           Total Orders- <span className="text-gray-500">{totalOrders}</span>
         </h1>
@@ -47,7 +47,7 @@ const Orders = () => {
           <span className="text-gray-500">${totalOrdersPrice}</span>
         </h1>
       </div>
-      <div className="p-3 rounded">
+      <div className="p-3 rounded sm:w-4/5 m-auto lg:w-3/6">
         <h1 className="montserrat text-lg text-gray-500 font-bold">Orders</h1>
         <div className="p-2 rounded">
           {orders.map((eachOrder) => (
