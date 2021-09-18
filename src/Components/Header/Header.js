@@ -96,6 +96,7 @@ export default function Header() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = useContext(UserContext);
   const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState([]);
   let userNameFirstLetter;
 
   if (user.userName.length > 0) {
@@ -138,6 +139,20 @@ export default function Header() {
     };
   });
 
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/allProductsByCategory`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setProducts(result);
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleMenuClose = (event) => {
     if (event.target.getAttribute("name") === "orders") {
       history.push("/orders");
@@ -149,11 +164,6 @@ export default function Header() {
   };
 
   const handleCategoryMenuClose = (event) => {
-    if (event.target.getAttribute("name") === "bikes") {
-      history.push("/orders");
-    } else if (event.target.getAttribute("name") === "profile") {
-      history.push("/profile");
-    }
     setCategoryEl(null);
     handleMobileMenuClose();
   };
@@ -168,6 +178,11 @@ export default function Header() {
 
   const goToCartPage = () => {
     history.push("/cart");
+  };
+
+  const goToProductsCategory = (categoryId) => {
+    console.log(categoryId);
+    handleCategoryMenuClose();
   };
 
   const logOut = () => {
@@ -225,39 +240,16 @@ export default function Header() {
       open={isCategoryOpen}
       onClose={handleCategoryMenuClose}
     >
-      <MenuItem name="all" onClick={handleCategoryMenuClose}>
-        All
-      </MenuItem>
-      <MenuItem name="t-shirts" onClick={handleCategoryMenuClose}>
-        T-shirts
-      </MenuItem>
-      <MenuItem name="jeans" onClick={handleCategoryMenuClose}>
-        Jeans
-      </MenuItem>
-      <MenuItem name="electronics" onClick={handleCategoryMenuClose}>
-        Electronics
-      </MenuItem>
-      <MenuItem name="fruits" onClick={handleCategoryMenuClose}>
-        Fruits
-      </MenuItem>
-      <MenuItem name="groceries" onClick={handleCategoryMenuClose}>
-        Groceries
-      </MenuItem>
-      <MenuItem name="bikes" onClick={handleCategoryMenuClose}>
-        Bikes
-      </MenuItem>
-      <MenuItem name="cars" onClick={handleCategoryMenuClose}>
-        Cars
-      </MenuItem>
-      <MenuItem name="mobiles" onClick={handleCategoryMenuClose}>
-        Mobiles
-      </MenuItem>
-      <MenuItem name="laptops" onClick={handleCategoryMenuClose}>
-        Laptops
-      </MenuItem>
-      <MenuItem name="watch" onClick={handleCategoryMenuClose}>
-        Watch
-      </MenuItem>
+      {products !== undefined &&
+        products.map((eachProduct) => (
+          <MenuItem
+            key={eachProduct._id}
+            name={eachProduct.category}
+            onClick={() => goToProductsCategory(eachProduct._id)}
+          >
+            {eachProduct.category}
+          </MenuItem>
+        ))}
     </Menu>
   );
 

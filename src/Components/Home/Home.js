@@ -6,6 +6,7 @@ import Offers from "./Offers/Offers";
 import Footer from "./Footer/Footer";
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [offers, setOffers] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -21,10 +22,27 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`http://localhost:5000/offers`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (isMounted) {
+          setOffers(result);
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section>
       <Header />
-      {products.length > 0 ? (
+      {offers !== undefined &&
+      offers.length > 0 &&
+      products !== undefined &&
+      products.length > 0 ? (
         <div>
           <Offers />
           <Products />

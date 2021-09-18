@@ -92,10 +92,10 @@ const Products = () => {
             <h1 className="text-2xl font-bold condensed text-gray-600">
               {productsByCategory.category.toUpperCase()}
             </h1>
-            <div className="grid gap-3 sm:grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid gap-3 grid-cols-2 sm:grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {productsByCategory.allProducts.map((product) => (
                 <div
-                  className="border rounded p-2 w-4/5 m-auto h-full sm:w-4/5 md:w-full flex flex-col justify-between"
+                  className="border rounded p-2 m-auto h-full md:w-full flex flex-col justify-between"
                   key={product.productName}
                 >
                   <h1 className="text-gray-500 montserrat font-bold mb-2">
