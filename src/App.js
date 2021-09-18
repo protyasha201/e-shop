@@ -19,6 +19,7 @@ import EditAdmin from "./Components/Admin/AddAdmin/EditAdmin";
 import Checkout from "./Components/Shared/Checkout/Checkout";
 import ConfirmPayment from "./Components/ConfirmPayment/ConfirmPayment";
 import OrderDetails from "./Components/Admin/ManageOrders/OrderDetails";
+import CategoryProducts from "./Components/CategoryProducts/CategoryProducts";
 
 export const UserContext = createContext([]);
 
@@ -88,6 +89,9 @@ function App() {
           </Route>
           <Route path="/viewProduct/:id">
             <ViewProduct />
+          </Route>
+          <Route path="/categoryProducts/:id">
+            <CategoryProducts />
           </Route>
           <Route path="/editProduct/:id">
             <EditProduct />

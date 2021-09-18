@@ -181,7 +181,7 @@ export default function Header() {
   };
 
   const goToProductsCategory = (categoryId) => {
-    console.log(categoryId);
+    history.push(`/categoryProducts/${categoryId}`);
     handleCategoryMenuClose();
   };
 
