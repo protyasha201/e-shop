@@ -367,15 +367,7 @@ export default function Header() {
               </Badge>
             </IconButton>
             <MenuItem onClick={handleCategoryMenuOpen}>
-              <IconButton
-                title="Categories"
-                aria-label="products categories"
-                aria-controls="primary-search-categories-menu"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AcUnitIcon />
-              </IconButton>
+              <h1>Categories</h1>
             </MenuItem>
             <IconButton
               title="Watch Your Cart"
