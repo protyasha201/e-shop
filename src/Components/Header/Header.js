@@ -191,7 +191,7 @@ export default function Header() {
     localStorage.removeItem("user");
     localStorage.removeItem("currentPageTitle");
     localStorage.removeItem("currentPage");
-    localStorage.removeItem("fingerprint_blocker");
+    localStorage.removeItem("isTemporaryAdmin");
 
     const updateUser = {
       userName: "",

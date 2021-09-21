@@ -297,7 +297,7 @@ const Login = () => {
                 name="userName"
                 onChange={handleFormData}
                 type="text"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-2 sm:p-1"
                 placeholder="John Doe"
               />
               <p className={isNameValid ? "text-green-400" : "text-red-300"}>
@@ -314,7 +314,7 @@ const Login = () => {
               name="email"
               onChange={handleFormData}
               type="email"
-              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
+              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-2 sm:p-1"
               placeholder="john@gmail.com"
             />
             <p className={isEmailValid ? "text-green-400" : "text-red-300"}>
@@ -330,7 +330,7 @@ const Login = () => {
               name="password"
               onChange={handleFormData}
               type="password"
-              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
+              className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-2 sm:p-1"
               placeholder="password..."
             />
             <p className={isPassValid ? "text-green-400" : "text-red-300"}>
@@ -347,7 +347,7 @@ const Login = () => {
                 name="confirmPassword"
                 onChange={handleFormData}
                 type="password"
-                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-3 sm:p-1"
+                className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent p-2 sm:p-1"
                 placeholder="confirm password..."
               />
               <p

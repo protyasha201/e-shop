@@ -14,6 +14,7 @@ const AccessAdmin = (props) => {
       setLoading(true);
       setTimeout(() => {
         getStateData(true);
+        localStorage.setItem("isTemporaryAdmin", JSON.stringify(true));
       }, 3000);
     } else {
       setLoading(true);

@@ -66,8 +66,6 @@ const ManageOrders = () => {
     });
   });
 
-  console.log(orderedProducts);
-
   const handleStatus = (e, product) => {
     product.status = e.target.value;
     axios

@@ -117,6 +117,10 @@ function Admin(props) {
     };
   });
 
+  useEffect(() => {
+    setIsTemporaryAdmin(localStorage.getItem("isTemporaryAdmin"));
+  }, []);
+
   const getStateData = (state) => {
     setIsTemporaryAdmin(state);
   };
