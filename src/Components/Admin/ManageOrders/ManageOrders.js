@@ -127,10 +127,12 @@ const ManageOrders = () => {
                   <TableRow key={eachProduct.key2}>
                     <TableCell component="th" scope="row">
                       <div>
-                        <p className="light-blue-bg text-green-600 condensed inline-block p-1 rounded shadow">
+                        <p className="light-blue-bg text-green-600 condensed inline-block rounded p-1 shadow f-8px">
                           {eachProduct.shippingDate}
                         </p>
-                        <p>{eachProduct.productName}</p>
+                        <p className="">
+                          {eachProduct.productName.slice(0, 20)}...
+                        </p>
                       </div>
                     </TableCell>
                     <TableCell align="center">

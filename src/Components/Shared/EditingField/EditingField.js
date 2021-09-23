@@ -21,7 +21,7 @@ const EditingField = (props) => {
 
   return (
     <div className="flex mt-2 justify-between">
-      <h3 className="text-gray-500 montserrat font-bold">
+      <h3 className="text-gray-500 montserrat font-bold text-sm">
         <span className="text-gray-400">{name}: </span>
         {fieldName ? (
           <input

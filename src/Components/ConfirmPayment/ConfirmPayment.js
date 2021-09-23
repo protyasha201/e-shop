@@ -36,7 +36,7 @@ const ConfirmPayment = () => {
       </div>
       <div className="p-2 rounded border mt-5 sm:w-3/4 md:w-11/12 md:flex m-auto justify-between gap-5 lg:w-4/5">
         <div className="md:w-1/2">
-          <h3 className="text-gray-400 condensed">Products</h3>
+          <h3 className="text-gray-400 condensed text-lg">Products</h3>
           {products.map((eachProduct) => (
             <div
               className="shadow mt-2 rounded flex p-2 items-center"
@@ -51,11 +51,14 @@ const ConfirmPayment = () => {
                   alt={eachProduct.key || eachProduct.productName}
                 />
               </div>
-              <div className="w-full p-2 flex justify-between">
-                <h3 className="montserrat font-bold text-gray-600">
-                  {eachProduct.productName || eachProduct.product.productName}
+              <div className="w-full p-2 justify-between">
+                <h3 className="condensed text-gray-600">
+                  {eachProduct.productName
+                    ? eachProduct.productName.slice(0, 20)
+                    : eachProduct.product.productName.slice(0, 20)}
+                  ...
                 </h3>
-                <h3 className="montserrat text-gray-500 font-bold text-lg">
+                <h3 className="montserrat text-gray-500 font-bold">
                   <span className="text-red-400">Price: </span>$
                   {eachProduct.productPrice || eachProduct.product.productPrice}
                 </h3>
@@ -64,43 +67,43 @@ const ConfirmPayment = () => {
           ))}
         </div>
         <div className="mt-4 md:mt-0 md:w-1/2">
-          <h3 className="text-gray-400 condensed">Delivery Details</h3>
+          <h3 className="text-gray-400 text-lg condensed">Delivery Details</h3>
           <div>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">Receiver Name: </span>
               {deliveryDetails.userName}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">Receiver email: </span>
               {deliveryDetails.email}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">Contact Number : </span>
               {deliveryDetails.mobileNumber}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">Country: </span>
               {deliveryDetails.country}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">State: </span>
               {deliveryDetails.state}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">City: </span>
               {deliveryDetails.city}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">Postal: </span>
               {deliveryDetails.postal}
             </h4>
-            <h4 className="text-gray-600 montserrat font-bold">
+            <h4 className="text-gray-600 montserrat font-bold text-sm">
               <span className="text-gray-500">House: </span>
               {deliveryDetails.house}
             </h4>
           </div>
           <div className="mt-5">
-            <h1 className="text-gray-400 condensed mb-4">Payment</h1>
+            <h1 className="text-gray-400 condensed mb-4 text-lg">Payment</h1>
             <PaymentProcess
               productsToBuy={products}
               deliveryDetails={deliveryDetails}

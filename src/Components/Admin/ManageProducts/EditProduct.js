@@ -286,18 +286,18 @@ const EditProduct = () => {
               <span className="text-gray-400 montserrat font-bold">
                 Features:{" "}
               </span>
-              <div className="flex justify-center items-between shadow p-2 rounded border gap-2">
+              <div className="flex flex-col shadow p-2 rounded border gap-2">
                 <input
                   id="features"
                   name="features"
                   type="text"
-                  className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-2 w-4/5"
+                  className="border-2 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent p-2 w-full"
                   placeholder="features..."
                 />
                 <input
                   onClick={addFeature}
                   type="submit"
-                  className="bg-blue-400 rounded cursor-pointer text-white font-bold montserrat focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent p-1"
+                  className="bg-blue-400 rounded cursor-pointer text-white font-bold montserrat focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent p-2"
                   value="Add Feature"
                 />
               </div>
@@ -307,7 +307,7 @@ const EditProduct = () => {
                   className="flex justify-between items-center"
                   key={feature}
                 >
-                  <p className="mt-2 text-gray-500 montserrat font-bold">
+                  <p className="mt-2 text-gray-500 montserrat font-bold text-sm">
                     <span className="text-red-400">#</span>
                     {feature}
                   </p>

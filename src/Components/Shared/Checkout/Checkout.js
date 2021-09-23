@@ -121,7 +121,7 @@ const Checkout = () => {
       </div>
 
       <div className="p-3 md:flex justify-between gap-4 lg:w-4/5 m-auto border mt-4 rounded">
-        <div className="p-2 rounded rounded md:w-1/2">
+        <div className="p-1 rounded rounded md:w-1/2">
           <h2 className="text-gray-600 condensed">Products</h2>
           {products.map((eachProduct) => (
             <div
@@ -138,18 +138,21 @@ const Checkout = () => {
                 />
               </div>
               <div className="w-full p-2">
-                <h3 className="montserrat font-bold text-gray-600">
-                  {eachProduct.productName || eachProduct.product.productName}
+                <h3 className="condensed text-gray-600 text-sm">
+                  {eachProduct.productName
+                    ? eachProduct.productName.slice(0, 20)
+                    : eachProduct.product.productName.slice(0, 20)}
+                  ...
                 </h3>
                 <div className="flex justify-between items-center">
-                  <h3 className="montserrat text-gray-500 font-bold text-lg">
+                  <h3 className="montserrat text-gray-500 font-bold">
                     <span className="text-red-400">Price: </span>$
                     {eachProduct.productPrice ||
                       eachProduct.product.productPrice}
                   </h3>
                   <button
                     onClick={() => removeFromCheckout(eachProduct.key)}
-                    className="bg-red-400 rounded hover:bg-red-500 text-white condensed p-2"
+                    className="bg-red-400 rounded hover:bg-red-500 text-white condensed p-1"
                   >
                     Remove
                   </button>
@@ -161,9 +164,7 @@ const Checkout = () => {
 
         <div className="md:w-1/2">
           <div className="mt-5 md:mt-0 rounded p-2">
-            <h1 className="text-gray-600 text-xl condensed">
-              Delivery Details
-            </h1>
+            <h1 className="text-gray-600 condensed">Delivery Details</h1>
             <div>
               <EditingField
                 name="Name"

@@ -99,12 +99,9 @@ const CategoryProducts = () => {
             <div className="grid gap-3 grid-cols-2 sm:grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {productsByCategory.allProducts.map((product) => (
                 <div
-                  className="border rounded p-2 m-auto h-full md:w-full flex flex-col justify-between"
+                  className="border rounded p-2 m-auto h-full md:w-full flex flex-col justify-between hover:shadow-lg"
                   key={product.productName}
                 >
-                  <h1 className="text-gray-500 montserrat font-bold mb-2">
-                    {product.productName.toUpperCase()}
-                  </h1>
                   <div className="w-1/2 m-auto">
                     <img
                       className="h-full w-full"
@@ -116,23 +113,23 @@ const CategoryProducts = () => {
                     onClick={() => goToProductDetails(product._id)}
                     className="text-sm font-thin text-gray-600 condensed mt-2 underline cursor-pointer hover:text-blue-400"
                   >
-                    {product.description.slice(0, 90)}...
+                    {product.productName.slice(0, 25)}...
                   </p>
                   <div className="mt-3 justify-between flex flex-col">
-                    <p className="text-xl text-gray-600 montserrat font-bold text-right">
+                    <p className="text-gray-600 montserrat font-bold text-right">
                       <span className="text-red-500">Price: </span>$
                       {product.productPrice}
                     </p>
                     <div className="flex flex-col gap-2 mt-2">
                       <button
                         onClick={() => addToCart(product)}
-                        className="bg-blue-400 p-2 rounded text-white condensed hover:bg-blue-500"
+                        className="bg-blue-400 p-1 rounded text-white condensed hover:bg-blue-500"
                       >
                         Add To Cart
                       </button>
                       <button
                         onClick={() => goToCheckoutPage(product)}
-                        className="bg-green-400 p-2 rounded text-white condensed hover:bg-green-500 text-center"
+                        className="bg-green-400 p-1 rounded text-white condensed hover:bg-green-500 text-center"
                       >
                         Buy Now
                       </button>

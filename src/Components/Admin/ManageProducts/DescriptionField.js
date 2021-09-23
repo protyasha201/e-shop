@@ -20,7 +20,7 @@ const DescriptionField = (props) => {
 
   return (
     <div className="flex mt-2 justify-between">
-      <h3 className="text-gray-500 montserrat font-bold w-full">
+      <h3 className="text-gray-500 montserrat font-bold w-full text-sm">
         <span className="text-gray-400">{name}: </span>
         {fieldName ? (
           <textarea

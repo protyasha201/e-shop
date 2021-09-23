@@ -116,7 +116,7 @@ const Cart = () => {
                     onClick={() => goToProductDetailsPage(carts.product._id)}
                     className="text-sm text-gray-600 montserrat font-bold underline cursor-pointer hover:text-blue-400"
                   >
-                    {carts.product.productName}
+                    {carts.product.productName.slice(0, 20)}...
                   </p>
                   <div className="flex justify-between items-center mt-3">
                     <p className="text-gray-500 montserrat font-bold">
@@ -125,7 +125,7 @@ const Cart = () => {
                     </p>
                     <button
                       onClick={() => removeFromCart(carts._id)}
-                      className="bg-red-400 text-white p-2 rounded hover:bg-red-500"
+                      className="bg-red-400 text-white p-1 rounded hover:bg-red-500"
                     >
                       Remove
                     </button>

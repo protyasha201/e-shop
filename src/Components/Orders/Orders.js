@@ -39,98 +39,98 @@ const Orders = () => {
     <section>
       <Header />
       <div className="flex justify-between items-center p-2 sm:w-4/5 m-auto lg:w-3/6">
-        <h1 className="text-xl condensed text-blue-400">
+        <h1 className="condensed text-blue-400">
           Total Orders- <span className="text-gray-500">{totalOrders}</span>
         </h1>
-        <h1 className="text-xl condensed text-blue-400">
+        <h1 className="condensed text-blue-400">
           Total Expenses-{" "}
           <span className="text-gray-500">${totalOrdersPrice}</span>
         </h1>
       </div>
       {orders.length > 0 ? (
-        <div className="p-3 rounded sm:w-4/5 m-auto lg:w-3/6">
+        <div className="p-1 rounded sm:w-4/5 m-auto lg:w-3/6">
           <h1 className="montserrat text-lg text-gray-500 font-bold">Orders</h1>
           <div className="p-2 rounded">
             {orders.map((eachOrder) => (
-              <div className="border p-2 rounded mt-5" key={eachOrder._id}>
+              <div className="border p-2 rounded" key={eachOrder._id}>
                 <div className="border rounded p-2">
-                  <h3 className="light-blue-bg text-green-600 condensed inline-block p-1 rounded shadow">
+                  <h3 className="light-blue-bg text-green-600 condensed inline-block p-1 rounded shadow text-sm">
                     {eachOrder.shippingDate}
                   </h3>
                   <div className="mt-2 grid grid-cols-2">
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Receiving Email:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.email}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Name:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.userName}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Contact:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.mobileNumber}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       House:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.house}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       State:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.state}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       City:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.city}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       postal:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.postal}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Country:{" "}
                       <span className="text-gray-500">
                         {eachOrder.deliveryDetails.country}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Payment Card:{" "}
                       <span className="text-gray-500">
                         {eachOrder.paymentMethod.card.brand}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Card last 4:{" "}
                       <span className="text-gray-500">
                         {eachOrder.paymentMethod.card.last4}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Card Expiry Month:{" "}
                       <span className="text-gray-500">
                         {eachOrder.paymentMethod.card.exp_month}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Card Expiry Year:{" "}
                       <span className="text-gray-500">
                         {eachOrder.paymentMethod.card.exp_year}
                       </span>
                     </h3>
-                    <h3 className="text-red-300 condensed">
+                    <h3 className="text-red-300 condensed text-sm">
                       Card Funding:{" "}
                       <span className="text-gray-500">
                         {eachOrder.paymentMethod.card.funding}
@@ -151,23 +151,23 @@ const Orders = () => {
                       />
                     </div>
                     <div className="w-full p-2">
-                      <h3 className="montserrat font-bold text-gray-600">
-                        {eachProduct.productName}
+                      <h3 className="condensed text-gray-600">
+                        {eachProduct.productName.slice(0, 20)}...
                       </h3>
                       <div className="flex justify-between items-center">
-                        <h3 className="montserrat text-gray-500 font-bold text-lg">
+                        <h3 className="montserrat text-gray-500 font-bold">
                           <span className="text-red-400">Price: </span>$
                           {eachProduct.productPrice}
                         </h3>
                         <h3
                           className={
                             eachProduct.status === "Pending"
-                              ? "rounded shadow-md p-1 condensed text-gray-500 light-pink-bg text-pink-500"
+                              ? "rounded shadow-md p-1 condensed text-gray-500 light-pink-bg text-pink-500 text-sm"
                               : eachProduct.status === "Delivered"
-                              ? "rounded shadow-md p-1 condensed text-green-600 light-green-bg"
+                              ? "rounded shadow-md p-1 condensed text-green-600 light-green-bg text-sm"
                               : eachProduct.status === "Canceled"
-                              ? "shadow-md rounded p-1 condensed text-red-600 light-red-bg"
-                              : "shadow-md rounded p-1 condensed text-blue-500 light-blue-bg"
+                              ? "shadow-md rounded p-1 condensed text-red-600 light-red-bg text-sm"
+                              : "shadow-md rounded p-1 condensed text-sm text-blue-500 light-blue-bg"
                           }
                         >
                           {eachProduct.status}

@@ -187,17 +187,17 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="shadow w-full border p-5">
-          <h1 className="text-2xl text-gray-400 roboto">
+        <div className="shadow-md w-full p-2">
+          <h1 className="text-xl text-gray-400 roboto">
             Your Profile Information
           </h1>
           <hr></hr>
-          <p className="text-red-300 montserrat font-bold">
+          <p className="text-red-300 montserrat font-bold text-sm">
             IP: <span className="text-gray-400">{user.ipAddress}</span>
           </p>
           <div className="mt-2">
-            <div className="flex">
-              <p className="text-red-300 montserrat font-bold">
+            <div className="flex justify-between">
+              <p className="text-red-300 montserrat font-bold text-sm">
                 Email: <span className="text-gray-400">{user.email}</span>
               </p>
               <FontAwesomeIcon
@@ -218,8 +218,8 @@ const Profile = () => {
           </div>
 
           <div className="mt-2">
-            <div className="flex">
-              <p className="text-red-300 montserrat font-bold">
+            <div className="flex justify-between">
+              <p className="text-red-300 montserrat font-bold text-sm">
                 Contact Number:{" "}
                 <span className="text-gray-400">
                   {user.mobileNumber || "Set Contact Number"}
@@ -243,10 +243,9 @@ const Profile = () => {
           </div>
 
           <div className="mt-2">
-            <div className="flex">
-              <p className="text-red-300 montserrat font-bold">
-                Password:{" "}
-                <span className="text-gray-400">Change Current Password</span>
+            <div className="flex justify-between">
+              <p className="text-red-300 montserrat font-bold text-sm">
+                Password: <span className="text-gray-400">Change Password</span>
               </p>
               <FontAwesomeIcon
                 onClick={() => showEditingSpace("password")}
@@ -283,13 +282,11 @@ const Profile = () => {
           </div>
 
           <div className="mt-3">
-            <h1 className="condensed text-gray-500 font-bold text-xl">
-              Set Address
-            </h1>
+            <h1 className="condensed text-gray-500 text-xl">Set Address</h1>
             <hr></hr>
             <div className="mt-2">
-              <div className="flex">
-                <p className="text-red-300 montserrat font-bold">
+              <div className="flex justify-between">
+                <p className="text-red-300 montserrat font-bold text-sm">
                   Country:{" "}
                   <span className="text-gray-400">
                     {user.country || "Set Current Country"}
@@ -313,8 +310,8 @@ const Profile = () => {
             </div>
 
             <div className="mt-2">
-              <div className="flex">
-                <p className="text-red-300 montserrat font-bold">
+              <div className="flex justify-between">
+                <p className="text-red-300 montserrat font-bold text-sm">
                   State:{" "}
                   <span className="text-gray-400">
                     {user.state || "Set Your State"}
@@ -338,8 +335,8 @@ const Profile = () => {
             </div>
 
             <div className="mt-2">
-              <div className="flex">
-                <p className="text-red-300 montserrat font-bold">
+              <div className="flex justify-between">
+                <p className="text-red-300 montserrat font-bold text-sm">
                   City:{" "}
                   <span className="text-gray-400">
                     {user.city || "Set Your City"}
@@ -363,8 +360,8 @@ const Profile = () => {
             </div>
 
             <div className="mt-2">
-              <div className="flex">
-                <p className="text-red-300 montserrat font-bold">
+              <div className="flex justify-between">
+                <p className="text-red-300 montserrat font-bold text-sm">
                   House:{" "}
                   <span className="text-gray-400">
                     {user.house || "Set Current House"}
