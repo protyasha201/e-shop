@@ -58,26 +58,26 @@ const OrderDetails = () => {
             <div className="flex justify-between items-center">
               <h3 className="text-gray-500">
                 Added in:{" "}
-                <span className="light-blue-bg text-green-600 condensed inline-block p-1 rounded shadow">
+                <span className="light-blue-bg text-green-600 condensed inline-block p-1 rounded shadow text-sm">
                   {orders.shippingDate}
                 </span>
               </h3>
               <h3
                 className={
                   currentProduct[0].status === "Pending"
-                    ? "rounded shadow-md p-1 condensed text-gray-500 light-pink-bg text-pink-500"
+                    ? "rounded shadow-md p-1 condensed text-gray-500 light-pink-bg text-pink-500 text-sm"
                     : currentProduct[0].status === "Delivered"
-                    ? "rounded shadow-md p-1 condensed text-green-600 light-green-bg"
+                    ? "rounded shadow-md p-1 condensed text-green-600 light-green-bg text-sm"
                     : currentProduct[0].status === "Canceled"
-                    ? "shadow-md rounded p-1 condensed text-red-600 light-red-bg"
-                    : "shadow-md rounded p-1 condensed text-blue-500 light-blue-bg"
+                    ? "shadow-md rounded p-1 condensed text-red-600 light-red-bg text-sm"
+                    : "shadow-md rounded p-1 condensed text-blue-500 light-blue-bg text-sm"
                 }
               >
                 {currentProduct[0].status}
               </h3>
             </div>
             <h2 className="text-gray-500 condensed text-xl">Ordered Product</h2>
-            <div className="m-auto w-80 shadow p-1 rounded mt-2">
+            <div className="m-auto w-full sm:w-1/2 shadow p-1 rounded mt-2">
               <img
                 className="w-full h-full"
                 src={currentProduct[0].productImage}

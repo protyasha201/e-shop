@@ -1,4 +1,14 @@
-import { CircularProgress, Modal } from "@material-ui/core";
+import {
+  CircularProgress,
+  Modal,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
@@ -117,7 +127,7 @@ const AddAdmin = () => {
   };
 
   return (
-    <section className="border-2 rounded p-2 md:w-11/12 m-auto">
+    <section className="rounded md:w-11/12 m-auto">
       <h1 className="text-green-400 text-xl text-left">
         Admins<span className="text-black">/</span>Add Admin
       </h1>
@@ -156,54 +166,66 @@ const AddAdmin = () => {
       <h3 className="font-bold text-lg mt-3 montserrat text-gray-500">
         All Admins({admins.length})
       </h3>
-      <div className="p-5 shadow-md border m-auto sm:w-3/4">
+      <div className="m-auto sm:w-3/4">
         {admins.length === 0 ? (
           <h1 className="text-center">Loading...</h1>
         ) : (
-          <table className="w-full border">
-            <thead className="text-left">
-              <tr className="border">
-                <th className="w-11/12 border p-2">Email</th>
-                <th className="text-center border">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {admins.map((admin) => (
-                <tr key={admin.adminEmail} className="">
-                  <td className="montserrat font-bold border p-2">
-                    {admin.adminEmail}
-                  </td>
-                  <td className="flex justify-center gap-4 items-center border p-2">
-                    <DeleteIcon
-                      onClick={
-                        user.isAdmin
-                          ? () => deleteAdmin(admin._id)
-                          : () => showWarning()
-                      }
-                      className="shadow text-red-500 cursor-pointer hover:text-green-400"
-                    />
-                    <Modal open={openModal} onClose={handleCloseModal}>
-                      <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
-                        <p className="text-gray-600 montserrat font-bold text-center">
-                          {modalText}
-                        </p>
-                        <button
-                          onClick={handleCloseModal}
-                          className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
-                        >
-                          OK
-                        </button>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <p className="text-gray-400 montserrat font-bold text-lg">
+                      Email
+                    </p>
+                  </TableCell>
+                  <TableCell align="center">
+                    <p className="text-gray-400 montserrat font-bold text-lg">
+                      Actions
+                    </p>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {admins.map((eachAdmin) => (
+                  <TableRow key={eachAdmin._id}>
+                    <TableCell component="th" scope="row">
+                      <p className="">{eachAdmin.adminEmail.slice(0, 20)}..</p>
+                    </TableCell>
+                    <TableCell align="center">
+                      <div className="gap-4 flex justify-center gap-4 items-center">
+                        <DeleteIcon
+                          onClick={
+                            user.isAdmin
+                              ? () => deleteAdmin(eachAdmin._id)
+                              : () => showWarning()
+                          }
+                          className="shadow text-red-500 cursor-pointer hover:text-green-400"
+                        />
+                        <Modal open={openModal} onClose={handleCloseModal}>
+                          <div className="bg-white w-96 rounded m-auto mt-60 p-5 flex flex-col justify-center items-center">
+                            <p className="text-gray-600 montserrat font-bold text-center">
+                              {modalText}
+                            </p>
+                            <button
+                              onClick={handleCloseModal}
+                              className="mt-5 bg-green-400 hover:bg-green-500 p-2 w-20 text-white condensed text-lg rounded"
+                            >
+                              OK
+                            </button>
+                          </div>
+                        </Modal>
+                        <EditIcon
+                          onClick={() => editAdmin(eachAdmin._id)}
+                          className="shadow cursor-pointer hover:text-green-400"
+                        />
                       </div>
-                    </Modal>
-                    <EditIcon
-                      onClick={() => editAdmin(admin._id)}
-                      className="shadow text-blue-500 cursor-pointer hover:text-green-400"
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
       </div>
     </section>

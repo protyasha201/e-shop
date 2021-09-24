@@ -147,7 +147,7 @@ const EditAdmin = () => {
         </button>
       </div>
       {adminDetails.adminEmail ? (
-        <div className="p-3 border mt-5 rounded w-96 m-auto">
+        <div className="p-3 border mt-5 rounded w-full sm:w-3/5 md:w-2/5 m-auto">
           <div className="flex justify-between">
             <p className="text-gray-600 montserrat font-bold">
               <span className="text-red-400">Email: </span>
@@ -161,8 +161,9 @@ const EditAdmin = () => {
                   id="inputField"
                 />
               ) : (
-                adminDetails.adminEmail
+                adminDetails.adminEmail.slice(0, 20)
               )}
+              ...
             </p>
             {showEditingField ? (
               <CancelIcon

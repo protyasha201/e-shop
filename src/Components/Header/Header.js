@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: "none",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "block",
     },
     color: "cornflowerBlue",
@@ -45,11 +45,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
-    marginLeft: 100,
+    // marginLeft: 100,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: "auto",
+      width: "50%",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginLeft: theme.spacing(3),
+      width: "30%",
     },
   },
   searchIcon: {
@@ -327,7 +331,7 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ backgroundColor: "rgb(33,33, 49)" }} position="static">
+      <AppBar style={{ backgroundColor: "black" }} position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             <img className="h-10" src={logo} alt="logo" />

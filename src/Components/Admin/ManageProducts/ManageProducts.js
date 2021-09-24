@@ -129,7 +129,7 @@ const ManageProducts = () => {
               </TableHead>
               <TableBody>
                 {allProducts.map((eachProduct) => (
-                  <TableRow key={eachProduct.key2}>
+                  <TableRow key={eachProduct._id}>
                     <TableCell component="th" scope="row">
                       <p className="">
                         {eachProduct.productName.slice(0, 20)}...
