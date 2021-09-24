@@ -53,7 +53,7 @@ const OrderDetails = () => {
         </button>
       </div>
       {currentProduct && paymentDetails ? (
-        <div className="mt-3 md:w-3/4 m-auto lg:w-2/4">
+        <div className="mt-3 md:w-3/4 m-auto lg:w-2/4 p-2">
           <div className="p-2 border rounded">
             <div className="flex justify-between items-center">
               <h3 className="text-gray-500">
@@ -84,6 +84,10 @@ const OrderDetails = () => {
                 alt={currentProduct[0].productName}
               />
             </div>
+            <h3 className="text-gray-500 montserrat mt-2 font-bold">
+              <span className="text-red-300">Product Id: </span>{" "}
+              {currentProduct[0]._id}.
+            </h3>
             <h3 className="text-gray-500 montserrat mt-2 font-bold">
               <span className="text-red-300">Product: </span>{" "}
               {currentProduct[0].productName}.
